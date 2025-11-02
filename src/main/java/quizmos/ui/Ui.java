@@ -42,16 +42,14 @@ public class Ui {
     }
 
     public static void printError(String message) {
+        String errorMessage;
         if (isTestMode) {
-            String errorMessage = "? ERROR: " + message;
-            System.out.println(errorMessage);
-            System.out.flush();
+            errorMessage = "? ERROR: " + message;
         } else {
-            String errorMessage = ANSI_RED + "❌ ERROR: " + message + ANSI_RESET;
-            System.out.println(errorMessage);
-            System.out.flush();
+            errorMessage = ANSI_RED + "❌ ERROR: " + message + ANSI_RESET;
         }
-
+        System.out.println(errorMessage);
+        System.out.flush();
     }
 
     public static void respondError(String message) {

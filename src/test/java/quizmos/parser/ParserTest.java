@@ -9,7 +9,10 @@ import quizmos.command.RemoveFlashcardCommand;
 import quizmos.command.SearchFlashcardCommand;
 import quizmos.exception.QuizMosInputException;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 class ParserTest {
     @Test
