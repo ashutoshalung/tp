@@ -4,15 +4,12 @@ import org.junit.jupiter.api.Test;
 import quizmos.command.Command;
 import quizmos.command.ExitCommand;
 import quizmos.command.HelpCommand;
-import quizmos.command.InvalidCommand;
 import quizmos.command.AddFlashcardCommand;
 import quizmos.command.RemoveFlashcardCommand;
 import quizmos.command.SearchFlashcardCommand;
 import quizmos.exception.QuizMosInputException;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.*;
 
 class ParserTest {
     @Test
@@ -66,8 +63,7 @@ class ParserTest {
     @Test
     void parseCommand_deleteCommandMissingOrInvalidIndex_returnsRemoveFlashcardCommand() throws QuizMosInputException {
         // missing index
-        Command noIndex = Parser.parseCommand("delete");
-        assertInstanceOf(InvalidCommand.class, noIndex);
+        assertThrows(QuizMosInputException.class, () -> Parser.parseCommand("delete"));
 
         // not a number
         Command notNumber = Parser.parseCommand("delete abc");
@@ -78,8 +74,7 @@ class ParserTest {
         assertInstanceOf(RemoveFlashcardCommand.class, negativeNumber);
 
         // extra spaces
-        Command spacedOut = Parser.parseCommand("delete    ");
-        assertInstanceOf(InvalidCommand.class, spacedOut);
+        assertThrows(QuizMosInputException.class, () -> Parser.parseCommand("delete       "));
     }
 
     @Test
@@ -92,41 +87,29 @@ class ParserTest {
     }
 
     @Test
-    void parseCommand_searchCommandMissingKeyword_returnsInvalidCommand() throws QuizMosInputException {
+    void parseCommand_searchCommandMissingKeyword_returnsInvalidCommand() {
         // no keyword
-        Command noKeyword = Parser.parseCommand("search");
-        assertInstanceOf(InvalidCommand.class, noKeyword);
+        assertThrows(QuizMosInputException.class, () -> Parser.parseCommand("search"));
 
         // only spaces after search
-        Command onlySpaces = Parser.parseCommand("search     ");
-        assertInstanceOf(InvalidCommand.class, onlySpaces);
+        assertThrows(QuizMosInputException.class, () -> Parser.parseCommand("search   "));
     }
 
     @Test
-    void parseCommand_invalidCommand_invalidCommandInstance() throws QuizMosInputException {
+    void parseCommand_invalidCommand_throwQuizMosInputException() {
         // empty string
-        Command emptyCommand = Parser.parseCommand("");
-        assertInstanceOf(InvalidCommand.class, emptyCommand);
-        assertFalse(emptyCommand.getIsExit());
+        assertThrows(QuizMosInputException.class, () -> Parser.parseCommand(""));
 
         // string only contains space
-        Command spaceCommand = Parser.parseCommand(" ");
-        assertInstanceOf(InvalidCommand.class, spaceCommand);
-        assertFalse(spaceCommand.getIsExit());
+        assertThrows(QuizMosInputException.class, () -> Parser.parseCommand(" "));
 
         // invalid alphabet string
-        Command alphabeticCommand = Parser.parseCommand("alphabetic");
-        assertInstanceOf(InvalidCommand.class, alphabeticCommand);
-        assertFalse(alphabeticCommand.getIsExit());
+        assertThrows(QuizMosInputException.class, () -> Parser.parseCommand("abc"));
 
         // invalid numeric string
-        Command numericCommand = Parser.parseCommand("123456");
-        assertInstanceOf(InvalidCommand.class, numericCommand);
-        assertFalse(numericCommand.getIsExit());
+        assertThrows(QuizMosInputException.class, () -> Parser.parseCommand("123123123"));
 
         // invalid symbol string
-        Command symbolCommand = Parser.parseCommand("@#$@*(&  #@$_+_+");
-        assertInstanceOf(InvalidCommand.class, symbolCommand);
-        assertFalse(symbolCommand.getIsExit());
+        assertThrows(QuizMosInputException.class, () -> Parser.parseCommand("$@#$@%"));
     }
 }

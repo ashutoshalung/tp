@@ -1,5 +1,8 @@
 package quizmos.command;
 
+import quizmos.common.FlashcardMessages;
+import quizmos.common.Messages;
+import quizmos.exception.QuizMosException;
 import quizmos.flashcard.Flashcard;
 import quizmos.flashcardlist.FlashcardList;
 import quizmos.storage.Storage;
@@ -20,17 +23,18 @@ public class RemoveFlashcardCommand extends Command {
 
     @Override
     public void execute(FlashcardList flashcards, Storage storage) throws Exception {
+        assert flashcards != null : "FlashcardList should not be null";
+
         if (!isValid || index < 0 || index >= flashcards.getSize()) {
-            Ui.invalidIndexRespond();
-            return;
+            throw new QuizMosException(FlashcardMessages.invalidIndexMessage);
         }
 
-        assert flashcards != null : "FlashcardList should not be null";
         assert storage != null : "Storage should not be null";
 
         Flashcard deletedFlashcard = flashcards.getFlashcard(index);
+        Ui.respond(FlashcardMessages.showFlashcardRemoved(deletedFlashcard));
         flashcards.removeFlashcard(index);
-        Ui.showFlashcardRemoved(deletedFlashcard);
         storage.writeToFile(flashcards);
+
     }
 }
