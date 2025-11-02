@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 public class FlashcardList implements Iterable<Flashcard> {
+
     private final ArrayList<Flashcard> flashcards;
     private ArrayList<Flashcard> starredFlashcards;
 
@@ -19,6 +20,9 @@ public class FlashcardList implements Iterable<Flashcard> {
     public FlashcardList(ArrayList<Flashcard> flashcards) {
         this.flashcards = flashcards;
         this.starredFlashcards = new ArrayList<>();
+    }
+    public ArrayList<Flashcard> getFlashcards() {
+        return flashcards;
     }
 
     public void addFlashcard(Flashcard flashcard) {
@@ -37,7 +41,11 @@ public class FlashcardList implements Iterable<Flashcard> {
         return flashcards.size();
     }
 
-    public String getStarredFlashcards() {
+    public ArrayList<Flashcard> getStarredFlashcards() {
+        return starredFlashcards;
+    }
+
+    public String getStarredFlashcardsString() {
         if (starredFlashcards.size() == 0) {
             return FlashcardListMessages.EMPTY_LIST_MESSAGE;
         }
@@ -89,8 +97,8 @@ public class FlashcardList implements Iterable<Flashcard> {
         starredFlashcards.add(starredFlashcard);
     }
 
-    public void removeStarredFlashcard(int index) {
-        starredFlashcards.remove(index);
+    public void removeStarredFlashcard(Flashcard unstarredFlashcard) {
+        starredFlashcards.remove(unstarredFlashcard);
 
     }
 }

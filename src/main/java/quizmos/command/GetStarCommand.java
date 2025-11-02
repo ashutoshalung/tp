@@ -9,7 +9,7 @@ import quizmos.ui.Ui;
 public class GetStarCommand extends Command {
     @Override
     public void execute(FlashcardList flashcards, Storage storage) {
-        String starredFlashcardsList = flashcards.getStarredFlashcards();
+        String starredFlashcardsList = flashcards.getStarredFlashcardsString();
         Ui.showStarredFlashcardsList(starredFlashcardsList);
 
     }

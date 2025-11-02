@@ -29,10 +29,14 @@ public class StarCommand extends Command{
     @Override
     public void execute(FlashcardList flashcards, Storage storage) throws Exception {
         Flashcard starredFlashcard = flashcards.getFlashcard(index);
-        starredFlashcard.toggleStar();
-        flashcards.addStarredFlashcard(starredFlashcard);
-        Ui.showStarredFlashcard(starredFlashcard);
-        storage.writeToFile(flashcards);
+        if (starredFlashcard.checkIsStarred()) {
+            Ui.showStarredFlashcardExists();
+        } else {
+            starredFlashcard.toggleStar();
+            flashcards.addStarredFlashcard(starredFlashcard);
+            Ui.showStarredFlashcard(starredFlashcard);
+            storage.writeToFile(flashcards);
+        }
 
     }
 }

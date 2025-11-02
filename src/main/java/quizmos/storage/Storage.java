@@ -11,6 +11,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Storage {
     private final String filePath;
@@ -50,28 +52,33 @@ public class Storage {
         ArrayList<Flashcard> listOfFlashcards = new ArrayList<>();
         File file = new File(filePath);
 
+        // Allow an optional third field (possibly empty). question and answer must be present.
+        Pattern pattern = Pattern.compile(
+                "^\\s*(?<question>[^|]+?)\\s*\\|\\s*(?<answer>[^|]+?)\\s*(?:\\|\\s*(?<star>[^|]*))?\\s*$"
+        );
+
         try (Scanner scanner = new Scanner(file)) {
             while (scanner.hasNextLine()) {
-                String nextLine = scanner.nextLine();
-                String line = nextLine.trim();
-                if (line.isEmpty()) {
-                    continue; // skip empty lines
+                String nextLine = scanner.nextLine().trim();
+
+                if (nextLine.isEmpty()) {
+                    continue;
                 }
 
-                // Split on " | " with optional surrounding spaces
-                String[] parts = line.split("\\s*\\|\\s*");
-                if (parts.length < 2) {
+                Matcher matcher = pattern.matcher(nextLine);
+                if (!matcher.matches()) {
                     continue; // skip invalid lines
                 }
-                String question = parts[0].trim();
-                String answer = parts[1].trim();
+
+                String question = matcher.group("question").trim();
+                String answer = matcher.group("answer").trim();
+                String starGroup = matcher.group("star"); // may be null or empty
+
                 Flashcard flashcard = new Flashcard(question, answer);
-                if (parts.length >= 3) {
-                    String starMark = parts[2].trim();
-                    if (starMark.equalsIgnoreCase("Starred")) {
-                        flashcard.toggleStar();
-                    }
+                if (starGroup != null && starGroup.equalsIgnoreCase("Starred")) {
+                    flashcard.toggleStar();
                 }
+
                 listOfFlashcards.add(flashcard);
             }
             return listOfFlashcards;
