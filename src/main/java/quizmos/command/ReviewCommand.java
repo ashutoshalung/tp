@@ -109,7 +109,7 @@ public class ReviewCommand extends Command {
     }
 
     @Override
-    public void execute(FlashcardList flashcards, Storage storage) throws QuizMosException {
+    public void execute(FlashcardList flashcards, Storage storage) throws Exception {
         assert flashcards != null : "FlashcardList can't be null";
 
         if (flashcards.getSize() == 0) {
