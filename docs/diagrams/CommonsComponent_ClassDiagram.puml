@@ -1,0 +1,25 @@
+@startuml CommonsComponent_ClassDiagram
+
+title Commons Component Class Diagram
+
+skinparam classAttributeIconSize 0
+skinparam classBackgroundColor #E6FFE6
+skinparam packageStyle rectangle
+
+package "quizmos.exception" {
+    class QuizMosException {
+        + QuizMosException(message : String)
+    }
+}
+
+package "quizmos.common" {
+    class Messages {
+        {static} + greeting : String
+        {static} + errorMessage : String
+        {static} + otherConstants...
+    }
+}
+
+QuizMosException <|-- Exception
+
+@enduml

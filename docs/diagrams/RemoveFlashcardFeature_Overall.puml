@@ -1,0 +1,59 @@
+@startuml RemoveFeature_Overall
+
+title Overall Remove Flashcard Flow
+
+skinparam sequenceReferenceBackgroundColor #ffcccb
+
+participant ":QuizMos"
+participant ":Parser"
+participant ":RemoveFlashcardCommand"
+participant ":Ui"
+participant ":FlashcardList"
+participant ":Storage"
+
+":QuizMos" -> ":Parser": parseCommand(command)
+activate ":Parser"
+
+":Parser" -> ":RemoveFlashcardCommand": <<create>> RemoveFlashcardCommand(arg)
+activate ":RemoveFlashcardCommand"
+":RemoveFlashcardCommand" --> ":Parser": return RemoveFlashcardCommand
+deactivate ":RemoveFlashcardCommand"
+
+":Parser" --> ":QuizMos": return RemoveFlashcardCommand
+deactivate ":Parser"
+
+":QuizMos" -> ":RemoveFlashcardCommand": execute(flashcards, storage)
+activate ":RemoveFlashcardCommand"
+
+alt Invalid index
+    ":RemoveFlashcardCommand" -> ":Ui": invalidIndexRespond()
+    activate ":Ui"
+    ":Ui" --> ":RemoveFlashcardCommand"
+    deactivate ":Ui"
+else Valid index
+    ":RemoveFlashcardCommand" -> ":FlashcardList": getFlashcard(index)
+    activate ":FlashcardList"
+    ":FlashcardList" --> ":RemoveFlashcardCommand": Flashcard object
+    deactivate ":FlashcardList"
+
+    ":RemoveFlashcardCommand" -> ":FlashcardList": removeFlashcard(index)
+    activate ":FlashcardList"
+    ":FlashcardList" --> ":RemoveFlashcardCommand": Flashcard removed
+    deactivate ":FlashcardList"
+
+    ":RemoveFlashcardCommand" -> ":Ui": showFlashcardRemoved(flashcard)
+    activate ":Ui"
+    ":Ui" --> ":RemoveFlashcardCommand"
+    deactivate ":Ui"
+
+    ":RemoveFlashcardCommand" -> ":Storage": writeToFile(flashcards)
+    activate ":Storage"
+    ":Storage" --> ":RemoveFlashcardCommand": save successful
+    deactivate ":Storage"
+end
+
+":RemoveFlashcardCommand" --> ":QuizMos"
+deactivate ":RemoveFlashcardCommand"
+destroy ":RemoveFlashcardCommand"
+
+@enduml

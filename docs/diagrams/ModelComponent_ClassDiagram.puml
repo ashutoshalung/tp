@@ -1,0 +1,44 @@
+@startuml ModelComponent_ClassDiagram
+
+title Model Component Class Diagram
+
+skinparam classAttributeIconSize 0
+skinparam classBackgroundColor #E6F3FF
+skinparam packageStyle rectangle
+
+package "quizmos.flashcard" {
+    class Flashcard {
+        - question : String
+        - answer : String
+        - isStarred : boolean
+        - starMarker : String
+        --
+        + Flashcard(question : String, answer : String)
+        + getQuestion() : String
+        + getAnswer() : String
+        + checkIsStarred() : boolean
+        + toggleStar() : void
+        + toSaveFormat() : String
+        + toString() : String
+    }
+}
+
+package "quizmos.flashcardlist" {
+    class FlashcardList {
+        - flashcards : ArrayList<Flashcard>
+        --
+        + FlashcardList()
+        + FlashcardList(flashcards : ArrayList<Flashcard>)
+        + addFlashcard(flashcard : Flashcard) : void
+        + removeFlashcard(index : int) : void
+        + getFlashcard(index : int) : Flashcard
+        + getSize() : int
+        + getStarredFlashcards() : ArrayList<Flashcard>
+        + toString() : String
+        + iterator() : Iterator<Flashcard>
+    }
+}
+
+FlashcardList "1" o-- "*" Flashcard : contains >
+
+@enduml
