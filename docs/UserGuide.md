@@ -20,12 +20,31 @@ QuizMos automatically saves your flashcards to a file, ensuring your collection 
 
 ---
 
-## Quick Start {not yet completed}
+## Quick Start 
 
-{Give steps to get started quickly}
-
-1. {step 1}
-2. {step 2}
+1. Ensure you have Java `17` or above installed in your Computer.<br>
+   **Mac users:** Ensure you have the precise JDK version prescribed [here](https://se-education.org/guides/tutorials/javaInstallationMac.html).
+2. Download the latest `.jar` file from [here](https://github.com/AY2526S1-CS2113-T11-1/tp/releases).
+3. Copy the file to the folder you want to use as the _home folder_ for your QuizMos.
+4. Open a command terminal, cd into the folder you put the jar file in, and use the `java -jar quizmos.jar` command to run the application.<br>
+    A CLI similar to the below should appear. Note how the App gives you the first step.
+    ```bash
+    ____________________________________________________________
+    Hello, I'm QuizMos
+      ___        _     __  __
+     / _ \ _   _(_)___|  \/  | ___  ___
+    | | | | | | | |_  / |\/| |/ _ \/ __|
+    | |_| | |_| | |/ /| |  | | (_) \__ \
+     \__\_\\__,_|_/___|_|  |_|\___/|___/
+    Try command `help` for more information
+    ____________________________________________________________
+    ```
+5. Type some commands to execute it. Some example commands you can try:
+   - `help`: Shows all command formats.
+   - `list`: Lists all flashcards.
+   - `add q/1+1 a/2`: Add your first flashcard. With question is "1+1" and answer is "2".
+   - `exit`: Exits the app
+6. Refer to the [Usage](#usage) below for details of each command.
 
 ---
 

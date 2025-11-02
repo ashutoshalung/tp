@@ -4,49 +4,48 @@ title Overall Review Flow
 
 skinparam sequenceReferenceBackgroundColor #f7807c
 
-participant QuizMos
-participant Parser
-participant ReviewCommand
-' Thêm IReviewMode để thể hiện Strategy Pattern
+participant ":QuizMos"
+participant ":Parser"
+participant ":ReviewCommand"
 participant ":IReviewMode" as IReviewMode
 
-QuizMos -> Parser: parseCommand(command)
-activate Parser
+":QuizMos" -> ":Parser": parseCommand(command)
+activate ":Parser"
 
-Parser -> ReviewCommand: <<create>> ReviewCommand(command)
-activate ReviewCommand
+":Parser" -> ":ReviewCommand": <<create>> ReviewCommand(command)
+activate ":ReviewCommand"
 
-ReviewCommand --> Parser: return ReviewCommand
-deactivate ReviewCommand
+":ReviewCommand" --> ":Parser": return ReviewCommand
+deactivate ":ReviewCommand"
 
-Parser --> QuizMos: return ReviewCommand
-deactivate Parser
+":Parser" --> ":QuizMos": return ReviewCommand
+deactivate ":Parser"
 
-QuizMos -> ReviewCommand: execute(flashcards, storage)
-activate ReviewCommand
+":QuizMos" -> ":ReviewCommand": execute(flashcards, storage)
+activate ":ReviewCommand"
 
 
-ReviewCommand -> IReviewMode: setReviewMode()
-activate IReviewMode
-
-IReviewMode --> ReviewCommand
-
+":ReviewCommand" -> ":ReviewCommand": setReviewMode()
 loop until (listSize reached OR input == "quit")
 
-    ReviewCommand -> IReviewMode: displayQuestion(flashcard, index)
-    IReviewMode --> ReviewCommand
+    ":ReviewCommand" -> IReviewMode: displayQuestion(flashcard, index)
+    activate IReviewMode
+    IReviewMode --> ":ReviewCommand"
 
-    ReviewCommand -> IReviewMode: getPrompt()
-    IReviewMode --> ReviewCommand: input
 
-    ReviewCommand -> IReviewMode: checkAnswer(input, flashcard)
-    IReviewMode --> ReviewCommand: return result
+    ":ReviewCommand" -> IReviewMode: getPrompt()
+    IReviewMode --> ":ReviewCommand": input
+
+    ":ReviewCommand" -> IReviewMode: checkAnswer(input, flashcard)
+    IReviewMode --> ":ReviewCommand": result
+    deactivate IReviewMode
+    destroy IReviewMode
 end
 
-ReviewCommand -> ReviewCommand: quitReview()
+":ReviewCommand" -> ":ReviewCommand": quitReview()
 
-ReviewCommand --> QuizMos: return
-deactivate ReviewCommand
-destroy ReviewCommand
+":ReviewCommand" --> ":QuizMos"
+deactivate ":ReviewCommand"
+destroy ":ReviewCommand"
 
 @enduml
