@@ -1,6 +1,5 @@
 package quizmos.ui;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
 import quizmos.common.Messages;
@@ -77,8 +76,8 @@ public class Ui {
         respond(Messages.invalidIndexMessage);
     }
 
-    public static void showStarredFlashcard() {
-        respond(Messages.starredFlashcardMessage); }
+    public static void showStarredFlashcard(Flashcard flashcard) {
+        respond(Messages.starredFlashcardMessage + flashcard.toString()); }
 
     public static void showFlashcardAdded(Flashcard flashcard) {
         String response = Messages.addedTaskMessage + flashcard;
@@ -90,13 +89,12 @@ public class Ui {
         respond(response);
     }
 
-    public static void showStarredFlashcardsList(ArrayList<Flashcard> starredFlashcards) {
-        int count = 1;
-        String response = "";
-        for (Flashcard f : starredFlashcards) {
-            response += count + "." + f + "\n";
-            count++;
-        }
-        respond(response);
+    public static void showStarredFlashcardsList(String fullStarredFlashcardString) {
+        respond(fullStarredFlashcardString);
+    }
+
+    public static void showUnstarredFlashcard(Flashcard unstarredFlashcard) {
+        respond(Messages.starredFlashcardMessage + unstarredFlashcard.toString());
+
     }
 }

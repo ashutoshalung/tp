@@ -27,9 +27,16 @@ public class Flashcard {
     }
 
     public void toggleStar() {
-        this.isStarred = true;
-        this.starMarker = " Starred";
+        this.isStarred = !this.isStarred;
+
+        if (this.starMarker.equals("")) {
+            this.starMarker = " Starred";
+
+        } else {
+            this.starMarker = "";
+        }
     }
+
 
     public String toSaveFormat() {
         return getQuestion() + " | " + getAnswer() + " |" + starMarker;

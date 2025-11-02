@@ -8,13 +8,17 @@ import java.util.Iterator;
 
 public class FlashcardList implements Iterable<Flashcard> {
     private final ArrayList<Flashcard> flashcards;
+    private ArrayList<Flashcard> starredFlashcards;
+
 
     public FlashcardList() {
         this.flashcards = new ArrayList<Flashcard>();
+        this.starredFlashcards = new ArrayList<>();
     }
 
     public FlashcardList(ArrayList<Flashcard> flashcards) {
         this.flashcards = flashcards;
+        this.starredFlashcards = new ArrayList<>();
     }
 
     public void addFlashcard(Flashcard flashcard) {
@@ -33,14 +37,24 @@ public class FlashcardList implements Iterable<Flashcard> {
         return flashcards.size();
     }
 
-    public ArrayList<Flashcard> getStarredFlashcards() {
-        ArrayList<Flashcard> starredFlashcards = new ArrayList<>();
-        for (Flashcard f : flashcards) {
-            if (f.checkIsStarred()) {
-                starredFlashcards.add(f);
-            }
+    public String getStarredFlashcards() {
+        if (starredFlashcards.size() == 0) {
+            return FlashcardListMessages.EMPTY_LIST_MESSAGE;
         }
-        return starredFlashcards;
+        StringBuilder sb = new StringBuilder();
+        int total = starredFlashcards.size();
+        int count = 1;
+        for (Flashcard f : starredFlashcards) {
+            ;
+            String item = count + ". " + f.toString();
+            if (count != total) {
+                item += "\n";
+            }
+            sb.append(item);
+            count++;
+        }
+        return sb.toString();
+
     }
 
     /**
@@ -69,5 +83,14 @@ public class FlashcardList implements Iterable<Flashcard> {
     @Override
     public Iterator<Flashcard> iterator() {
         return flashcards.iterator();
+    }
+
+    public void addStarredFlashcard(Flashcard starredFlashcard) {
+        starredFlashcards.add(starredFlashcard);
+    }
+
+    public void removeStarredFlashcard(int index) {
+        starredFlashcards.remove(index);
+
     }
 }

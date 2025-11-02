@@ -3,6 +3,7 @@ package quizmos.storage;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import quizmos.exception.QuizMosFileException;
 import quizmos.flashcard.Flashcard;
 import quizmos.flashcardlist.FlashcardList;
 
@@ -25,7 +26,7 @@ class StorageTest {
     private Storage testStorage;
 
     @BeforeEach
-    void setUp() throws IOException {
+    void setUp() throws IOException, QuizMosFileException {
         testDirPath = Files.createTempDirectory("storageTest");
         testFilePath = testDirPath.resolve("flashcards.txt");
 
@@ -41,7 +42,7 @@ class StorageTest {
     }
 
     @Test
-    void ensureFilePathExists_nonExistingFilePath_expectPathCreated() {
+    void ensureFilePathExists_nonExistingFilePath_expectPathCreated() throws QuizMosFileException {
         String nonExistingFilePath = "./testFolder/testData.txt";
         new Storage(nonExistingFilePath);
         Path directory = Path.of("testFolder");

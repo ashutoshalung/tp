@@ -1,5 +1,6 @@
 package quizmos.command;
 
+
 import quizmos.flashcard.Flashcard;
 import quizmos.flashcardlist.FlashcardList;
 import quizmos.storage.Storage;
@@ -29,7 +30,8 @@ public class StarCommand extends Command{
     public void execute(FlashcardList flashcards, Storage storage) throws Exception {
         Flashcard starredFlashcard = flashcards.getFlashcard(index);
         starredFlashcard.toggleStar();
-        Ui.showStarredFlashcard();
+        flashcards.addStarredFlashcard(starredFlashcard);
+        Ui.showStarredFlashcard(starredFlashcard);
         storage.writeToFile(flashcards);
 
     }

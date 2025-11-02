@@ -1,5 +1,7 @@
 package quizmos.storage;
 
+import quizmos.exception.QuizMosFileException;
+import quizmos.exception.QuizMosInputException;
 import quizmos.flashcard.Flashcard;
 import quizmos.flashcardlist.FlashcardList;
 
@@ -13,7 +15,7 @@ import java.util.Scanner;
 public class Storage {
     private final String filePath;
 
-    public Storage(String filePath) {
+    public Storage(String filePath) throws QuizMosFileException {
         this.filePath = filePath;
         ensureFilePathExists();
     }
@@ -22,7 +24,7 @@ public class Storage {
      * Ensures that the file and its parent directories exist.
      * If not, creates them.
      */
-    private void ensureFilePathExists() {
+    private void ensureFilePathExists() throws QuizMosFileException {
         try {
             File file = new File(filePath);
             File parentDir = file.getParentFile();
@@ -33,7 +35,7 @@ public class Storage {
                 file.createNewFile(); // create the file if it doesn't exist
             }
         } catch (IOException e) {
-            throw new RuntimeException("Error initializing storage file: " + e.getMessage(), e);
+            throw new QuizMosFileException("Error loading tasks from file: " + e.getMessage());
         }
     }
 
@@ -44,7 +46,7 @@ public class Storage {
      * @return list of flashcards
      * @throws FileNotFoundException if file is missing (should not happen)
      */
-    public ArrayList<Flashcard> load() throws FileNotFoundException {
+    public ArrayList<Flashcard> load() throws QuizMosFileException {
         ArrayList<Flashcard> listOfFlashcards = new ArrayList<>();
         File file = new File(filePath);
 
@@ -63,23 +65,19 @@ public class Storage {
                 }
                 String question = parts[0].trim();
                 String answer = parts[1].trim();
-                boolean isStarred = false;
-                if (parts.length >= 3 && parts[2].trim().equalsIgnoreCase("Starred")) {
-                    isStarred = true;
-                }
-
                 Flashcard flashcard = new Flashcard(question, answer);
-                if (isStarred) {
-                    flashcard.toggleStar();
+                if (parts.length >= 3) {
+                    String starMark = parts[2].trim();
+                    if (starMark.equalsIgnoreCase("Starred")) {
+                        flashcard.toggleStar();
+                    }
                 }
-
-
-
                 listOfFlashcards.add(flashcard);
             }
+            return listOfFlashcards;
+        } catch (FileNotFoundException e) {
+            throw new QuizMosFileException(e.getMessage());
         }
-
-        return listOfFlashcards;
     }
 
     /**
@@ -88,13 +86,13 @@ public class Storage {
      * @param flashcards FlashcardList to save
      * @throws IOException if writing fails
      */
-    public void writeToFile(FlashcardList flashcards) throws IOException {
+    public void writeToFile(FlashcardList flashcards) throws QuizMosInputException {
         try (FileWriter fw = new FileWriter(filePath, false)) { // overwrite
             for (Flashcard flashcard : flashcards) {
                 fw.write(flashcard.toSaveFormat() + System.lineSeparator());
             }
         } catch (IOException e) {
-            throw new IOException("Error writing flashcards to file: " + e.getMessage(), e);
+            throw new QuizMosInputException("Error writing flashcards to file: " + e.getMessage());
         }
     }
 }

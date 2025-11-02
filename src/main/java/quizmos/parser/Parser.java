@@ -3,7 +3,7 @@ package quizmos.parser;
 import quizmos.command.AddFlashcardCommand;
 import quizmos.command.Command;
 import quizmos.command.ExitCommand;
-import quizmos.command.GetStarredCommand;
+import quizmos.command.GetStarCommand;
 import quizmos.command.HelpCommand;
 import quizmos.command.InvalidCommand;
 import quizmos.command.ListCommand;
@@ -11,6 +11,7 @@ import quizmos.command.RemoveFlashcardCommand;
 import quizmos.command.ReviewCommand;
 import quizmos.command.SearchFlashcardCommand;
 import quizmos.command.StarCommand;
+import quizmos.command.UnstarCommand;
 import quizmos.exception.QuizMosInputException;
 
 import java.util.logging.Level;
@@ -42,7 +43,8 @@ public class Parser {
             case "review" -> new ReviewCommand(command);
             case "search" -> new SearchFlashcardCommand(parts[1].trim());
             case "star" -> new StarCommand(parts[1].trim());
-            case "getstarred" -> new GetStarredCommand();
+            case "getstar" -> new GetStarCommand();
+            case "unstar" -> new UnstarCommand(parts[1].trim());
             default -> new InvalidCommand();
             };
         } catch (ArrayIndexOutOfBoundsException e) {
