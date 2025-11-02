@@ -3,8 +3,6 @@ package quizmos.command;
 import quizmos.flashcardlist.FlashcardList;
 import quizmos.storage.Storage;
 
-import java.io.IOException;
-
 public class ListCommand extends Command {
     /**
      * Executes the list command.
@@ -16,7 +14,7 @@ public class ListCommand extends Command {
      */
 
     @Override
-    public void execute(FlashcardList flashcards, Storage storage) throws IOException {
+    public void execute(FlashcardList flashcards, Storage storage) throws Exception {
         flashcards.showList();
     }
 }

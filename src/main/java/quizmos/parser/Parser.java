@@ -13,7 +13,12 @@ import quizmos.command.SearchFlashcardCommand;
 import quizmos.command.StarCommand;
 import quizmos.exception.QuizMosInputException;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class Parser {
+    private static final Logger logger = Logger.getLogger(Parser.class.getName());
+
     /**
      * Parse user's raw command and return the Command object
      *
@@ -24,6 +29,8 @@ public class Parser {
         String trimmed = command.trim();
         String[] parts = trimmed.split(" ", 2);
         String commandKeyword = parts[0].toLowerCase();
+
+        logger.log(Level.INFO, "parsed keyword: " +  commandKeyword);
 
         try {
             return switch (commandKeyword) {
@@ -39,6 +46,7 @@ public class Parser {
             default -> new InvalidCommand();
             };
         } catch (ArrayIndexOutOfBoundsException e) {
+            logger.log(Level.WARNING, "parser got exception: " + e.getMessage());
             return new InvalidCommand();
         }
     }
