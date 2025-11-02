@@ -23,7 +23,7 @@ public class Parser {
     /**
      * Parse user's raw command and return the Command object
      *
-     * @param command
+     * @param command raw command from user
      * @return suitable Command object
      */
     public static Command parseCommand(String command) throws QuizMosInputException {

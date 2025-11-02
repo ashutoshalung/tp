@@ -4,8 +4,6 @@ import org.junit.jupiter.api.Test;
 import quizmos.flashcardlist.FlashcardList;
 import quizmos.storage.Storage;
 
-import java.io.IOException;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class AddFlashcardCommandTest {
@@ -112,7 +110,7 @@ public class AddFlashcardCommandTest {
     }
 
     @Test
-    void constructor_whitespaceOnlyAnswer_rejected() throws IOException, Exception {
+    void constructor_whitespaceOnlyAnswer_rejected() throws Exception {
         FlashcardList flashcards = new FlashcardList();
         Storage storage = new Storage("data/QuizMos.txt") {
             @Override

@@ -88,8 +88,8 @@ public class Storage {
      */
     public void writeToFile(FlashcardList flashcards) throws QuizMosInputException {
         try (FileWriter fw = new FileWriter(filePath, false)) { // overwrite
-            for (Flashcard flashcard : flashcards.getAll()) {
-                fw.write(flashcard.toSaveFormat() + "\n");
+            for (Flashcard flashcard : flashcards) {
+                fw.write(flashcard.toSaveFormat() + System.lineSeparator());
             }
         } catch (IOException e) {
             throw new QuizMosInputException("Error writing flashcards to file: " + e.getMessage());

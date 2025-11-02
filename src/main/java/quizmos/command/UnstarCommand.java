@@ -27,6 +27,7 @@ public class UnstarCommand extends Command {
     public void execute(FlashcardList flashcards, Storage storage) throws QuizMosInputException {
         Flashcard unstarredFlashcard = flashcards.getFlashcard(index);
         unstarredFlashcard.toggleStar();
+        flashcards.removeStarredFlashcard(index);
         Ui.showUnstarredFlashcard(unstarredFlashcard);
         storage.writeToFile(flashcards);
 

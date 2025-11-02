@@ -15,7 +15,7 @@ public class SearchFlashcardCommand extends Command {
     public void execute(FlashcardList flashcards, Storage storage) throws Exception {
         FlashcardList matches = new FlashcardList();
         // go through all existing flashcards and see if the question or answer contains the keyword/keyphrase
-        for (Flashcard f : flashcards.getAll()) {
+        for (Flashcard f : flashcards) {
             if (f.getQuestion().contains(keyPhrase) || f.getAnswer().contains(keyPhrase)) {
                 matches.addFlashcard(f);
             }
@@ -25,6 +25,7 @@ public class SearchFlashcardCommand extends Command {
             return;
         }
 
-        matches.showList();
+        String content = matches.toString();
+        Ui.respond(content);
     }
 }
