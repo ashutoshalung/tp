@@ -66,4 +66,60 @@ public class AddFlashcardCommandTest {
 
         assertEquals(0, flashcards.getSize());
     }
+
+    @Test
+    void constructor_emptyQuestion_rejected() throws IOException {
+        FlashcardList flashcards = new FlashcardList();
+        Storage storage = new Storage("data/QuizMos.txt") {
+            @Override
+            public void writeToFile(FlashcardList list) { /* skip file writing */ }
+        };
+
+        AddFlashcardCommand command = new AddFlashcardCommand(new String[] {"add", "q/ a/Answer"});
+        command.execute(flashcards, storage);
+
+        assertEquals(0, flashcards.getSize(), "Flashcard with empty question should not be added.");
+    }
+
+    @Test
+    void constructor_emptyAnswer_rejected() throws IOException {
+        FlashcardList flashcards = new FlashcardList();
+        Storage storage = new Storage("data/QuizMos.txt") {
+            @Override
+            public void writeToFile(FlashcardList list) { /* skip file writing */ }
+        };
+
+        AddFlashcardCommand command = new AddFlashcardCommand(new String[] {"add", "q/Question a/"});
+        command.execute(flashcards, storage);
+
+        assertEquals(0, flashcards.getSize(), "Flashcard with empty answer should not be added.");
+    }
+
+    @Test
+    void constructor_whitespaceOnlyQuestion_rejected() throws IOException {
+        FlashcardList flashcards = new FlashcardList();
+        Storage storage = new Storage("data/QuizMos.txt") {
+            @Override
+            public void writeToFile(FlashcardList list) { /* skip file writing */ }
+        };
+
+        AddFlashcardCommand command = new AddFlashcardCommand(new String[] {"add", "q/   a/Answer"});
+        command.execute(flashcards, storage);
+
+        assertEquals(0, flashcards.getSize(), "Flashcard with whitespace-only question should not be added.");
+    }
+
+    @Test
+    void constructor_whitespaceOnlyAnswer_rejected() throws IOException {
+        FlashcardList flashcards = new FlashcardList();
+        Storage storage = new Storage("data/QuizMos.txt") {
+            @Override
+            public void writeToFile(FlashcardList list) { /* skip file writing */ }
+        };
+
+        AddFlashcardCommand command = new AddFlashcardCommand(new String[] {"add", "q/Question a/   "});
+        command.execute(flashcards, storage);
+
+        assertEquals(0, flashcards.getSize(), "Flashcard with whitespace-only answer should not be added.");
+    }
 }
