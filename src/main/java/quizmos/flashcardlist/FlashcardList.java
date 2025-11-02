@@ -3,18 +3,13 @@ package quizmos.flashcardlist;
 import quizmos.common.FlashcardListMessages;
 import quizmos.flashcard.Flashcard;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Iterator;
 
 public class FlashcardList implements Iterable<Flashcard> {
     private final ArrayList<Flashcard> flashcards;
-
-    public void setStarredFlashcards(ArrayList<Flashcard> starredFlashcards) {
-        this.starredFlashcards = starredFlashcards;
-    }
-
     private ArrayList<Flashcard> starredFlashcards;
+
 
     public FlashcardList() {
         this.flashcards = new ArrayList<Flashcard>();
@@ -43,13 +38,14 @@ public class FlashcardList implements Iterable<Flashcard> {
     }
 
     public String getStarredFlashcards() {
-        if (starredFlashcards.size() ==0) {
+        if (starredFlashcards.size() == 0) {
             return FlashcardListMessages.EMPTY_LIST_MESSAGE;
         }
         StringBuilder sb = new StringBuilder();
         int total = starredFlashcards.size();
         int count = 1;
-        for (Flashcard f : starredFlashcards) {;
+        for (Flashcard f : starredFlashcards) {
+            ;
             String item = count + ". " + f.toString();
             if (count != total) {
                 item += "\n";
@@ -60,14 +56,6 @@ public class FlashcardList implements Iterable<Flashcard> {
         return sb.toString();
 
     }
-//        ArrayList<Flashcard> starredFlashcards = new ArrayList<>();
-//        for (Flashcard f : flashcards) {
-//            if (f.checkIsStarred()) {
-//                starredFlashcards.add(f);
-//            }
-//        }
-//        return starredFlashcards;
-//    }
 
     /**
      * @return a String that is list of all flashcards
