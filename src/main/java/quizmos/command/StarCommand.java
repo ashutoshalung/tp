@@ -26,7 +26,7 @@ public class StarCommand extends Command{
      * @throws IOException
      */
     @Override
-    public void execute(FlashcardList flashcards, Storage storage) throws IOException {
+    public void execute(FlashcardList flashcards, Storage storage) throws Exception {
         Flashcard starredFlashcard = flashcards.getFlashcard(index);
         starredFlashcard.toggleStar();
         Ui.showStarredFlashcard();

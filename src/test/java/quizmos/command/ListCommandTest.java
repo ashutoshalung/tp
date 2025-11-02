@@ -44,7 +44,7 @@ class ListCommandTest {
     }
 
     @Test
-    void execute_printsEmptyListMessageWhenNoFlashcards() throws IOException {
+    void execute_printsEmptyListMessageWhenNoFlashcards() throws Exception {
         listCommand.execute(flashcardList, dummyStorage);
 
         String output = outContent.toString().trim();
@@ -55,7 +55,7 @@ class ListCommandTest {
     }
 
     @Test
-    void execute_printsFlashcardsWhenListIsNotEmpty() throws IOException {
+    void execute_printsFlashcardsWhenListIsNotEmpty() throws Exception {
         flashcardList.addFlashcard(new Flashcard("What is AI?", "Artificial Intelligence"));
         flashcardList.addFlashcard(new Flashcard("What is ML?", "Machine Learning"));
 

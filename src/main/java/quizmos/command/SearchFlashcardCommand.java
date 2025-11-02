@@ -5,8 +5,6 @@ import quizmos.flashcardlist.FlashcardList;
 import quizmos.storage.Storage;
 import quizmos.ui.Ui;
 
-import java.io.IOException;
-
 public class SearchFlashcardCommand extends Command {
     String keyPhrase;
     public SearchFlashcardCommand(String keyPhrase) {
@@ -14,7 +12,7 @@ public class SearchFlashcardCommand extends Command {
     }
 
     @Override
-    public void execute(FlashcardList flashcards, Storage storage) throws IOException {
+    public void execute(FlashcardList flashcards, Storage storage) throws Exception {
         FlashcardList matches = new FlashcardList();
         // go through all existing flashcards and see if the question or answer contains the keyword/keyphrase
         for (Flashcard f : flashcards.getAll()) {

@@ -91,12 +91,14 @@ Example:
 After each question showed, can select whether to show the answer (y/n), or quit the session
 
 Format: `[Y | N | QUIT]`
+
 #### True/false mode
 After each question showed, type your answer (t/f) or quit the session
 
 Format: `[T | F | QUIT]`
 - `T` True
 - `F` False
+
 #### MCQ mode
 This mode requires flashcard list has no less than 4 flashcards
 
