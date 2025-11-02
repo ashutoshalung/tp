@@ -70,6 +70,8 @@ The sections below give more details of each component
 - Flashcard
 - FlashcardList
 
+![Model Component Class Diagram](images/ModelComponent_ClassDiagram.png "Model Component Class Diagram")
+
 ### Main Component
 
 **Responsibilities:**
@@ -78,6 +80,8 @@ The sections below give more details of each component
 
 **Class:**
 - QuizMos
+
+![Main Component Class Diagram](images/MainComponent_ClassDiagram.png "Main Component Class Diagram")
 
 ### Storage Component
 
@@ -89,6 +93,8 @@ The sections below give more details of each component
 **Class:**
 - Exception
 - Messages
+
+![Commons Component Class Diagram](images/CommonsComponent_ClassDiagram.png "Commons Component Class Diagram")
 
 ### Overall Architecture Diagram
 
@@ -110,7 +116,7 @@ This section describes some noteworthy details on how certain features are imple
 - Adds a new flashcard to the `FlashcardList` and saves it via `Storage`.
 - Calls the `Ui` to display the flashcard was added.
 
-{Sequence Diagram goes here}
+![OverallAddFlashcardFlow](images/AddFlashcardFeature_Overall.png)
 
 ### Feature 2: Delete Flashcard
 
@@ -123,7 +129,7 @@ This section describes some noteworthy details on how certain features are imple
 - Removes the flashcard and updates the `FlashcardList`.
 - Calls the `Ui` to display the flashcard was removed.
 
-{Sequence Diagram goes here}
+![OverallRemoveFlashcardFlow](images/RemoveFlashcardFeature_Overall.png)
 
 ### Feature 3: Search Flashcard
 
@@ -136,7 +142,7 @@ This section describes some noteworthy details on how certain features are imple
 - Searches through all flashcards for matching keywords in question or answer.
 - Displays a list of matches or an error if none are found.
 
-{Sequence Diagram goes here}
+![OverallSearchFlashcardFlow](images/SearchFlashcardFeature_Overall.png)
 
 ### Feature 4: Review Flashcards
 
@@ -150,6 +156,7 @@ This section describes some noteworthy details on how certain features are imple
   2. Input: Retrieves the user's answer (or breaks the loop if the input is `quit`). 
   3. Resolution: Checks the answer via `checkAnswer()` and updates the correct counter.
 - Eventually, the `quitReview()` method displays the session summary, including total cards reviewed and final results (for non-flip modes).
+
 ![OverallReviewFlow](images/ReviewFeature_Overall.png)
 
 - **Flip mode flow**
