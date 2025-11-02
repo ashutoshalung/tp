@@ -50,8 +50,15 @@ QuizMos automatically saves your flashcards to a file, ensuring your collection 
 
 ## Features 
 
-- Quizmos supports creating basic flashcards with text based questions and answers.
-- **Marking flashcards as important/starred** for easy review.
+Quizmos supports:
+- Creating basic flashcards with text-based questions and answers.
+- Marking flashcards as important/starred for easy review.
+- Listing all flashcards for an overview.
+- Deleting flashcards by their index.
+- Searching flashcards using keywords or keyphrases.
+- Reviewing flashcards in multiple modes: Simple Flip, True/False (T/F), and Multi-Choice Question (MCQ).
+- Exiting the program gracefully.
+
 ---
 
 ## Usage
