@@ -1,0 +1,30 @@
+@startuml OverallArchitect
+skinparam componentStyle rectangle
+skinparam roundCorner 5
+
+actor User
+component UI #54e03f
+component Logic #4faff0
+component Model #fc3328
+component Main #c4c4c2
+component Storage #f5cd5f
+component Commons #d386f7
+file "QuizMos.txt" as File #White
+
+User ..> UI
+
+Main -u-> UI
+Main -u-> Logic
+Main -> Model
+Main -> Storage
+
+Logic -u-> UI
+Logic -> Storage
+Logic -> Model
+
+Storage -u-> Model
+Storage ..> File
+
+Commons -[hidden]-> Model
+
+@enduml

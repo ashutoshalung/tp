@@ -1,5 +1,2 @@
-1 | 1 | Starred
-2 | 2 | Starred
-3 | 3 | Starred
-4 | 4 | Starred
-a | q |
+1 | 1 |
+2 | 2 |

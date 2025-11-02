@@ -3,6 +3,7 @@ package quizmos.command;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import quizmos.common.FlashcardListMessages;
 import quizmos.flashcard.Flashcard;
 import quizmos.flashcardlist.FlashcardList;
 import quizmos.storage.Storage;
@@ -51,7 +52,8 @@ class ListCommandTest {
 
         // Check that the output contains separators and the empty list message
         assertTrue(output.contains(Messages.separator), "Output should include separator line");
-        assertTrue(output.contains(Messages.emptyListMessage), "Output should include empty list message");
+        assertTrue(output.contains(FlashcardListMessages.EMPTY_LIST_MESSAGE),
+                "Output should include empty list message");
     }
 
     @Test

@@ -68,7 +68,7 @@ public class AddFlashcardCommandTest {
     }
 
     @Test
-    void constructor_emptyQuestion_rejected() throws IOException {
+    void constructor_emptyQuestion_rejected() throws Exception {
         FlashcardList flashcards = new FlashcardList();
         Storage storage = new Storage("data/QuizMos.txt") {
             @Override
@@ -82,7 +82,7 @@ public class AddFlashcardCommandTest {
     }
 
     @Test
-    void constructor_emptyAnswer_rejected() throws IOException {
+    void constructor_emptyAnswer_rejected() throws Exception {
         FlashcardList flashcards = new FlashcardList();
         Storage storage = new Storage("data/QuizMos.txt") {
             @Override
@@ -96,7 +96,7 @@ public class AddFlashcardCommandTest {
     }
 
     @Test
-    void constructor_whitespaceOnlyQuestion_rejected() throws IOException {
+    void constructor_whitespaceOnlyQuestion_rejected() throws Exception {
         FlashcardList flashcards = new FlashcardList();
         Storage storage = new Storage("data/QuizMos.txt") {
             @Override
@@ -110,7 +110,7 @@ public class AddFlashcardCommandTest {
     }
 
     @Test
-    void constructor_whitespaceOnlyAnswer_rejected() throws IOException {
+    void constructor_whitespaceOnlyAnswer_rejected() throws Exception {
         FlashcardList flashcards = new FlashcardList();
         Storage storage = new Storage("data/QuizMos.txt") {
             @Override

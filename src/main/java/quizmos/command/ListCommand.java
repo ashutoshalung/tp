@@ -2,6 +2,7 @@ package quizmos.command;
 
 import quizmos.flashcardlist.FlashcardList;
 import quizmos.storage.Storage;
+import quizmos.ui.Ui;
 
 public class ListCommand extends Command {
     /**
@@ -15,6 +16,7 @@ public class ListCommand extends Command {
 
     @Override
     public void execute(FlashcardList flashcards, Storage storage) throws Exception {
-        flashcards.showList();
+        String content = flashcards.toString();
+        Ui.respond(content);
     }
 }
