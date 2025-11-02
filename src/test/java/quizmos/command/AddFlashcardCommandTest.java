@@ -4,14 +4,12 @@ import org.junit.jupiter.api.Test;
 import quizmos.flashcardlist.FlashcardList;
 import quizmos.storage.Storage;
 
-import java.io.IOException;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class AddFlashcardCommandTest {
 
     @Test
-    void execute_validInput_addsFlashcard() throws IOException {
+    void execute_validInput_addsFlashcard() throws Exception {
         FlashcardList flashcards = new FlashcardList();
         Storage storage = new Storage("data/QuizMos.txt") {
             @Override
@@ -27,7 +25,7 @@ public class AddFlashcardCommandTest {
     }
 
     @Test
-    void constructor_missingAnswer_doesNotAddFlashcard() throws IOException {
+    void constructor_missingAnswer_doesNotAddFlashcard() throws Exception {
         FlashcardList flashcards = new FlashcardList();
         Storage storage = new Storage("data/QuizMos.txt") {
             @Override
@@ -41,7 +39,7 @@ public class AddFlashcardCommandTest {
     }
 
     @Test
-    void constructor_missingQuestion_doesNotAddFlashcard() throws IOException {
+    void constructor_missingQuestion_doesNotAddFlashcard() throws Exception {
         FlashcardList flashcards = new FlashcardList();
         Storage storage = new Storage("data/QuizMos.txt") {
             @Override
@@ -55,7 +53,7 @@ public class AddFlashcardCommandTest {
     }
 
     @Test
-    void constructor_reversedOrder_doesNotAddFlashcard() throws IOException {
+    void constructor_reversedOrder_doesNotAddFlashcard() throws Exception {
         FlashcardList flashcards = new FlashcardList();
         Storage storage = new Storage("data/QuizMos.txt") {
             @Override
