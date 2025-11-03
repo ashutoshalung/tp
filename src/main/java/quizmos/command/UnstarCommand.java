@@ -56,8 +56,8 @@ public class UnstarCommand extends Command {
         }
 
         // --- Toggle star and update lists ---
-        unstarredFlashcard.toggleStar();
         flashcards.removeStarredFlashcard(unstarredFlashcard);
+        unstarredFlashcard.toggleStar();
         Ui.respond(FlashcardMessages.showUnstarredFlashcard(unstarredFlashcard));
         logger.log(Level.INFO, "Unstarred flashcard: " + unstarredFlashcard.toString());
 

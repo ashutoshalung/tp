@@ -1,3 +1,6 @@
+
+
+
 # Developer Guide
 
 ---
@@ -56,6 +59,18 @@ The sections below give more details of each component
 
 ### UI Component
 
+**Responsibilities:**
+- Handles all user interactions via the console.
+- Reads user input commands for processing by the `Logic` component.
+- Displays formatted messages, prompts, separators, and errors.
+- Provides a test mode for automated testing where ANSI colors are disabled.
+- Interacts with `Flashcard` objects from the `Model` component to display data.
+
+**Classes:**
+- Ui
+- Messages
+
+![UI Component Class Diagram](images/UIComponent_ClassDiagram.png "UI Component Class Diagram")
 
 ### Logic Component
 
@@ -84,7 +99,19 @@ The sections below give more details of each component
 ![Main Component Class Diagram](images/MainComponent_ClassDiagram.png "Main Component Class Diagram")
 
 ### Storage Component
+**Responsibilities:**
+- Reads flashcard data from the storage file into memory.
+- Writes updated flashcard data from memory back to the storage file.
+- Ensures that the storage file and its parent directories exist, creating them if necessary.
+- Handles file-related exceptions and logs operations for debugging purposes.
+- Works with `Flashcard` and `FlashcardList` objects from the `Model` component.
 
+**Classes:**
+- Storage
+- Flashcard
+- FlashcardList
+
+![Storage Component Class Diagram](images/StorageComponent_ClassDiagram.png "Storage Component Class Diagram")
 ### Commons Component
 
 **Responsibilities:**
@@ -172,6 +199,38 @@ This section describes some noteworthy details on how certain features are imple
   - The user inputs `t` or `f`. `checkAnswer()` compares the user's input with the pre-determined `currentAnswer` boolean to evaluate correctness and updates the score.
      
 ### Feature 5: Star Flashcard
+
+**Command:** `star <index>`
+
+**Explanation:**
+- The `Parser` identifies the `star` command and creates a new `StarCommand` object.
+- The `StarCommand` parses the user input and converts the provided index to a zero-based integer.
+- Validates that the index is within the range of existing flashcards in the `FlashcardList`.
+- Retrieves the corresponding `Flashcard` object using the validated index.
+- Checks if the flashcard is already starred. If yes, an error is raised through `QuizMosInputException`.
+- If not starred, the command toggles its starred status via `toggleStar()` and adds it to the list of starred flashcards.
+- Displays a confirmation message using the `Ui` component, leveraging `FlashcardMessages` for consistent formatting.
+- Persists the updated `FlashcardList` to storage using the `Storage` component.
+- Logs key execution steps (validation, starring, saving) for debugging and traceability.
+
+![OverallStarFlashcardFlow](images/StarFlashcardFeature_Overall.png "Star Flashcard Feature Overall Flow")
+
+### Feature 6: Unstar Flashcard
+
+**Command:** `unstar <index>`
+
+**Explanation:**
+- The `Parser` identifies the `unstar` command and creates a new `UnstarCommand` object.
+- The `UnstarCommand` parses the user input and converts the provided index to a zero-based integer.
+- Validates that the index is within the range of existing flashcards in the `FlashcardList`.
+- Retrieves the corresponding `Flashcard` object using the validated index.
+- Checks if the flashcard is already unstarred. If yes, an error is raised through `QuizMosInputException`.
+- If starred, the command toggles its starred status via `toggleStar()` and removes it from the list of starred flashcards.
+- Displays a confirmation message using the `Ui` component, leveraging `FlashcardMessages` for consistent formatting.
+- Persists the updated `FlashcardList` to storage using the `Storage` component.
+- Logs key execution steps (validation, unstarring, saving) for debugging and traceability.
+
+![OverallUnstarFlashcardFlow](images/UnstarFlashcardFeature_Overall.png "Unstar Flashcard Feature Overall Flow")
 
 ---
 

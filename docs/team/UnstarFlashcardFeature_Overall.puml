@@ -1,0 +1,58 @@
+
+@startuml
+title Unstar Flashcard Command Sequence Diagram
+
+actor User
+participant Parser
+participant UnstarCommand
+participant FlashcardList
+participant Flashcard
+participant Ui
+participant Storage
+participant GarbageCollector
+
+User -> Parser : enter "unstar <index>"
+Parser -> UnstarCommand : create UnstarCommand(index)
+
+activate UnstarCommand
+UnstarCommand -> FlashcardList : validate index range
+UnstarCommand -> FlashcardList : getFlashcard(index)
+activate FlashcardList
+FlashcardList --> UnstarCommand : Flashcard
+deactivate FlashcardList
+
+UnstarCommand -> Flashcard : checkIsStarred()
+activate Flashcard
+Flashcard --> UnstarCommand : boolean isStarred
+deactivate Flashcard
+
+alt Flashcard already unstarred
+    UnstarCommand -> Ui : respondError("already unstarred")
+    deactivate UnstarCommand
+    GarbageCollector <- UnstarCommand : cleanup temporary objects
+else Flashcard is starred
+    UnstarCommand -> FlashcardList : removeStarredFlashcard(flashcard)
+    activate FlashcardList
+    FlashcardList --> UnstarCommand : void
+    deactivate FlashcardList
+
+    UnstarCommand -> Flashcard : toggleStar()
+    activate Flashcard
+    Flashcard --> UnstarCommand : void
+    deactivate Flashcard
+
+    UnstarCommand -> Ui : respond(showUnstarredFlashcard)
+    activate Ui
+    Ui --> UnstarCommand : void
+    deactivate Ui
+
+    UnstarCommand -> Storage : writeToFile(flashcards)
+    activate Storage
+    Storage --> UnstarCommand : void
+    deactivate Storage
+
+    GarbageCollector <- UnstarCommand : cleanup temporary objects
+end
+
+deactivate UnstarCommand
+@enduml

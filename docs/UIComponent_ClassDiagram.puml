@@ -1,0 +1,20 @@
+
+@startuml
+class Ui {
+    +static boolean isTestMode
+    +static String readCommand()
+    +static void respond(String message)
+    +static void printMessage(String message)
+    +static void printPrompt(String message)
+    +static void printError(String message)
+    +static void respondError(String message)
+    +static void printSeparator()
+}
+
+class Messages {
+    +static String separator
+}
+
+Ui --> Messages : uses
+Ui --> Scanner : uses
+@enduml

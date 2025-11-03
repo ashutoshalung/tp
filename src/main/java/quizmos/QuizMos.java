@@ -25,6 +25,7 @@ public class QuizMos {
     public QuizMos() {
         this.flashcards = new FlashcardList();
         try {
+            setupLogging();
             this.storage = new Storage("data/QuizMos.txt");
         } catch (Exception e) {
             Ui.respondError(e.getMessage());
@@ -55,7 +56,6 @@ public class QuizMos {
      *
      */
     public void run() {
-        setupLogging();
         Ui.respond(Messages.greeting);
         boolean isExit = false;
 
