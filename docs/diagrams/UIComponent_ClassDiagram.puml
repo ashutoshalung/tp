@@ -9,20 +9,19 @@ skinparam shadowing false
 
 package "ui" {
 class Ui {
-+static boolean isTestMode
-+static String readCommand()
-+static void respond(String message)
-+static void printMessage(String message)
-+static void printPrompt(String message)
-+static void printError(String message)
-+static void respondError(String message)
-+static void printSeparator()
++static isTestMode : boolean
++static readCommand() : String
++static respond(message : String) : void
++static printMessage(message : String) : void
++static printPrompt(message : String) : void
++static printError(message : String) : void
++static respondError(message : String) : void
++static printSeparator() : void
 }
 
 class Messages {
-  +static String separator
++static separator : String
 }
-
 
 }
 

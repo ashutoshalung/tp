@@ -4,59 +4,52 @@ title Unstar Flashcard Overall Flow
 ' --- Make PNG large and sharp ---
 skinparam dpi 300
 
-actor User
-participant "<<class>>\n Parser" as parser
-participant ":UnstarCommand" as unstarCommand
-participant ":FlashcardList" as flashcardList
-participant ":Flashcard" as flashcard
-participant "<<class>>\n Ui" as ui
-participant ":Storage" as storage
+skinparam sequenceReferenceBackgroundColor #7cb9e8
 
-User -> parser : enter "unstar <index>"
+participant "<<class>>\n QuizMos" as quizmos
+participant "<<class>>\n Parser" as parser
+participant "c:UnstarCommand" as unstarCommand
+participant "flashcards:FlashcardList" as flashcardList
+participant "flashcardToBeUnstarred:Flashcard" as flashcard
+participant "<<class>>\n Ui" as ui
+participant "storage:Storage" as storage
+
+quizmos -> parser : parseCommand(command : String)
 activate parser
-parser -> unstarCommand : create UnstarCommand(index)
+
+parser -> unstarCommand : <<create>> UnstarCommand(index : String)
 activate unstarCommand
-parser --> ui : returns UnstarCommand instance
+
+unstarCommand --> parser : return UnstarCommand
+deactivate unstarCommand
+
+parser --> quizmos : return UnstarCommand
 deactivate parser
 
-unstarCommand -> flashcardList : validate index range
-unstarCommand -> flashcardList : getFlashcard(index)
+quizmos -> unstarCommand : execute(flashcards : FlashcardList, storage : Storage)
+activate unstarCommand
+
+unstarCommand -> flashcardList : getFlashcard(index : int)
 activate flashcardList
-flashcardList --> unstarCommand : returns Flashcard instance
+flashcardList --> unstarCommand : flashcardToBeUnstarred : Flashcard
 deactivate flashcardList
 
 unstarCommand -> flashcard : checkIsStarred()
 activate flashcard
-flashcard --> unstarCommand : returns boolean
+flashcard --> unstarCommand : isStarred:boolean
 deactivate flashcard
 
-alt Flashcard already unstarred
-unstarCommand -> ui : respondError("already unstarred")
-deactivate unstarCommand
-else Flashcard is starred
-unstarCommand -> flashcardList : removeStarredFlashcard(flashcard)
-activate flashcardList
-flashcardList --> unstarCommand : void
-deactivate flashcardList
-
+alt flashcard already unstarred
+unstarCommand -> :QuizMosInputException : new QuizMosInputException("This flashcard is already unstarred!")
+else flashcard is starred
+unstarCommand -> flashcardList : removeStarredFlashcard(flashcardToBeUnstarred : Flashcard)
 unstarCommand -> flashcard : toggleStar()
-activate flashcard
-flashcard --> unstarCommand : void
-deactivate flashcard
-
-unstarCommand -> ui : respond(showUnstarredFlashcard)
-activate ui
-ui --> unstarCommand : void
-deactivate ui
-
-unstarCommand -> storage : writeToFile(flashcards)
-activate storage
-storage --> unstarCommand : void
-deactivate storage
-
+unstarCommand -> ui : showUnstarredFlashcard(flashcardToBeUnstarred : Flashcard)
+unstarCommand -> storage : writeToFile(flashcards : FlashcardList) : void
 end
 
-' --- Object cleanup phase ---
+unstarCommand --> quizmos
+deactivate unstarCommand
 destroy unstarCommand
 
 @enduml
