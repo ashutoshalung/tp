@@ -1,0 +1,51 @@
+@startuml QuizMos Main Logic Sequence
+
+
+
+participant QuizMos as ":QuizMos"
+participant UI as "<<class>>\nUi"
+participant Parser as "<<class>>\nParser"
+participant Command as ":Command"
+participant FlashcardList as ":FlashcardList"
+participant Storage as ":Storage"
+
+title Main Logic Loop
+
+activate QuizMos
+
+loop while !isExit
+
+    UI <- QuizMos : readCommand()
+    activate UI
+    QuizMos <-- UI : rawCommand
+    deactivate UI
+
+    alt User input is valid
+        QuizMos -> Parser : parseCommand(rawCommand)
+        activate Parser
+
+        create Command
+        Parser -> Command : <<create>> (e.g., ListCommand)
+
+        Parser --> QuizMos : c:Command
+        deactivate Parser
+
+        QuizMos -> Command : execute(flashcards, storage)
+        activate Command
+
+        ref over Command, FlashcardList, Storage
+        Command's specific execution logic
+        end ref
+
+        QuizMos <-- Command : isExit
+        deactivate Command
+
+    else User input is invalid (throws Exception)
+        QuizMos -> UI : respondError(exceptionMessage)
+    end alt
+
+end loop
+
+deactivate QuizMos
+
+@enduml

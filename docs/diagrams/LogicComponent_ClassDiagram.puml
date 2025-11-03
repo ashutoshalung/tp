@@ -1,0 +1,84 @@
+@startuml QuizMos Logic Diagram
+
+' === Configuration ===
+skinparam classAttributeIconSize 0
+skinparam packageStyle rectangle
+' === Component Definitions ===
+
+title Logic Component
+
+package Logic {
+    class QuizMos
+    class Parser {
+        + {static} parseCommand(command: String) : Command
+    }
+
+    abstract class "{abstract}\nCommand" as Command {
+        # isExit : boolean
+        + getIsExit() : boolean
+        + {abstract} execute(flashcards, storage)
+    }
+
+    class ReviewCommand {
+        - count : int
+        - correct : int
+        + ReviewCommand(command: String)
+        + execute(flashcards, storage)
+    }
+
+    interface "{interface}\n IReviewMode" as IReviewMode {
+        + displayQuestion(flashcard, index)
+        + checkAnswer(input, flashcard) : boolean
+        + getPrompt() : String
+    }
+
+    class MultipleChoiceReview {
+        - flashcardList : FlashcardList
+    }
+    class TrueFalseReview {
+        - flashcardList : FlashcardList
+    }
+    class SimpleFlipReview {
+    }
+}
+
+
+' === Relationships ===
+
+note right of Command
+  Other Commands
+  inherited from Command class
+
+  - AddFlashcardCommand
+  - ExitCommand
+  - GetStarCommand
+  - HelpCommand
+  - ListCommand
+  - RemoveFlashcardCommand
+  - SearchFlashcardCommand
+  - StarCommand
+  - UnstarCommand
+end note
+
+' 1. Command Hierarchy
+Command <|-- ReviewCommand
+' ... (Other commands)
+
+' 2. Review Strategy Pattern
+IReviewMode <|.. MultipleChoiceReview
+IReviewMode <|.. TrueFalseReview
+IReviewMode <|.. SimpleFlipReview
+
+ReviewCommand -> IReviewMode
+Parser ..> Command : create >
+
+' 3. Core Control Flow
+QuizMos ..> Parser
+QuizMos .> Command : execute >
+
+
+
+
+
+
+@enduml
