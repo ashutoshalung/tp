@@ -1,0 +1,33 @@
+@startuml UiComponent_ClassDiagram
+
+title UI Component Class Diagram
+
+skinparam classAttributeIconSize 0
+skinparam classBackgroundColor #FFF3E6
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+package "ui" {
+class Ui {
++static boolean isTestMode
++static String readCommand()
++static void respond(String message)
++static void printMessage(String message)
++static void printPrompt(String message)
++static void printError(String message)
++static void respondError(String message)
++static void printSeparator()
+}
+
+class Messages {
+  +static String separator
+}
+
+
+}
+
+/' Relationships '/
+Ui --> Messages : uses
+Ui --> Scanner : uses
+
+@enduml

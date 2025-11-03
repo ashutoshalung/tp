@@ -23,6 +23,8 @@
    - [Feature 3: Search Flashcard](#feature-3-search-flashcard)
    - [Feature 4: Review Flashcards](#feature-4-review-flashcards)
    - [Feature 5: Star Flashcard](#feature-5-star-flashcard)
+   - [Feature 6: Unstar Flashcard](#feature-6-unstar-flashcard)
+   - [Feature 7: Get Starred Flashcards](#feature-7-getstar-flashcard)
 4. [Requirements](#requirements)
    - [Use Cases](#use-cases)
    - [Non-Functional Requirements (NFRs)](#non-functional-requirements-nfrs)
@@ -67,8 +69,8 @@ The sections below give more details of each component
 - Interacts with `Flashcard` objects from the `Model` component to display data.
 
 **Classes:**
-- Ui
-- Messages
+- `Ui`: Provides methods to read user input, display messages, prompts, errors, and separators. Supports both normal and test modes for consistent UI behavior.
+- `Messages`: Stores common string messages and separators used across the UI for consistent formatting and display.
 
 ![UI Component Class Diagram](images/UIComponent_ClassDiagram.png "UI Component Class Diagram")
 
@@ -107,9 +109,7 @@ The sections below give more details of each component
 - Works with `Flashcard` and `FlashcardList` objects from the `Model` component.
 
 **Classes:**
-- Storage
-- Flashcard
-- FlashcardList
+- `Storage`: Manages persistence of flashcards; reads from and writes to the storage file, ensures file existence, handles exceptions, and interacts with `Flashcard` and `FlashcardList`.
 
 ![Storage Component Class Diagram](images/StorageComponent_ClassDiagram.png "Storage Component Class Diagram")
 
@@ -236,6 +236,25 @@ This section describes some noteworthy details on how certain features are imple
 - Logs key execution steps (validation, unstarring, saving) for debugging and traceability.
 
 ![OverallUnstarFlashcardFlow](images/UnstarFlashcardFeature_Overall.png "Unstar Flashcard Feature Overall Flow")
+### Feature 7: Get Starred Flashcards
+**Command:** `getstar`
+
+**Responsibilities / Explanation:**
+- The `Parser` identifies the `getstar` command and creates a new `GetStarCommand` object.
+- The `GetStarCommand` retrieves all starred flashcards from the `FlashcardList` using `getStarredFlashcardsString()`.
+- Performs internal assertions to ensure the returned string is not `null`.
+- Uses the `Ui` component to display the list of starred flashcards via `FlashcardListMessages.showStarredFlashcardsList()`.
+- Does not modify the `FlashcardList` or `Storage`; this is a read-only command.
+- Logs key execution steps for debugging and traceability.
+
+**Classes:**
+- `GetStarCommand`
+- `FlashcardList`
+- `Ui`
+- `FlashcardListMessages`
+- `Storage` (reference only, no writes)
+
+![OverallGetStarFlow](images/GetStarFeature_Overall.png "GetStar Command Feature Overall Flow")
 
 ---
 

@@ -1,0 +1,36 @@
+@startuml StorageComponent_ClassDiagram
+
+title Storage Component Class Diagram
+
+skinparam classAttributeIconSize 0
+skinparam classBackgroundColor #FFF3E6
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+package "storage" {
+class Storage {
++Storage(String filePath)
++ArrayList<Flashcard> load() throws QuizMosFileException
++void writeToFile(FlashcardList flashcards) throws QuizMosInputException
+}
+}
+
+package "model" {
+class Flashcard {
++Flashcard(String question, String answer)
++void toggleStar()
++String toSaveFormat()
+}
+
+class FlashcardList {
+  +int getSize()
+  +ArrayList<Flashcard> getAll()
+}
+
+}
+
+/' Relationships '/
+Storage --> Flashcard : uses
+Storage --> FlashcardList : uses
+
+@enduml

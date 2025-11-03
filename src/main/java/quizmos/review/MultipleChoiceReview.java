@@ -10,8 +10,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class MultipleChoiceReview implements IReviewMode {
+    private static final Logger logger = Logger.getLogger(MultipleChoiceReview.class.getName());
     private final FlashcardList flashcardList;
     private final List<String> choices = List.of("1", "2", "3", "4", "quit");
     private List<Integer> currentAnswer = new ArrayList<>();
@@ -77,6 +80,7 @@ public class MultipleChoiceReview implements IReviewMode {
         Ui.printMessage(ReviewMessages.flashcardQuestionString(flashcard, index));
         Ui.printMessage(ReviewMessages.ANSWER);
 
+        currentAnswer.clear();
         String correctAnswer = flashcard.getAnswer();
 
         List<Integer> answers = listOfChoices(flashcardList.getSize(), index);
@@ -85,6 +89,7 @@ public class MultipleChoiceReview implements IReviewMode {
             int randomIndex = answers.get(i);
             if (randomIndex == index || correctAnswer.equals(randomAnswer)) {
                 currentAnswer.add(i);
+                logger.log(Level.WARNING, ReviewMessages.mcqChoice(flashcardList.getFlashcard(randomIndex), i));
             }
 
             Ui.printMessage(ReviewMessages.mcqChoice(flashcardList.getFlashcard(randomIndex), i));
@@ -103,6 +108,7 @@ public class MultipleChoiceReview implements IReviewMode {
         assert input.equals("1") || input.equals("2") ||
                 input.equals("3") || input.equals("4"): "Input can only be (1/2/3/4)";
 
+        logger.log(Level.WARNING, input);
         int answer = Integer.parseInt(input) - 1;
         if (currentAnswer.contains(answer)) {
             Ui.printMessage(ReviewMessages.CORRECT_ANSWER);

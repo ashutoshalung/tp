@@ -1,0 +1,62 @@
+@startuml
+title Unstar Flashcard Overall Flow
+
+' --- Make PNG large and sharp ---
+skinparam dpi 300
+
+actor User
+participant "<<class>>\n Parser" as parser
+participant ":UnstarCommand" as unstarCommand
+participant ":FlashcardList" as flashcardList
+participant ":Flashcard" as flashcard
+participant "<<class>>\n Ui" as ui
+participant ":Storage" as storage
+
+User -> parser : enter "unstar <index>"
+activate parser
+parser -> unstarCommand : create UnstarCommand(index)
+activate unstarCommand
+parser --> ui : returns UnstarCommand instance
+deactivate parser
+
+unstarCommand -> flashcardList : validate index range
+unstarCommand -> flashcardList : getFlashcard(index)
+activate flashcardList
+flashcardList --> unstarCommand : returns Flashcard instance
+deactivate flashcardList
+
+unstarCommand -> flashcard : checkIsStarred()
+activate flashcard
+flashcard --> unstarCommand : returns boolean
+deactivate flashcard
+
+alt Flashcard already unstarred
+unstarCommand -> ui : respondError("already unstarred")
+deactivate unstarCommand
+else Flashcard is starred
+unstarCommand -> flashcardList : removeStarredFlashcard(flashcard)
+activate flashcardList
+flashcardList --> unstarCommand : void
+deactivate flashcardList
+
+unstarCommand -> flashcard : toggleStar()
+activate flashcard
+flashcard --> unstarCommand : void
+deactivate flashcard
+
+unstarCommand -> ui : respond(showUnstarredFlashcard)
+activate ui
+ui --> unstarCommand : void
+deactivate ui
+
+unstarCommand -> storage : writeToFile(flashcards)
+activate storage
+storage --> unstarCommand : void
+deactivate storage
+
+end
+
+' --- Object cleanup phase ---
+destroy unstarCommand
+
+@enduml
