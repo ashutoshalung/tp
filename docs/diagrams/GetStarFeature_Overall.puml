@@ -3,39 +3,39 @@ title Overall GetStar Feature Flow
 
 ' --- High resolution for clear PNG output ---
 skinparam dpi 300
-skinparam sequenceReferenceBackgroundColor #7cb9e8
 
-participant "<<class>>\n QuizMos" as quizmos
+actor User
 participant "<<class>>\n Parser" as parser
-participant "c:GetStarCommand" as getStarCommand
-participant "flashcards : FlashcardList" as flashcardList
+participant ":GetStarCommand" as getStarCommand
+participant ":FlashcardList" as flashcardList
 participant "<<class>>\n Ui" as ui
-participant "storage : Storage" as storage
+participant ":Storage" as storage
 
-quizmos -> parser : parseCommand(command : String)
-activate parser
-
-parser -> getStarCommand : <<create>> GetStarCommand()
-activate getStarCommand
-
-getStarCommand --> parser : return GetStarCommand
-deactivate getStarCommand
-
-parser --> quizmos : return GetStarCommand
-deactivate parser
-
-quizmos -> getStarCommand : execute(flashcards : FlashcardList, storage : Storage)
+User -> parser : enter "getstar"
+parser -> getStarCommand : create GetStarCommand()
 activate getStarCommand
 
 getStarCommand -> flashcardList : getStarredFlashcardsString()
 activate flashcardList
-flashcardList --> getStarCommand : starredFlashcardsList : String
+flashcardList --> getStarCommand : String starredFlashcardsList
 deactivate flashcardList
 
-getStarCommand -> ui : showStarredFlashcardsList(starredFlashcardsList : String)
+alt starredFlashcardsList is empty
+getStarCommand -> ui : respond("No starred flashcards found.")
+activate ui
+ui --> getStarCommand : void
+deactivate ui
+else starredFlashcardsList has entries
+getStarCommand -> ui : respond(showStarredFlashcardsList)
+activate ui
+ui --> getStarCommand : void
+deactivate ui
+end
 
-getStarCommand --> quizmos
-deactivate getStarCommand
+getStarCommand -> storage : (no file changes)
+note right: Read-only command, no persistence needed.
+
+' --- Object cleanup phase ---
 destroy getStarCommand
 
 @enduml

@@ -10,4 +10,10 @@ class HelpCommandTest {
         HelpCommand helpCommand = new HelpCommand();
         assertFalse(helpCommand.getIsExit());
     }
+
+    @Test
+    void execute_shouldCallUiRespond() {
+        HelpCommand command = new HelpCommand();
+        command.execute(null, null);
+    }
 }

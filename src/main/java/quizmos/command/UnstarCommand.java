@@ -10,37 +10,25 @@ import quizmos.ui.Ui;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- * Command to unstar a flashcard by its index.
- * This command removes the starred status of a flashcard, updates the
- * list of starred flashcards in FlashcardList, displays the updated
- * flashcard to the user via Ui, and persists the change in Storage.
- * Throws QuizMosInputException if the index is invalid or the flashcard
- * is already unstarred.
- * <p>
- * Logging is performed to track execution, errors, and persistence.
- */
 public class UnstarCommand extends Command {
     private static final Logger logger = Logger.getLogger("quizmos");
     private final int index;
 
     /**
-     * Constructs an UnstarCommand with the user-provided index.
+     * Constructor to parse user-provided index.
      *
-     * @param index the 1-based index of the flashcard to unstar (as String)
-     *              internally converted to 0-based integer
+     * @param index String form of index (1-based from user input)
      */
     public UnstarCommand(String index) {
         this.index = Integer.parseInt(index) - 1;
     }
 
     /**
-     * Executes the UnstarCommand.
+     * Executes the unstar command: validates input, updates data, and persists.
      *
-     * @param flashcards the FlashcardList containing all flashcards; must not be null
-     * @param storage    the Storage handler for persisting changes; must not be null
-     * @throws QuizMosInputException if the index is out of range, the flashcard is already unstarred,
-     *                               or if persistence fails
+     * @param flashcards list of all flashcards
+     * @param storage    storage handler for saving changes
+     * @throws QuizMosInputException if index invalid or flashcard already unstarred
      */
     @Override
     public void execute(FlashcardList flashcards, Storage storage) throws QuizMosInputException {
@@ -52,26 +40,26 @@ public class UnstarCommand extends Command {
         logger.log(Level.INFO, "Executing UnstarCommand with index: " + index);
 
         // --- Validate index range ---
-        if (index > flashcards.getSize() - 1) {
+        if (index > flashcards.getSize()-1) {
             logger.log(Level.WARNING, "Index out of range: " + index);
             throw new QuizMosInputException("Index is out of range!");
         }
 
         // --- Retrieve flashcard ---
-        Flashcard flashcardToBeUnstarred = flashcards.getFlashcard(index);
-        assert flashcardToBeUnstarred != null : "Retrieved flashcard should not be null";
+        Flashcard unstarredFlashcard = flashcards.getFlashcard(index);
+        assert unstarredFlashcard != null : "Retrieved flashcard should not be null";
 
         // --- Check if flashcard is already unstarred ---
-        if (!flashcardToBeUnstarred.checkIsStarred()) {
+        if (!unstarredFlashcard.checkIsStarred()) {
             logger.log(Level.WARNING, "Flashcard already unstarred at index " + index);
             throw new QuizMosInputException("This flashcard is already unstarred!");
         }
 
         // --- Toggle star and update lists ---
-        flashcards.removeStarredFlashcard(flashcardToBeUnstarred);
-        flashcardToBeUnstarred.toggleStar();
-        Ui.respond(FlashcardMessages.showUnstarredFlashcard(flashcardToBeUnstarred));
-        logger.log(Level.INFO, "Unstarred flashcard: " + flashcardToBeUnstarred.toString());
+        flashcards.removeStarredFlashcard(unstarredFlashcard);
+        unstarredFlashcard.toggleStar();
+        Ui.respond(FlashcardMessages.showUnstarredFlashcard(unstarredFlashcard));
+        logger.log(Level.INFO, "Unstarred flashcard: " + unstarredFlashcard.toString());
 
         // --- Save to storage ---
         try {
