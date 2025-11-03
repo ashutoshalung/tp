@@ -137,48 +137,57 @@ Format: `[1 | 2 | 3 | 4 | QUIT]`
 - `4` Answer 4
 
 ### Star/flag flashcard: `star`
-Star/flag a flashcard by its index.
-The flashcard starred will how have "Starred" as its status shown whenever it is listed/displayed. 
-The starred flashcard is depicted in the stored file. 
+Star/flag a flashcard by its index.  
+The flashcard starred will now have "Starred" as its status shown whenever it is listed/displayed.  
+The starred flashcard is also updated in the stored file.
 
-Format: `star INDEX`
-Example:
+**Format:** `star INDEX`  
+**Example:**
 
--`star 1`
-- Output: ```bash
+- `star 1`
+- **Output:**
+```bash
 ____________________________________________________________
 Starred this flashcard:
 Question: 1 | Answer: 1 | Starred
 ____________________________________________________________
+```
 
+---
 
 ### Unstar flashcard: `unstar`
-Unstar a flashcard by its index
-The unstarred flashcard will how have "" as its status shown whenever it is listed/displayed.
-The unstarred flashcard is depicted in the stored file.
+Unstar a flashcard by its index.  
+The unstarred flashcard will now have an empty status shown whenever it is listed/displayed.  
+The unstarred flashcard is also updated in the stored file.
 
-Format: `unstar INDEX`
+**Format:** `unstar INDEX`  
+**Example:**
 
-Example:
 - `unstar 2`
-- Output: ```bash
+- **Output:**
+```bash
 ____________________________________________________________
 Unstarred this flashcard:
-Question: 1 | Answer: 1 |
+Question: 2 | Answer: 2 |
 ____________________________________________________________
+```
+
+---
 
 ### Retrieve all starred flashcards: `getstar`
-Helps user retrieve all starred flashcards. 
+Retrieve all starred flashcards.
 
-Format: `getstar`
+**Format:** `getstar`  
+**Example:**
 
-Example:
 - `getstar`
-- Output: ```bash
+- **Output:**
+```bash
 ____________________________________________________________
 These are your starred flashcards:
 1. Question: 1 | Answer: 1 | Starred
 ____________________________________________________________
+```
 
 ### Exit the program: `exit`
 Exit the program
@@ -203,7 +212,7 @@ Format: `exit`
 | Delete  | `delete INDEX`                  |
 | Search  | `search KEYPHRASE`              |
 | Review  | `review m/[FLIP  \| TF \| MCQ]` |
-| star    | `star INDEX`                    |
+| Star    | `star INDEX`                    |
 | List    | `list`                          |
 | Exit    | `exit`                          |
 | Help    | `help`                          |

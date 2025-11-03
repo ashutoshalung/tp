@@ -23,6 +23,8 @@
    - [Feature 3: Search Flashcard](#feature-3-search-flashcard)
    - [Feature 4: Review Flashcards](#feature-4-review-flashcards)
    - [Feature 5: Star Flashcard](#feature-5-star-flashcard)
+   - [Feature 6: Unstar Flashcard](#feature-6-unstar-flashcard)
+   - [Feature 7: Get Starred Flashcards](#feature-7-getstar-flashcard)
 4. [Requirements](#requirements)
    - [Use Cases](#use-cases)
    - [Non-Functional Requirements (NFRs)](#non-functional-requirements-nfrs)
