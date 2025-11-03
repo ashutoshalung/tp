@@ -96,7 +96,6 @@ The sections below give more details of each component
 
 ![Commons Component Class Diagram](images/CommonsComponent_ClassDiagram.png "Commons Component Class Diagram")
 
-### Overall Architecture Diagram
 
 
 ---

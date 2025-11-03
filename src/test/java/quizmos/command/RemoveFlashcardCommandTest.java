@@ -1,11 +1,13 @@
 package quizmos.command;
 
 import org.junit.jupiter.api.Test;
+import quizmos.exception.QuizMosInputException;
 import quizmos.flashcard.Flashcard;
 import quizmos.flashcardlist.FlashcardList;
 import quizmos.storage.Storage;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class RemoveFlashcardCommandTest {
 
@@ -26,35 +28,13 @@ public class RemoveFlashcardCommandTest {
     }
 
     @Test
-    void constructor_nonIntegerIndex_doesNotRemoveFlashcard() throws Exception {
-        FlashcardList flashcards = new FlashcardList();
-        flashcards.addFlashcard(new Flashcard("Q1", "A1"));
-
-        Storage storage = new Storage("data/QuizMos.txt") {
-            @Override
-            public void writeToFile(FlashcardList list) { }
-        };
-
-        RemoveFlashcardCommand command = new RemoveFlashcardCommand("abc");
-        command.execute(flashcards, storage);
-
-        assertEquals(1, flashcards.getSize());
+    void constructor_nonIntegerIndex_doesNotRemoveFlashcard() {
+        assertThrows(QuizMosInputException.class, () -> new RemoveFlashcardCommand("abc"));
     }
 
     @Test
-    void execute_negativeIndex_doesNotRemoveFlashcard() throws Exception {
-        FlashcardList flashcards = new FlashcardList();
-        flashcards.addFlashcard(new Flashcard("Q1", "A1"));
-
-        Storage storage = new Storage("data/QuizMos.txt") {
-            @Override
-            public void writeToFile(FlashcardList list) { }
-        };
-
-        RemoveFlashcardCommand command = new RemoveFlashcardCommand("-1");
-        command.execute(flashcards, storage);
-
-        assertEquals(1, flashcards.getSize());
+    void execute_negativeIndex_doesNotRemoveFlashcard() {
+        assertThrows(QuizMosInputException.class, () -> new RemoveFlashcardCommand("-1"));
     }
 
     @Test
@@ -68,8 +48,7 @@ public class RemoveFlashcardCommandTest {
         };
 
         RemoveFlashcardCommand command = new RemoveFlashcardCommand("5");
-        command.execute(flashcards, storage);
+        assertThrows(QuizMosInputException.class, () -> command.execute(flashcards, storage));
 
-        assertEquals(1, flashcards.getSize());
     }
 }

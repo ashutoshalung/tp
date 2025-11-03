@@ -2,16 +2,30 @@ hello
 help
 add q/1 a/1
 add q/2 a/2
+add
+add q/
+add a/
+add q/ a/
 list
 search 1
 search 3
+search -1
+search abc
+search
 review
 add q/3 a/3
 review m/flip
 y
+abcabc
 n
 quit
 review m/mcq
+review m/
+review m/abcabc
 delete 2
 delete 1
+delete -1000
+delete 1000
+delete abcabc
+delete
 exit

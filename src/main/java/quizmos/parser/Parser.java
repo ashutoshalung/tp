@@ -5,13 +5,13 @@ import quizmos.command.Command;
 import quizmos.command.ExitCommand;
 import quizmos.command.GetStarCommand;
 import quizmos.command.HelpCommand;
-import quizmos.command.InvalidCommand;
 import quizmos.command.ListCommand;
 import quizmos.command.RemoveFlashcardCommand;
 import quizmos.command.ReviewCommand;
 import quizmos.command.SearchFlashcardCommand;
 import quizmos.command.StarCommand;
 import quizmos.command.UnstarCommand;
+import quizmos.common.Messages;
 import quizmos.exception.QuizMosInputException;
 
 import java.util.logging.Level;
@@ -45,11 +45,11 @@ public class Parser {
             case "star" -> new StarCommand(parts[1].trim());
             case "getstar" -> new GetStarCommand();
             case "unstar" -> new UnstarCommand(parts[1].trim());
-            default -> new InvalidCommand();
+            default -> throw new QuizMosInputException(Messages.invalidCommandMessage);
             };
         } catch (ArrayIndexOutOfBoundsException e) {
             logger.log(Level.WARNING, "parser got exception: " + e.getMessage());
-            return new InvalidCommand();
+            throw new QuizMosInputException(Messages.invalidCommandMessage);
         }
     }
 }

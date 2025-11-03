@@ -30,21 +30,10 @@ public class Messages {
     // invalid command
     public static String invalidCommandMessage = "Invalid command! Try `help` for more information";
 
-    public static String invalidIndexMessage = "Invalid index! Use a correct integer flashcard index!\n" +
-                                                "Try `list` to see a list of valid flashcards";
-
-    public static String removedTaskMessage = "Removed this flashcard\n";
-
-    public static String addedTaskMessage = "Added this flashcard\n";
-
-    public static String noMatchesMessage = "No matches found.";
-
     // goodbye
     public static String goodbyeMessage = "Bye. Hope to see you again soon!";
 
     // flashcard list
     public static String starredFlashcardMessage = "Starred this flashCard! ";
     public static String starredFlashcardsListMessage = "Starred Flashcards: ";
-
-    // review command
 }

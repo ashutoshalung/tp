@@ -42,16 +42,14 @@ public class Ui {
     }
 
     public static void printError(String message) {
+        String errorMessage;
         if (isTestMode) {
-            String errorMessage = "? ERROR: " + message;
-            System.out.println(errorMessage);
-            System.out.flush();
+            errorMessage = "? ERROR: " + message;
         } else {
-            String errorMessage = ANSI_RED + "❌ ERROR: " + message + ANSI_RESET;
-            System.out.println(errorMessage);
-            System.out.flush();
+            errorMessage = ANSI_RED + "❌ ERROR: " + message + ANSI_RESET;
         }
-
+        System.out.println(errorMessage);
+        System.out.flush();
     }
 
     public static void respondError(String message) {
@@ -64,30 +62,8 @@ public class Ui {
         System.out.println(Messages.separator);
     }
 
-    public static void noMatchesRespond() {
-        respond(Messages.noMatchesMessage);
-    }
-    
-    public static void invalidCommandRespond() {
-        respond(Messages.invalidCommandMessage);
-    }
-
-    public static void invalidIndexRespond() {
-        respond(Messages.invalidIndexMessage);
-    }
-
     public static void showStarredFlashcard(Flashcard flashcard) {
         respond(Messages.starredFlashcardMessage + flashcard.toString()); }
-
-    public static void showFlashcardAdded(Flashcard flashcard) {
-        String response = Messages.addedTaskMessage + flashcard;
-        respond(response);
-    }
-
-    public static void showFlashcardRemoved(Flashcard flashcard) {
-        String response = Messages.removedTaskMessage + flashcard;
-        respond(response);
-    }
 
     public static void showStarredFlashcardsList(String fullStarredFlashcardString) {
         respond(fullStarredFlashcardString);
