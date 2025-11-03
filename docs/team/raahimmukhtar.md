@@ -47,32 +47,62 @@ My contributions centered on building the core flashcard management system. I im
 - Added and edited sections explaining:
     - `add q/<QUESTION> a/<ANSWER>` command
     - `delete <INDEX>` command
-    - `search <KEYWORD>` command
+    - `search <KEYPHRASE>` command
 - Wrote usage examples and error message explanations for each feature.
 - Improved command descriptions for clarity and consistency in formatting.
 
 ---
 
 ## **Contributions to the Developer Guide (DG)**
-- Authored the design and implementation sections for:
-    - `AddFlashcardCommand`
-    - `RemoveFlashcardCommand`
-    - `SearchCommand`
-    - `Flashcard` and `FlashcardList` class diagrams
-- Added UML diagrams (Class and Sequence diagrams) illustrating interactions between command classes and all other parts of the system.
+
+### **Major Additions**
+- Created **Main Component Class Diagram** (`QuizMos`) and explanation.
+- Created **Model Component Class Diagram** (`Flashcard`, `FlashcardList`) and explanation.
+- Created **Commons Component Class Diagram** (`QuizMosException`, `Messages`, ect) and explanation.
+- Authored sections and added **sequence diagrams** for:
+  - `AddFlashcardCommand`
+  - `RemoveFlashcardCommand`
+  - `SearchCommand`
+
+### **Team-Wide DG Contributions**
+- Drafted the DG template
+- Standardized the layout and markdown structure of the DG.
+- Wrote component descriptions for:
+  - **Model Component**
+  - **Main Component**
+  - **Commons Component**
+- Helped unify diagram styles (colors, titles, and relationships).
+
+---
+
+## **Contributions to the User Guide (UG)**
+- Drafted the UG template and wrote sections for:
+  - `add q/<QUESTION> a/<ANSWER>`
+  - `delete <INDEX>`
+  - `search <KEYWORD>`
+- Added examples, command syntax, and error message explanations.
+- Refined formatting for consistency across UG sections.
 
 ---
 
 ## **Contributions to Team-Based Tasks**
-- Regularly reviewed pull requests from team members for consistency, readability, and adherence to project standards.
-- Assisted in resolving merge conflicts involving command parsing and shared data structures.
-- Contributed to team discussions on command structure and error-handling design.
+- Reviewed pull requests and maintained consistency in naming conventions and Javadoc style.
+- Resolved merge conflicts involving shared components (`Command`, `Parser`, `Storage`).
+- Assisted teammates in debugging `Storage` integration with commands.
+- Participated in team discussions regarding architecture and component division.
 
 ---
 
 ## **Review and Mentoring Contributions**
-- Reviewed teammates’ PRs related to `ReviewCommand`, `Storage`, and more.
-- Provided testing feedback and helped identify input edge cases.
-- Helped debug file I/O issues during integration testing.
+- Reviewed PRs related to `Storage`, `ReviewCommand`, error handling, and many more.
+- Provided structured feedback for testing and exception handling.
+- Helped identify and fix UI–Logic integration bugs.
+- Reviewed DG and UG consistently and gave pointers to team members on where we could refine.
+- Located bugs across most features and UG and DG by manual testing.
+
+---
+
+## **Overall Impact**
+I contributed to both the **functionality** and **documentation foundation** of the project. Beyond developing the flashcard system, I ensured the Developer Guide reflected a clear architectural vision, high-quality diagrams, and thorough explanations. My work bridged the technical and design aspects of the team’s submission, ensuring it met both functionality and documentation excellence standards.
 
 ---
