@@ -19,6 +19,8 @@ public class RemoveFlashcardCommand extends Command {
             if (this.index < 0) {
                 throw new QuizMosInputException(FlashcardMessages.invalidIndexMessage);
             }
+        } catch (QuizMosInputException e) {
+            throw e;
         } catch (Exception e) {
             throw new QuizMosInputException(Messages.invalidCommandMessage);
         }
