@@ -1,0 +1,48 @@
+@startuml SearchFeature_Overall
+
+title Overall Search Flashcard Flow
+
+skinparam sequenceReferenceBackgroundColor #f7e37c
+
+participant ":QuizMos"
+participant ":Parser"
+participant ":SearchFlashcardCommand"
+participant ":Ui"
+participant ":FlashcardList"
+
+":QuizMos" -> ":Parser": parseCommand(command)
+activate ":Parser"
+
+":Parser" -> ":SearchFlashcardCommand": <<create>> SearchFlashcardCommand(keyPhrase)
+activate ":SearchFlashcardCommand"
+":SearchFlashcardCommand" --> ":Parser": return SearchFlashcardCommand
+deactivate ":SearchFlashcardCommand"
+
+":Parser" --> ":QuizMos": return SearchFlashcardCommand
+deactivate ":Parser"
+
+":QuizMos" -> ":SearchFlashcardCommand": execute(flashcards, storage)
+activate ":SearchFlashcardCommand"
+
+":SearchFlashcardCommand" -> ":FlashcardList": iterate over flashcards
+activate ":FlashcardList"
+":FlashcardList" --> ":SearchFlashcardCommand": matching flashcards list
+deactivate ":FlashcardList"
+
+alt No matches
+    ":SearchFlashcardCommand" -> ":Ui": noMatchesRespond()
+    activate ":Ui"
+    ":Ui" --> ":SearchFlashcardCommand"
+    deactivate ":Ui"
+else Matches found
+    ":SearchFlashcardCommand" -> ":Ui": respond(matches.toString())
+    activate ":Ui"
+    ":Ui" --> ":SearchFlashcardCommand"
+    deactivate ":Ui"
+end
+
+":SearchFlashcardCommand" --> ":QuizMos"
+deactivate ":SearchFlashcardCommand"
+destroy ":SearchFlashcardCommand"
+
+@enduml

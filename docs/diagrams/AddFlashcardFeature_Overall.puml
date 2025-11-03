@@ -1,0 +1,60 @@
+@startuml AddFeature_Overall
+
+title Overall Add Flashcard Flow
+
+skinparam sequenceReferenceBackgroundColor #7cb9e8
+
+participant ":QuizMos"
+participant ":Parser"
+participant ":AddFlashcardCommand"
+participant ":Ui"
+participant ":FlashcardList"
+participant ":Storage"
+
+":QuizMos" -> ":Parser": parseCommand(command)
+activate ":Parser"
+
+":Parser" -> ":AddFlashcardCommand": <<create>> AddFlashcardCommand(parts)
+activate ":AddFlashcardCommand"
+
+":AddFlashcardCommand" -> ":Ui": invalidCommandRespond() [if format invalid]
+activate ":Ui"
+":Ui" --> ":AddFlashcardCommand"
+deactivate ":Ui"
+
+":AddFlashcardCommand" --> ":Parser": return AddFlashcardCommand
+deactivate ":AddFlashcardCommand"
+
+":Parser" --> ":QuizMos": return AddFlashcardCommand
+deactivate ":Parser"
+
+":QuizMos" -> ":AddFlashcardCommand": execute(flashcards, storage)
+activate ":AddFlashcardCommand"
+
+alt Command invalid
+    ":AddFlashcardCommand" -> ":Ui": invalidCommandRespond()
+    activate ":Ui"
+    ":Ui" --> ":AddFlashcardCommand"
+    deactivate ":Ui"
+else Command valid
+    ":AddFlashcardCommand" -> ":FlashcardList": addFlashcard(new Flashcard)
+    activate ":FlashcardList"
+    ":FlashcardList" --> ":AddFlashcardCommand": Flashcard added
+    deactivate ":FlashcardList"
+
+    ":AddFlashcardCommand" -> ":Ui": showFlashcardAdded(flashcard)
+    activate ":Ui"
+    ":Ui" --> ":AddFlashcardCommand"
+    deactivate ":Ui"
+
+    ":AddFlashcardCommand" -> ":Storage": writeToFile(flashcards)
+    activate ":Storage"
+    ":Storage" --> ":AddFlashcardCommand": save successful
+    deactivate ":Storage"
+end
+
+":AddFlashcardCommand" --> ":QuizMos"
+deactivate ":AddFlashcardCommand"
+destroy ":AddFlashcardCommand"
+
+@enduml
