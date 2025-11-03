@@ -71,6 +71,7 @@ My contributions centered on building the core flashcard management system. I im
   - **Model Component**
   - **Main Component**
   - **Commons Component**
+- Authored the section on Instructions for Manual Testing
 - Authored the section on User Stories
 - Helped unify diagram styles (colors, titles, and relationships).
 
