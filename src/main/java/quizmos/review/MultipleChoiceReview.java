@@ -14,10 +14,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class MultipleChoiceReview implements IReviewMode {
+    private static final Logger logger = Logger.getLogger(MultipleChoiceReview.class.getName());
     private final FlashcardList flashcardList;
     private final List<String> choices = List.of("1", "2", "3", "4", "quit");
     private List<Integer> currentAnswer = new ArrayList<>();
-    private static final Logger logger = Logger.getLogger(MultipleChoiceReview.class.getName());
 
     public MultipleChoiceReview(FlashcardList flashcardList) throws QuizMosLogicException {
         super();
