@@ -1,5 +1,5 @@
 @startuml
-title GetStarCommand Sequence Diagram
+title Overall Getstar Feature flow
 
 actor User
 participant ":Parser" as parser
