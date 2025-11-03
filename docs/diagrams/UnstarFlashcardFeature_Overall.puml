@@ -1,54 +1,58 @@
 @startuml
-title Unstar Flashcard Command Sequence Diagram
+title Unstar Flashcard Overall Flow
 
 actor User
-participant Parser
-participant UnstarCommand
-participant FlashcardList
-participant Flashcard
-participant Ui
-participant Storage
+participant ":Parser" as parser
+participant ":UnstarCommand" as unstarCommand
+participant ":FlashcardList" as flashcardList
+participant ":Flashcard" as flashcard
+participant ":Ui" as ui
+participant ":Storage" as storage
 
-User -> Parser : enter "unstar <index>"
-Parser -> UnstarCommand : create UnstarCommand(index)
+User -> parser : enter "unstar <index>"
+activate parser
+parser -> unstarCommand : create UnstarCommand(index)
+activate unstarCommand
+parser --> ui : returns UnstarCommand instance
+deactivate parser
 
-activate UnstarCommand
-UnstarCommand -> FlashcardList : validate index range
-UnstarCommand -> FlashcardList : getFlashcard(index)
-activate FlashcardList
-FlashcardList --> UnstarCommand : Flashcard
-deactivate FlashcardList
+unstarCommand -> flashcardList : validate index range
+unstarCommand -> flashcardList : getFlashcard(index)
+activate flashcardList
+flashcardList --> unstarCommand : returns Flashcard instance
+deactivate flashcardList
 
-UnstarCommand -> Flashcard : checkIsStarred()
-activate Flashcard
-Flashcard --> UnstarCommand : boolean isStarred
-deactivate Flashcard
+unstarCommand -> flashcard : checkIsStarred()
+activate flashcard
+flashcard --> unstarCommand : returns boolean
+deactivate flashcard
 
 alt Flashcard already unstarred
-    UnstarCommand -> Ui : respondError("already unstarred")
-    deactivate UnstarCommand
+    unstarCommand -> ui : respondError("already unstarred")
+    deactivate unstarCommand
 else Flashcard is starred
-    UnstarCommand -> FlashcardList : removeStarredFlashcard(flashcard)
-    activate FlashcardList
-    FlashcardList --> UnstarCommand : void
-    deactivate FlashcardList
+    unstarCommand -> flashcardList : removeStarredFlashcard(flashcard)
+    activate flashcardList
+    flashcardList --> unstarCommand : void
+    deactivate flashcardList
 
-    UnstarCommand -> Flashcard : toggleStar()
-    activate Flashcard
-    Flashcard --> UnstarCommand : void
-    deactivate Flashcard
+    unstarCommand -> flashcard : toggleStar()
+    activate flashcard
+    flashcard --> unstarCommand : void
+    deactivate flashcard
 
-    UnstarCommand -> Ui : respond(showUnstarredFlashcard)
-    activate Ui
-    Ui --> UnstarCommand : void
-    deactivate Ui
+    unstarCommand -> ui : respond(showUnstarredFlashcard)
+    activate ui
+    ui --> unstarCommand : void
+    deactivate ui
 
-    UnstarCommand -> Storage : writeToFile(flashcards)
-    activate Storage
-    Storage --> UnstarCommand : void
-    deactivate Storage
+    unstarCommand -> storage : writeToFile(flashcards)
+    activate storage
+    storage --> unstarCommand : void
+    deactivate storage
 end
 
-destroy UnstarCommand
+' --- Object cleanup phase ---
+destroy unstarCommand
 
 @enduml
