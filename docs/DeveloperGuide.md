@@ -75,7 +75,33 @@ The sections below give more details of each component
 ![UI Component Class Diagram](images/UIComponent_ClassDiagram.png "UI Component Class Diagram")
 
 ### Logic Component
+**Responsibilities:**
+- Run the main application loop, handling continuous command input.
+- Parse the raw command, then execute the resulting Command object.
+- Catch and handle exceptions thrown during command parsing or execution.
+- Execute `Command` objects to indirectly interact with the Model (`FlashcardList`).
 
+**Classes:**
+- `QuizMos`: Runs the main loop, reads user input from UI, sends the raw command to Parser, and executes the returned Command object.
+- `Parser`: Parses the raw input string, validates format, extracts arguments, and returns the appropriate concrete Command object, or throws a specific exception.
+- `Command`: Abstract class for other command classes
+  - `AddFlashcardCommand`
+  - `ExitCommand`
+  - `GetStarCommand`
+  - `HelpCommand`
+  - `ListCommand`
+  - `RemoveFlashcardCommand`
+  - `ReviewCommand`
+  - `SearchFlashcardCommand`
+  - `StarCommand`
+  - `UnstarCommand`
+- `IReviewMode`: Interface for different review modes
+  - `MultipleChoiceReview`
+  - `SimpleFlipReview`
+  - `TrueFalseReview`
+
+![Logic Component Class Diagram](images/QuizMos_Logic_Diagram-Logic_Component.png "Logic Component Class Diagram")
+![Overall Logic Loop](images/QuizMos_Main_Logic_Sequence-Main_Logic_Loop.png "Overall Logic Loop")
 
 ### Model Component
 
@@ -257,6 +283,202 @@ This section describes some noteworthy details on how certain features are imple
 
 ### Use Cases
 
+**(For all use cases below, the **System** is **QuizMos** and the **Actor** is the **User**, unless specified otherwise.)**
+
+#### **Use case: Add a Flashcard (`add`)**
+
+**Goal:** User adds a new question and answer pair to the study list. **Command:** `add q/QUESTION a/ANSWER`
+
+**MSS (Main Success Scenario)**
+
+1.  User requests to add a flashcard with a valid question and answer.
+
+2.  QuizMos creates the new Flashcard object.
+
+3.  QuizMos adds the Flashcard to the `FlashcardList` and saves the updated list to storage.
+
+4.  QuizMos displays a confirmation message showing the new Flashcard details. Use case ends.
+
+
+**Extensions** 
+- 1a. User forgets question or answer (`q/` or `a/` missing or empty). 
+- 1a1. QuizMos displays an input error message. Use case ends.
+
+#### **Use case: Delete a Flashcard (`delete`)**
+
+**Goal:** User removes a specific flashcard from the study list. **Command:** `delete INDEX`
+
+**MSS (Main Success Scenario)**
+
+1.  User requests to delete a specific flashcard by providing a valid index.
+
+2.  QuizMos removes the Flashcard from the `FlashcardList`.
+
+3.  QuizMos saves the updated list to storage.
+
+4.  QuizMos displays a confirmation message showing the deleted Flashcard. Use case ends.
+
+
+**Extensions** 
+- 1a. The given index is invalid (e.g., negative, non-numeric, or out of range). 
+- 1a1. QuizMos displays an error message. Use case resumes at step 1.
+
+#### **Use case: Start a Review Session (`review`)**
+
+**Goal:** User tests their memory using a specific review mode (FLIP, TF, or MCQ). **Command:** `review m/[FLIP | TF | MCQ]`
+
+**MSS (Main Success Scenario)**
+
+1.  User requests to start a review session with a valid mode.
+
+2.  QuizMos initializes the correct review strategy object (`IReviewMode`).
+
+3.  **(Loop)** QuizMos iterates through the list, displays the question (mode-specific format).
+
+4.  User inputs an answer (`y/n`, `t/f`, `1-4`) or `quit`.
+
+5.  QuizMos processes the input, checks the answer (if applicable to mode), updates the score, and displays feedback.
+
+6.  **(Loop)** QuizMos repeats from step 3 for the next flashcard.
+
+7.  Review session ends (all cards reviewed).
+
+8.  QuizMos displays a summary including total reviewed and score (for non-FLIP modes). Use case ends.
+
+
+**Extensions** 
+- 1a. The `FlashcardList` is empty. 
+- 1a1. QuizMos displays an error message (_Review list is empty_). Use case ends. 
+- 1b. MCQ mode requested, but less than 4 flashcards exist. 
+- 1b1. QuizMos displays an error message (_MCQ requires at least 4 flashcards_). Use case ends. 
+- 4a. User inputs `quit` at any time. 
+- 4a1. QuizMos jumps to step 7 (display summary of cards reviewed so far). Use case ends. 
+- 4b. User inputs an invalid format/choice for the current mode. 4b1. QuizMos displays an input error and repeats step 4. Use case resumes at step 4.
+
+#### **Use case: Star a Flashcard (`star`)**
+
+**Goal:** User marks a flashcard as important or difficult. **Command:** `star INDEX`
+
+**MSS (Main Success Scenario)**
+
+1.  User requests to star a flashcard by providing a valid index.
+
+2.  QuizMos retrieves the Flashcard and updates its status to **starred**.
+
+3.  QuizMos updates the list of starred Flashcards and saves the changes to storage.
+
+4.  QuizMos displays a confirmation message for the starred Flashcard. Use case ends.
+
+
+**Extensions** 
+- 1a. The given index is invalid (e.g., out of range). 
+- 1a1. QuizMos displays an error message. Use case resumes at step 1. 
+- 2a. The Flashcard at the given index is already starred. 
+- 2a1. QuizMos displays a warning message. Use case ends.
+
+#### **Use case: Unstar a Flashcard (`unstar`)**
+
+**Goal:** User removes the important/starred flag from a flashcard. **Command:** `unstar INDEX`
+
+**MSS (Main Success Scenario)**
+
+1.  User requests to unstar a flashcard by providing a valid index.
+
+2.  QuizMos retrieves the Flashcard and updates its status to **unstarred**.
+
+3.  QuizMos removes the Flashcard from the list of starred Flashcards and saves the changes to storage.
+
+4.  QuizMos displays a confirmation message for the unstarred Flashcard. Use case ends.
+
+
+**Extensions** 
+- 1a. The given index is invalid. 1a1. QuizMos displays an error message. Use case resumes at step 1. 
+- 2a. The Flashcard at the given index is not currently starred. 
+- 2a1. QuizMos displays a warning message. Use case ends.
+
+#### **Use case: Retrieve Starred Flashcards (`getstar`)**
+
+**Goal:** User views only the flashcards they have marked as important. **Command:** `getstar`
+
+**MSS (Main Success Scenario)**
+
+1.  User requests to retrieve all starred flashcards.
+
+2.  QuizMos retrieves the list of starred Flashcards from the `FlashcardList`.
+
+3.  QuizMos displays the list of starred flashcards. Use case ends.
+
+
+**Extensions** 
+- 2a. The list of starred flashcards is empty. 
+- 2a1. QuizMos displays a message indicating that there are no starred flashcards. Use case ends.
+
+#### **Use case: Search Flashcards (`search`)**
+
+**Goal:** User finds flashcards containing a specific keyword or keyphrase. **Command:** `search KEYPHRASE`
+
+**MSS (Main Success Scenario)**
+
+1.  User requests to search the list by providing a valid keyphrase.
+
+2.  QuizMos searches through all flashcards for matches in both the question and answer fields.
+
+3.  QuizMos displays a list of the matching flashcards. Use case ends.
+
+
+**Extensions** 
+- 1a. The keyphrase is empty. 
+- 1a1. QuizMos displays an error message (_Keyphrase cannot be empty_). Use case ends. 
+- 3a. No flashcards match the provided keyphrase. 
+- 3a1. QuizMos displays a message indicating no matches were found. Use case ends.
+
+#### **Use case: List All Flashcards (`list`)**
+
+**Goal:** User gets an overview of all flashcards in the study list. **Command:** `list`
+
+**MSS (Main Success Scenario)**
+
+1.  User requests to list all flashcards.
+
+2.  QuizMos retrieves the entire `FlashcardList`.
+
+3.  QuizMos displays the full list of flashcards, including their index and star status. Use case ends.
+
+
+**Extensions** 
+- 2a. The `FlashcardList` is empty. 
+- 2a1. QuizMos displays a message indicating that the list is currently empty. Use case ends.
+
+#### **Use case: View Help (`help`)**
+
+**Goal:** User gets usage instructions for all commands. **Command:** `help`
+
+**MSS (Main Success Scenario)**
+
+1.  User requests help.
+
+2.  QuizMos displays a list of all available command formats and their descriptions. Use case ends.
+
+
+**Extensions** (None)
+
+#### **Use case: Exit Application (`exit`)**
+
+**Goal:** User closes the application safely. **Command:** `exit`
+
+**MSS (Main Success Scenario)**
+
+1.  User requests to exit the application.
+
+2.  QuizMos saves the current `FlashcardList` to storage (if any unsaved changes exist).
+
+3.  QuizMos displays a farewell message.
+
+4.  The application terminates gracefully. Use case ends.
+
+
+**Extensions** (None)
+
 ### Non-Functional Requirements (NFRs)
 - The display of the next question and answer resolution must occur within 500 milliseconds per card.
 - The App must prevent the start of any review session if the `FlashcardList` is empty, throwing an appropriate exception.
@@ -274,3 +496,4 @@ This section describes some noteworthy details on how certain features are imple
 ## Instructions for Manual Testing
 
 ---
+
