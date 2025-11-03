@@ -231,6 +231,25 @@ This section describes some noteworthy details on how certain features are imple
 - Logs key execution steps (validation, unstarring, saving) for debugging and traceability.
 
 ![OverallUnstarFlashcardFlow](images/UnstarFlashcardFeature_Overall.png "Unstar Flashcard Feature Overall Flow")
+### Feature 7: Get Starred Flashcards
+**Command:** `getstar`
+
+**Responsibilities / Explanation:**
+- The `Parser` identifies the `getstar` command and creates a new `GetStarCommand` object.
+- The `GetStarCommand` retrieves all starred flashcards from the `FlashcardList` using `getStarredFlashcardsString()`.
+- Performs internal assertions to ensure the returned string is not `null`.
+- Uses the `Ui` component to display the list of starred flashcards via `FlashcardListMessages.showStarredFlashcardsList()`.
+- Does not modify the `FlashcardList` or `Storage`; this is a read-only command.
+- Logs key execution steps for debugging and traceability.
+
+**Classes:**
+- `GetStarCommand`
+- `FlashcardList`
+- `Ui`
+- `FlashcardListMessages`
+- `Storage` (reference only, no writes)
+
+![OverallGetStarFlow](images/GetStarFeature_Overall.png "GetStar Command Feature Overall Flow")
 
 ---
 
