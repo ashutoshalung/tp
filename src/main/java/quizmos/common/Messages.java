@@ -34,6 +34,8 @@ public class Messages {
     public static String goodbyeMessage = "Bye. Hope to see you again soon!";
 
     // flashcard list
-    public static String starredFlashcardMessage = "Starred this flashCard! ";
-    public static String starredFlashcardsListMessage = "Starred Flashcards: ";
+    public static String starredFlashcardMessage = "Starred this flashcard: ";
+    public static String unStarredFlashcardMessage = "Unstarred this flashcard: ";
+
+    // review command
 }

@@ -1,7 +1,6 @@
 package quizmos.ui;
 
 import java.util.Scanner;
-
 import quizmos.common.Messages;
 import quizmos.flashcard.Flashcard;
 
@@ -62,15 +61,16 @@ public class Ui {
         System.out.println(Messages.separator);
     }
 
-    public static void showStarredFlashcard(Flashcard flashcard) {
-        respond(Messages.starredFlashcardMessage + flashcard.toString()); }
 
     public static void showStarredFlashcardsList(String fullStarredFlashcardString) {
         respond(fullStarredFlashcardString);
     }
 
-    public static void showUnstarredFlashcard(Flashcard unstarredFlashcard) {
-        respond(Messages.starredFlashcardMessage + unstarredFlashcard.toString());
+    public static void showStarredFlashcard(Flashcard flashcard) {
+        respond(Messages.starredFlashcardMessage + flashcard.toString());
+    }
 
+    public static void showUnstarredFlashcard(Flashcard unstarredFlashcard) {
+        respond(Messages.unStarredFlashcardMessage + unstarredFlashcard.toString());
     }
 }

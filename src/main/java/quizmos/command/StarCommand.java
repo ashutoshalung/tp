@@ -1,6 +1,7 @@
 package quizmos.command;
 
 
+import quizmos.exception.QuizMosInputException;
 import quizmos.flashcard.Flashcard;
 import quizmos.flashcardlist.FlashcardList;
 import quizmos.storage.Storage;
@@ -28,11 +29,18 @@ public class StarCommand extends Command{
      */
     @Override
     public void execute(FlashcardList flashcards, Storage storage) throws Exception {
+        if (index > flashcards.getSize() -1) {
+            throw new QuizMosInputException("Index is out of range!");
+        }
         Flashcard starredFlashcard = flashcards.getFlashcard(index);
-        starredFlashcard.toggleStar();
-        flashcards.addStarredFlashcard(starredFlashcard);
-        Ui.showStarredFlashcard(starredFlashcard);
-        storage.writeToFile(flashcards);
+        if (starredFlashcard.checkIsStarred()) {
+            throw new QuizMosInputException("This flashcard is already starred!");
+        } else {
+            starredFlashcard.toggleStar();
+            flashcards.addStarredFlashcard(starredFlashcard);
+            Ui.showStarredFlashcard(starredFlashcard);
+            storage.writeToFile(flashcards);
+        }
 
     }
 }

@@ -25,12 +25,20 @@ public class UnstarCommand extends Command {
      */
     @Override
     public void execute(FlashcardList flashcards, Storage storage) throws QuizMosInputException {
+        if (index > flashcards.getSize()-1) {
+            throw new QuizMosInputException("Index is out of range!");
+        }
         Flashcard unstarredFlashcard = flashcards.getFlashcard(index);
-        unstarredFlashcard.toggleStar();
-        flashcards.removeStarredFlashcard(index);
-        Ui.showUnstarredFlashcard(unstarredFlashcard);
-        storage.writeToFile(flashcards);
+        if (!unstarredFlashcard.checkIsStarred()) {
+            throw new QuizMosInputException("This flashcard is already unstarred!");
+        } else {
+            unstarredFlashcard.toggleStar();
+            flashcards.removeStarredFlashcard(unstarredFlashcard);
+            Ui.showUnstarredFlashcard(unstarredFlashcard);
+            storage.writeToFile(flashcards);
 
+        }
     }
+
 }
 

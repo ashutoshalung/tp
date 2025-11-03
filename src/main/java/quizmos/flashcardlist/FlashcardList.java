@@ -7,18 +7,23 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 public class FlashcardList implements Iterable<Flashcard> {
+
     private final ArrayList<Flashcard> flashcards;
-    private ArrayList<Flashcard> starredFlashcards;
+    private ArrayList<Flashcard> starredFlashcards = new ArrayList<Flashcard>();
 
 
     public FlashcardList() {
         this.flashcards = new ArrayList<Flashcard>();
-        this.starredFlashcards = new ArrayList<>();
+        initialiseStarredFlashcards();
     }
 
     public FlashcardList(ArrayList<Flashcard> flashcards) {
         this.flashcards = flashcards;
-        this.starredFlashcards = new ArrayList<>();
+        initialiseStarredFlashcards();
+    }
+
+    public ArrayList<Flashcard> getFlashcards() {
+        return flashcards;
     }
 
     public void addFlashcard(Flashcard flashcard) {
@@ -37,7 +42,19 @@ public class FlashcardList implements Iterable<Flashcard> {
         return flashcards.size();
     }
 
-    public String getStarredFlashcards() {
+    public ArrayList<Flashcard> getStarredFlashcards() {
+        return starredFlashcards;
+    }
+
+    public void initialiseStarredFlashcards() {
+        for (Flashcard f : flashcards) {
+            if (f.checkIsStarred()) {
+                starredFlashcards.add(f);
+            }
+        }
+    }
+
+    public String getStarredFlashcardsString() {
         if (starredFlashcards.size() == 0) {
             return FlashcardListMessages.EMPTY_LIST_MESSAGE;
         }
@@ -45,7 +62,6 @@ public class FlashcardList implements Iterable<Flashcard> {
         int total = starredFlashcards.size();
         int count = 1;
         for (Flashcard f : starredFlashcards) {
-            ;
             String item = count + ". " + f.toString();
             if (count != total) {
                 item += "\n";
@@ -89,8 +105,8 @@ public class FlashcardList implements Iterable<Flashcard> {
         starredFlashcards.add(starredFlashcard);
     }
 
-    public void removeStarredFlashcard(int index) {
-        starredFlashcards.remove(index);
+    public void removeStarredFlashcard(Flashcard unstarredFlashcard) {
+        starredFlashcards.remove(unstarredFlashcard);
 
     }
 }
