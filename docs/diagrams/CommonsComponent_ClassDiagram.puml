@@ -5,21 +5,32 @@ title Commons Component Class Diagram
 skinparam classAttributeIconSize 0
 skinparam classBackgroundColor #E6FFE6
 skinparam packageStyle rectangle
+skinparam shadowing false
 
-package "quizmos.exception" {
-    class QuizMosException {
-        + QuizMosException(message : String)
-    }
+package "commons.exception" {
+    class QuizMosException
+
+    class QuizMosFileException
+
+    class QuizMosInputException
+
+    class QuizMosLogicException
 }
 
-package "quizmos.common" {
-    class Messages {
-        {static} + greeting : String
-        {static} + errorMessage : String
-        {static} + otherConstants...
-    }
+package "commons.common" {
+    class Messages
+
+    class FlashcardMessages
+
+    class FlashcardListMessages
+
+    class ReviewMessages
 }
 
-QuizMosException <|-- Exception
+/' Inheritance arrows '/
+QuizMosFileException --|> QuizMosException
+QuizMosInputException --|> QuizMosException
+QuizMosLogicException --|> QuizMosException
+QuizMosException --|> "java.lang.Exception"
 
 @enduml

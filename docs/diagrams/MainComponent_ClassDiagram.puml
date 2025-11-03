@@ -5,54 +5,33 @@ title Main Component Class Diagram
 skinparam classAttributeIconSize 0
 skinparam classBackgroundColor #FFF3E6
 skinparam packageStyle rectangle
+skinparam shadowing false
 
 package "quizmos" {
-    class QuizMos {
-        - APP_LOGGER_NAME : String
-        - logger : Logger
-        - flashcards : FlashcardList
-        - storage : Storage
-        --
-        + QuizMos()
-        - setupLogging() : void
-        + run() : void
-        + main(args : String[]) : void
-    }
+    class QuizMos
 }
 
 package "quizmos.parser" {
-    class Parser {
-        + parseCommand(command : String) : Command
-    }
+    class Parser
 }
 
 package "quizmos.storage" {
-    class Storage {
-        + load() : ArrayList<Flashcard>
-        + writeToFile(list : FlashcardList) : void
-    }
+    class Storage
 }
 
 package "quizmos.ui" {
-    class Ui {
-        + respond(msg : String) : void
-        + readCommand() : String
-        + respondError(msg : String) : void
-        + invalidCommandRespond() : void
-    }
+    class Ui
 }
 
 package "quizmos.command" {
-    abstract class Command {
-        + execute(flashcards : FlashcardList, storage : Storage) : void
-        + getIsExit() : boolean
-    }
+    abstract class Command
 }
 
-QuizMos --> Parser : parses command
-QuizMos --> Command : executes
-QuizMos --> Ui : interacts with
+/' Relationships '/
+QuizMos --> FlashcardList : manages >
+QuizMos ..> Parser : parses command
+QuizMos ..> Command : executes command
 QuizMos --> Storage : persists data
-QuizMos --> FlashcardList : manages flashcards
+QuizMos ..> Ui : interacts with user
 
 @enduml
