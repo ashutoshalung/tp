@@ -19,10 +19,11 @@ public class Ui {
      */
     public static String readCommand() {
         return in.nextLine();
-    } 
+    }
 
     /**
      * Announce the message with UI format
+     *
      * @param message error message
      */
     public static void respond(String message) {
@@ -67,7 +68,7 @@ public class Ui {
     public static void noMatchesRespond() {
         respond(Messages.noMatchesMessage);
     }
-    
+
     public static void invalidCommandRespond() {
         respond(Messages.invalidCommandMessage);
     }
@@ -76,8 +77,6 @@ public class Ui {
         respond(Messages.invalidIndexMessage);
     }
 
-    public static void showStarredFlashcard(Flashcard flashcard) {
-        respond(Messages.starredFlashcardMessage + flashcard.toString()); }
 
     public static void showFlashcardAdded(Flashcard flashcard) {
         String response = Messages.addedTaskMessage + flashcard;
@@ -93,16 +92,12 @@ public class Ui {
         respond(fullStarredFlashcardString);
     }
 
+    public static void showStarredFlashcard(Flashcard flashcard) {
+        respond(Messages.starredFlashcardMessage + flashcard.toString());
+    }
+
     public static void showUnstarredFlashcard(Flashcard unstarredFlashcard) {
         respond(Messages.unStarredFlashcardMessage + unstarredFlashcard.toString());
-
-    }
-
-    public static void showStarredFlashcardExists() {
-        respond(Messages.starredFlashcardExistsMessage);
-    }
-
-    public static void showUnstarredFlashcard() {
-        respond(Messages.unstarredFlashcardExistsMessage);
     }
 }
+

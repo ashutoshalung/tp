@@ -21,6 +21,7 @@ public class FlashcardList implements Iterable<Flashcard> {
         this.flashcards = flashcards;
         initialiseStarredFlashcards();
     }
+
     public ArrayList<Flashcard> getFlashcards() {
         return flashcards;
     }
@@ -46,12 +47,13 @@ public class FlashcardList implements Iterable<Flashcard> {
     }
 
     public void initialiseStarredFlashcards() {
-            for (Flashcard f : flashcards) {
-                if (f.checkIsStarred()) {
-                    starredFlashcards.add(f);
-                }
+        for (Flashcard f : flashcards) {
+            if (f.checkIsStarred()) {
+                starredFlashcards.add(f);
             }
+        }
     }
+
     public String getStarredFlashcardsString() {
         if (starredFlashcards.size() == 0) {
             return FlashcardListMessages.EMPTY_LIST_MESSAGE;
