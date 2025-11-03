@@ -1,6 +1,6 @@
 package quizmos.command;
 
-import quizmos.QuizMos;
+import quizmos.common.FlashcardListMessages;
 import quizmos.flashcardlist.FlashcardList;
 import quizmos.storage.Storage;
 import quizmos.ui.Ui;
@@ -10,7 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class GetStarCommand extends Command {
-    private static final Logger logger = Logger.getLogger(QuizMos.class.getName());
+    private static final Logger logger = Logger.getLogger("quizmos");
 
     @Override
     public void execute(FlashcardList flashcards, Storage storage) throws QuizMosInputException {
@@ -26,14 +26,8 @@ public class GetStarCommand extends Command {
         // --- Assertions: internal consistency ---
         assert starredFlashcardsList != null : "getStarredFlashcardsString should not return null";
 
-        // --- Check for empty list and throw exception if needed ---
-        if (starredFlashcardsList.isEmpty()) {
-            logger.log(Level.WARNING, "No starred flashcards found.");
-            throw new QuizMosInputException("You have no starred flashcards.");
-        }
-
         // --- Display to user ---
-        Ui.showStarredFlashcardsList(starredFlashcardsList);
+        Ui.respond(FlashcardListMessages.showStarredFlashcardsList(starredFlashcardsList));
         logger.log(Level.INFO, "Displayed starred flashcards to user: " + starredFlashcardsList);
     }
 }

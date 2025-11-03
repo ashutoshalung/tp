@@ -24,6 +24,8 @@ public class Messages {
             + "delete <INDEX>: delete a flashcard by its index\n"
             + "search <KEYPHRASE>: show all flashcards containing the keyphrase\n"
             + "star <INDEX>: star/flag a flashcard by its index\n"
+            + "unstar <INDEX>: unstar/unflag a flashcard by its index\n"
+            + "getstar: show all starred flashcards\n"
             + "review m/[FLIP | MCQ | TF]: start a review session\n"
             + "exit: exit the program, MUST run this for file saving";
 
@@ -34,8 +36,6 @@ public class Messages {
     public static String goodbyeMessage = "Bye. Hope to see you again soon!";
 
     // flashcard list
-    public static String starredFlashcardMessage = "Starred this flashcard: ";
-    public static String unStarredFlashcardMessage = "Unstarred this flashcard: ";
 
     // review command
 }

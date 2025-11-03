@@ -137,16 +137,48 @@ Format: `[1 | 2 | 3 | 4 | QUIT]`
 - `4` Answer 4
 
 ### Star/flag flashcard: `star`
-Star/flag a flashcard by its index
+Star/flag a flashcard by its index.
+The flashcard starred will how have "Starred" as its status shown whenever it is listed/displayed. 
 The starred flashcard is depicted in the stored file. 
 
 Format: `star INDEX`
+Example:
+
+-`star 1`
+- Output: ```bash
+____________________________________________________________
+Starred this flashcard:
+Question: 1 | Answer: 1 | Starred
+____________________________________________________________
 
 
+### Unstar flashcard: `unstar`
+Unstar a flashcard by its index
+The unstarred flashcard will how have "" as its status shown whenever it is listed/displayed.
+The unstarred flashcard is depicted in the stored file.
+
+Format: `unstar INDEX`
 
 Example:
-- `star 2`
-- Output: `This flashcard is starred!`
+- `unstar 2`
+- Output: ```bash
+____________________________________________________________
+Unstarred this flashcard:
+Question: 1 | Answer: 1 |
+____________________________________________________________
+
+### Retrieve all starred flashcards: `getstar`
+Helps user retrieve all starred flashcards. 
+
+Format: `getstar`
+
+Example:
+- `getstar`
+- Output: ```bash
+____________________________________________________________
+These are your starred flashcards:
+1. Question: 1 | Answer: 1 | Starred
+____________________________________________________________
 
 ### Exit the program: `exit`
 Exit the program
@@ -165,13 +197,16 @@ Format: `exit`
 
 ## Command Summary
 
-| Action | Format, Examples                | 
-|--------|---------------------------------|
-| Add    | `add q/QUESTION a/ANSWER`       |
-| Delete | `delete INDEX`                  |
-| Search | `search KEYPHRASE`              |
-| Review | `review m/[FLIP  \| TF \| MCQ]` |
-| Star   | `star INDEX`                    |
-| List   | `list`                          |
-| Exit   | `exit`                          |
-| Help   | `help`                          |
+| Action  | Format, Examples                | 
+|---------|---------------------------------|
+| Add     | `add q/QUESTION a/ANSWER`       |
+| Delete  | `delete INDEX`                  |
+| Search  | `search KEYPHRASE`              |
+| Review  | `review m/[FLIP  \| TF \| MCQ]` |
+| star    | `star INDEX`                    |
+| List    | `list`                          |
+| Exit    | `exit`                          |
+| Help    | `help`                          |
+| Unstar  | `unstar INDEX`                  |
+| Getstar | `getstar`                       |
+

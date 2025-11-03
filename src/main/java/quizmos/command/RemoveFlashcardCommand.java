@@ -39,6 +39,7 @@ public class RemoveFlashcardCommand extends Command {
         Flashcard deletedFlashcard = flashcards.getFlashcard(index);
         Ui.respond(FlashcardMessages.showFlashcardRemoved(deletedFlashcard));
         flashcards.removeFlashcard(index);
+        flashcards.removeStarredFlashcard(deletedFlashcard);
         storage.writeToFile(flashcards);
 
     }

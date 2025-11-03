@@ -18,6 +18,8 @@ add q/<QUESTION> a/<ANSWER>: add a flashcard with question and answer
 delete <INDEX>: delete a flashcard by its index
 search <KEYPHRASE>: show all flashcards containing the keyphrase
 star <INDEX>: star/flag a flashcard by its index
+unstar <INDEX>: unstar/unflag a flashcard by its index
+getstar: show all starred flashcards
 review m/[FLIP | MCQ | TF]: start a review session
 exit: exit the program, MUST run this for file saving
 ____________________________________________________________

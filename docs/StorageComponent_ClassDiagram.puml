@@ -1,0 +1,31 @@
+@startuml
+skinparam classAttributeIconSize 0
+skinparam classStyle rectangle
+
+class Storage {
+  +Storage(String filePath)
+  +ArrayList<Flashcard> load() throws QuizMosFileException
+  +void writeToFile(FlashcardList flashcards) throws QuizMosInputException
+}
+
+class Flashcard {
+  +Flashcard(String question, String answer)
+  +void toggleStar()
+  +String toSaveFormat()
+}
+
+class FlashcardList {
+  +int getSize()
+  +ArrayList<Flashcard> getAll()
+}
+
+Storage --> Flashcard : uses
+Storage --> FlashcardList : uses
+@enduml
+```
+
+**Notes on Diagram:**
+- `Storage` manages persistence for the flashcards.
+- `Flashcard` represents individual flashcards, including star state.
+- `FlashcardList` holds multiple `Flashcard` objects and provides size/access methods.
+- All public methods are indicated with `+`, and the diagram uses `rectangle` style to avoid circles for `+` signs.
