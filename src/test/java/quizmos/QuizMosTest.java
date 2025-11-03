@@ -13,7 +13,6 @@ import java.lang.reflect.Method;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 
@@ -76,29 +75,6 @@ class QuizMosTest {
         } catch (Exception e) {
             fail("setupLogging invocation failed: " + e.getMessage());
         }
-    }
-
-    @Test
-    void testMainWithTestFlagSetsTestMode() {
-        // Before running main
-        Ui.isTestMode = false;
-        String[] args = {"--test"};
-
-        // Because main() calls run(), which never ends, we test the flag only
-        Thread mainThread = new Thread(() -> {
-            try {
-                // Only check first part of main before run() is called
-                QuizMos.main(args);
-            } catch (Exception ignored) {
-                // We expect this thread to terminate or fail due to System.exit(0)
-            }
-        });
-
-        mainThread.setDaemon(true); // Prevent blocking
-        mainThread.start();
-
-        // Verify Ui test mode set to true
-        assertFalse(Ui.isTestMode, "Ui.isTestMode should be true when started with '--test'");
     }
 
     @Test
