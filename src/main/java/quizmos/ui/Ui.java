@@ -5,10 +5,12 @@ import quizmos.common.Messages;
 
 public class Ui {
     public static boolean isTestMode = false;
+    public static java.util.function.Supplier<String> mockedCommandSupplier = null;
     private static final String ANSI_RED = "\u001B[31m";
     private static final String ANSI_RESET = "\u001B[0m";
 
     private static final Scanner in = new Scanner(System.in);
+
 
     /**
      * Reads a line of input from the user.
@@ -16,6 +18,9 @@ public class Ui {
      * @return The user's input as a string.
      */
     public static String readCommand() {
+        if (mockedCommandSupplier != null) {
+            return mockedCommandSupplier.get();
+        }
         return in.nextLine();
     } 
 
