@@ -1,4 +1,3 @@
-
 @startuml
 title Unstar Flashcard Command Sequence Diagram
 
@@ -9,7 +8,6 @@ participant FlashcardList
 participant Flashcard
 participant Ui
 participant Storage
-participant GarbageCollector
 
 User -> Parser : enter "unstar <index>"
 Parser -> UnstarCommand : create UnstarCommand(index)
@@ -29,7 +27,6 @@ deactivate Flashcard
 alt Flashcard already unstarred
     UnstarCommand -> Ui : respondError("already unstarred")
     deactivate UnstarCommand
-    GarbageCollector <- UnstarCommand : cleanup temporary objects
 else Flashcard is starred
     UnstarCommand -> FlashcardList : removeStarredFlashcard(flashcard)
     activate FlashcardList
@@ -50,9 +47,8 @@ else Flashcard is starred
     activate Storage
     Storage --> UnstarCommand : void
     deactivate Storage
-
-    GarbageCollector <- UnstarCommand : cleanup temporary objects
 end
 
-deactivate UnstarCommand
+destroy UnstarCommand
+
 @enduml
