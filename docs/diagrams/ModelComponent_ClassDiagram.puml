@@ -6,16 +6,13 @@ skinparam classAttributeIconSize 0
 skinparam classBackgroundColor #E6F3FF
 skinparam packageStyle rectangle
 
-package "quizmos.flashcard" {
+package "model.flashcard" {
     class Flashcard {
         - question : String
         - answer : String
         - isStarred : boolean
         - starMarker : String
         --
-        + Flashcard(question : String, answer : String)
-        + getQuestion() : String
-        + getAnswer() : String
         + checkIsStarred() : boolean
         + toggleStar() : void
         + toSaveFormat() : String
@@ -23,7 +20,7 @@ package "quizmos.flashcard" {
     }
 }
 
-package "quizmos.flashcardlist" {
+package "model.flashcardlist" {
     class FlashcardList {
         - flashcards : ArrayList<Flashcard>
         --
@@ -35,7 +32,6 @@ package "quizmos.flashcardlist" {
         + getSize() : int
         + getStarredFlashcards() : ArrayList<Flashcard>
         + toString() : String
-        + iterator() : Iterator<Flashcard>
     }
 }
 
