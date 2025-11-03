@@ -2,6 +2,7 @@ package quizmos.ui;
 
 import java.util.Scanner;
 
+import quizmos.common.FlashcardMessages;
 import quizmos.common.Messages;
 import quizmos.flashcard.Flashcard;
 
@@ -19,11 +20,10 @@ public class Ui {
      */
     public static String readCommand() {
         return in.nextLine();
-    }
+    } 
 
     /**
      * Announce the message with UI format
-     *
      * @param message error message
      */
     public static void respond(String message) {
@@ -43,16 +43,14 @@ public class Ui {
     }
 
     public static void printError(String message) {
+        String errorMessage;
         if (isTestMode) {
-            String errorMessage = "? ERROR: " + message;
-            System.out.println(errorMessage);
-            System.out.flush();
+            errorMessage = "? ERROR: " + message;
         } else {
-            String errorMessage = ANSI_RED + "❌ ERROR: " + message + ANSI_RESET;
-            System.out.println(errorMessage);
-            System.out.flush();
+            errorMessage = ANSI_RED + "❌ ERROR: " + message + ANSI_RESET;
         }
-
+        System.out.println(errorMessage);
+        System.out.flush();
     }
 
     public static void respondError(String message) {
@@ -65,26 +63,13 @@ public class Ui {
         System.out.println(Messages.separator);
     }
 
-    public static void noMatchesRespond() {
-        respond(Messages.noMatchesMessage);
-    }
-
-    public static void invalidCommandRespond() {
-        respond(Messages.invalidCommandMessage);
-    }
-
-    public static void invalidIndexRespond() {
-        respond(Messages.invalidIndexMessage);
-    }
-
-
     public static void showFlashcardAdded(Flashcard flashcard) {
-        String response = Messages.addedTaskMessage + flashcard;
+        String response = FlashcardMessages.addedFlashcardMessage + flashcard;
         respond(response);
     }
 
     public static void showFlashcardRemoved(Flashcard flashcard) {
-        String response = Messages.removedTaskMessage + flashcard;
+        String response = FlashcardMessages.removedFlashcardMessage + flashcard;
         respond(response);
     }
 
@@ -100,4 +85,3 @@ public class Ui {
         respond(Messages.unStarredFlashcardMessage + unstarredFlashcard.toString());
     }
 }
-

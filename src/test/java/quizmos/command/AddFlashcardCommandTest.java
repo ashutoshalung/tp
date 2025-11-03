@@ -1,10 +1,12 @@
 package quizmos.command;
 
 import org.junit.jupiter.api.Test;
+import quizmos.exception.QuizMosInputException;
 import quizmos.flashcardlist.FlashcardList;
 import quizmos.storage.Storage;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class AddFlashcardCommandTest {
 
@@ -26,100 +28,36 @@ public class AddFlashcardCommandTest {
 
     @Test
     void constructor_missingAnswer_doesNotAddFlashcard() throws Exception {
-        FlashcardList flashcards = new FlashcardList();
-        Storage storage = new Storage("data/QuizMos.txt") {
-            @Override
-            public void writeToFile(FlashcardList list) { }
-        };
-
-        AddFlashcardCommand command = new AddFlashcardCommand(new String[] {"add", "q/Q1"});
-        command.execute(flashcards, storage);
-
-        assertEquals(0, flashcards.getSize());
+        assertThrows(QuizMosInputException.class, () -> new AddFlashcardCommand(new String[] {"add", "q/Q1"}));
     }
 
     @Test
-    void constructor_missingQuestion_doesNotAddFlashcard() throws Exception {
-        FlashcardList flashcards = new FlashcardList();
-        Storage storage = new Storage("data/QuizMos.txt") {
-            @Override
-            public void writeToFile(FlashcardList list) { }
-        };
-
-        AddFlashcardCommand command = new AddFlashcardCommand(new String[] {"add", "a/A1"});
-        command.execute(flashcards, storage);
-
-        assertEquals(0, flashcards.getSize());
+    void constructor_missingQuestion_throwQuizMosInputException() throws Exception {
+        assertThrows(QuizMosInputException.class, () -> new AddFlashcardCommand(new String[] {"add", "a/A1"}));
     }
 
     @Test
-    void constructor_reversedOrder_doesNotAddFlashcard() throws Exception {
-        FlashcardList flashcards = new FlashcardList();
-        Storage storage = new Storage("data/QuizMos.txt") {
-            @Override
-            public void writeToFile(FlashcardList list) { }
-        };
-
-        // a/ appears before q/
-        AddFlashcardCommand command = new AddFlashcardCommand(new String[] {"add", "a/A1 q/Q1"});
-        command.execute(flashcards, storage);
-
-        assertEquals(0, flashcards.getSize());
+    void constructor_reversedOrder_doesNotAddFlashcard() {
+        assertThrows(QuizMosInputException.class, () -> new AddFlashcardCommand(new String[] {"add", "a/A1 q/Q1"}));
     }
 
     @Test
-    void constructor_emptyQuestion_rejected() throws Exception {
-        FlashcardList flashcards = new FlashcardList();
-        Storage storage = new Storage("data/QuizMos.txt") {
-            @Override
-            public void writeToFile(FlashcardList list) { /* skip file writing */ }
-        };
-
-        AddFlashcardCommand command = new AddFlashcardCommand(new String[] {"add", "q/ a/Answer"});
-        command.execute(flashcards, storage);
-
-        assertEquals(0, flashcards.getSize(), "Flashcard with empty question should not be added.");
+    void constructor_emptyQuestion_rejected() {
+        assertThrows(QuizMosInputException.class, () -> new AddFlashcardCommand(new String[] {"add", "q/ a/A1"}));
     }
 
     @Test
-    void constructor_emptyAnswer_rejected() throws Exception {
-        FlashcardList flashcards = new FlashcardList();
-        Storage storage = new Storage("data/QuizMos.txt") {
-            @Override
-            public void writeToFile(FlashcardList list) { /* skip file writing */ }
-        };
-
-        AddFlashcardCommand command = new AddFlashcardCommand(new String[] {"add", "q/Question a/"});
-        command.execute(flashcards, storage);
-
-        assertEquals(0, flashcards.getSize(), "Flashcard with empty answer should not be added.");
+    void constructor_emptyAnswer_rejected() {
+        assertThrows(QuizMosInputException.class, () -> new AddFlashcardCommand(new String[] {"add", "q/Q1 a/"}));
     }
 
     @Test
-    void constructor_whitespaceOnlyQuestion_rejected() throws Exception {
-        FlashcardList flashcards = new FlashcardList();
-        Storage storage = new Storage("data/QuizMos.txt") {
-            @Override
-            public void writeToFile(FlashcardList list) { /* skip file writing */ }
-        };
-
-        AddFlashcardCommand command = new AddFlashcardCommand(new String[] {"add", "q/   a/Answer"});
-        command.execute(flashcards, storage);
-
-        assertEquals(0, flashcards.getSize(), "Flashcard with whitespace-only question should not be added.");
+    void constructor_whitespaceOnlyQuestion_rejected() {
+        assertThrows(QuizMosInputException.class, () -> new AddFlashcardCommand(new String[] {"add", "q/   a/A1"}));
     }
 
     @Test
-    void constructor_whitespaceOnlyAnswer_rejected() throws Exception {
-        FlashcardList flashcards = new FlashcardList();
-        Storage storage = new Storage("data/QuizMos.txt") {
-            @Override
-            public void writeToFile(FlashcardList list) { /* skip file writing */ }
-        };
-
-        AddFlashcardCommand command = new AddFlashcardCommand(new String[] {"add", "q/Question a/   "});
-        command.execute(flashcards, storage);
-
-        assertEquals(0, flashcards.getSize(), "Flashcard with whitespace-only answer should not be added.");
+    void constructor_whitespaceOnlyAnswer_rejected() {
+        assertThrows(QuizMosInputException.class, () -> new AddFlashcardCommand(new String[] {"add", "q/Q1 a/    "}));
     }
 }

@@ -1,5 +1,6 @@
 package quizmos.command;
 
+import quizmos.common.FlashcardMessages;
 import quizmos.flashcard.Flashcard;
 import quizmos.flashcardlist.FlashcardList;
 import quizmos.storage.Storage;
@@ -21,7 +22,7 @@ public class SearchFlashcardCommand extends Command {
             }
         }
         if (matches.getSize() == 0) {
-            Ui.noMatchesRespond();
+            Ui.respond(FlashcardMessages.noMatchesMessage);
             return;
         }
 
