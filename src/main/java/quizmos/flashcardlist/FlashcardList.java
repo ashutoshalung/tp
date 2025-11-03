@@ -56,7 +56,7 @@ public class FlashcardList implements Iterable<Flashcard> {
 
     public String getStarredFlashcardsString() {
         if (starredFlashcards.size() == 0) {
-            return FlashcardListMessages.EMPTY_LIST_MESSAGE;
+            return FlashcardListMessages.EMPTY_STARRED_LIST;
         }
         StringBuilder sb = new StringBuilder();
         int total = starredFlashcards.size();

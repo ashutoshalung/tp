@@ -1,58 +1,72 @@
 package quizmos.storage;
-
 import quizmos.exception.QuizMosFileException;
 import quizmos.exception.QuizMosInputException;
 import quizmos.flashcard.Flashcard;
 import quizmos.flashcardlist.FlashcardList;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Storage {
+    private static final Logger logger = Logger.getLogger("quizmos");
     private final String filePath;
 
+    /**
+     * Constructs a Storage object for the given file path.
+     * Ensures the file exists and is ready for read/write.
+     */
     public Storage(String filePath) throws QuizMosFileException {
+        assert filePath != null && !filePath.trim().isEmpty() : "File path must not be null or empty";
+
         this.filePath = filePath;
+        logger.log(Level.INFO, "Initializing storage for file path: {0}", filePath);
         ensureFilePathExists();
     }
 
     /**
      * Ensures that the file and its parent directories exist.
-     * If not, creates them.
+     * Creates them if missing.
      */
     private void ensureFilePathExists() throws QuizMosFileException {
         try {
             File file = new File(filePath);
             File parentDir = file.getParentFile();
-            if (!parentDir.exists()) {
-                parentDir.mkdirs(); // create directories if missing
+
+            if (parentDir != null && !parentDir.exists()) {
+                boolean dirCreated = parentDir.mkdirs();
+                logger.log(Level.INFO, "Created parent directories: {0}", dirCreated);
             }
+
             if (!file.exists()) {
-                file.createNewFile(); // create the file if it doesn't exist
+                boolean fileCreated = file.createNewFile();
+                logger.log(Level.INFO, "Created new storage file: {0}", fileCreated);
             }
-        } catch (IOException e) {
-            throw new QuizMosFileException("Error loading tasks from file: " + e.getMessage());
+
+            assert file.exists() : "File creation failed unexpectedly";
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "Error ensuring file path exists: {0}", e.getMessage());
+            throw new QuizMosFileException("Error initializing storage file: " + e.getMessage());
         }
     }
 
     /**
      * Loads flashcards from file into a list.
-     * Lines must be in "question | answer" format, but extra spaces are ignored.
-     *
-     * @return list of flashcards
-     * @throws FileNotFoundException if file is missing (should not happen)
+     * Each line must be in "question | answer | Starred" format (last part optional).
      */
     public ArrayList<Flashcard> load() throws QuizMosFileException {
+        logger.log(Level.INFO, "Loading flashcards from file: {0}", filePath);
         ArrayList<Flashcard> listOfFlashcards = new ArrayList<>();
         File file = new File(filePath);
 
-        // Allow an optional third field (possibly empty). question and answer must be present.
+        // Pattern: question | answer | Starred (optional)
         Pattern pattern = Pattern.compile(
                 "^\\s*(?<question>[^|]+?)\\s*\\|\\s*(?<answer>[^|]+?)\\s*(?:\\|\\s*(?<star>[^|]*))?\\s*$"
         );
@@ -62,17 +76,19 @@ public class Storage {
                 String nextLine = scanner.nextLine().trim();
 
                 if (nextLine.isEmpty()) {
+                    logger.log(Level.FINE, "Skipping empty line in file");
                     continue;
                 }
 
                 Matcher matcher = pattern.matcher(nextLine);
                 if (!matcher.matches()) {
-                    continue; // skip invalid lines
+                    logger.log(Level.WARNING, "Skipping invalid line: {0}", nextLine);
+                    continue;
                 }
 
                 String question = matcher.group("question").trim();
                 String answer = matcher.group("answer").trim();
-                String starGroup = matcher.group("star"); // may be null or empty
+                String starGroup = matcher.group("star");
 
                 Flashcard flashcard = new Flashcard(question, answer);
                 if (starGroup != null && starGroup.equalsIgnoreCase("Starred")) {
@@ -81,25 +97,31 @@ public class Storage {
 
                 listOfFlashcards.add(flashcard);
             }
+
+            assert listOfFlashcards != null : "Flashcard list must not be null after load";
+            logger.log(Level.INFO, "Successfully loaded {0} flashcards", listOfFlashcards.size());
             return listOfFlashcards;
         } catch (FileNotFoundException e) {
-            throw new QuizMosFileException(e.getMessage());
+            logger.log(Level.SEVERE, "File not found during load: {0}", e.getMessage());
+            throw new QuizMosFileException("Could not find flashcard file: " + e.getMessage());
         }
     }
 
     /**
      * Writes all flashcards to file, overwriting existing content.
-     *
-     * @param flashcards FlashcardList to save
-     * @throws IOException if writing fails
      */
     public void writeToFile(FlashcardList flashcards) throws QuizMosInputException {
-        try (FileWriter fw = new FileWriter(filePath, false)) { // overwrite
+        assert flashcards != null : "Flashcard list must not be null before writing";
+
+        logger.log(Level.INFO, "Writing flashcards to file: {0}", filePath);
+        try (FileWriter fw = new FileWriter(filePath, false)) { // overwrite mode
             for (Flashcard flashcard : flashcards) {
                 fw.write(flashcard.toSaveFormat() + System.lineSeparator());
             }
+            logger.log(Level.INFO, "Successfully wrote {0} flashcards to file", flashcards.getSize());
         } catch (IOException e) {
-            throw new QuizMosInputException("Error writing flashcards to file: " + e.getMessage());
+            logger.log(Level.SEVERE, "Error writing flashcards: {0}", e.getMessage());
+            throw new QuizMosInputException("Error saving flashcards: " + e.getMessage());
         }
     }
 }
