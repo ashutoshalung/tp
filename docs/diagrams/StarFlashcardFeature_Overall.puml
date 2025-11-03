@@ -1,9 +1,12 @@
 @startuml
 title Overall Star Flashcard Flow
 
+' --- High resolution for clear PNG output ---
+skinparam dpi 300
+
 actor User
-participant ":Ui" as ui
-participant ":Parser" as parser
+participant "<<class>>\n Ui" as ui
+participant "<<class>>\n Parser" as parser
 participant ":StarCommand" as starCommand
 participant ":FlashcardList" as flashcardList
 participant ":Flashcard" as flashcard
@@ -33,31 +36,31 @@ flashcard --> starCommand : returns boolean
 deactivate flashcard
 
 alt Flashcard not starred
-    starCommand -> flashcard : toggleStar()
-    activate flashcard
-    flashcard --> starCommand : void
-    deactivate flashcard
+starCommand -> flashcard : toggleStar()
+activate flashcard
+flashcard --> starCommand : void
+deactivate flashcard
 
-    starCommand -> flashcardList : addStarredFlashcard(flashcard)
-    activate flashcardList
-    flashcardList --> starCommand : void
-    deactivate flashcardList
+starCommand -> flashcardList : addStarredFlashcard(flashcard)
+activate flashcardList
+flashcardList --> starCommand : void
+deactivate flashcardList
 
-    starCommand -> storage : writeToFile(flashcards)
-    activate storage
-    storage --> starCommand : void
-    deactivate storage
+starCommand -> storage : writeToFile(flashcards)
+activate storage
+storage --> starCommand : void
+deactivate storage
 
-    starCommand -> ui : showStarredFlashcard(flashcard)
-    activate ui
-    ui --> starCommand : void
-    deactivate ui
+starCommand -> ui : showStarredFlashcard(flashcard)
+activate ui
+ui --> starCommand : void
+deactivate ui
 
 else Flashcard already starred
-    starCommand -> ui : showFlashcardAlreadyStarred()
-    activate ui
-    ui --> starCommand : void
-    deactivate ui
+starCommand -> ui : showFlashcardAlreadyStarred()
+activate ui
+ui --> starCommand : void
+deactivate ui
 end
 
 deactivate starCommand
