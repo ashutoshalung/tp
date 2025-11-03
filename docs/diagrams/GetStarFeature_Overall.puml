@@ -1,11 +1,14 @@
 @startuml
-title Overall Getstar Feature flow
+title Overall GetStar Feature Flow
+
+' --- High resolution for clear PNG output ---
+skinparam dpi 300
 
 actor User
-participant ":Parser" as parser
+participant "<<class>>\n Parser" as parser
 participant ":GetStarCommand" as getStarCommand
 participant ":FlashcardList" as flashcardList
-participant ":Ui" as ui
+participant "<<class>>\n Ui" as ui
 participant ":Storage" as storage
 
 User -> parser : enter "getstar"
@@ -18,15 +21,15 @@ flashcardList --> getStarCommand : String starredFlashcardsList
 deactivate flashcardList
 
 alt starredFlashcardsList is empty
-    getStarCommand -> ui : respond("No starred flashcards found.")
-    activate ui
-    ui --> getStarCommand : void
-    deactivate ui
+getStarCommand -> ui : respond("No starred flashcards found.")
+activate ui
+ui --> getStarCommand : void
+deactivate ui
 else starredFlashcardsList has entries
-    getStarCommand -> ui : respond(showStarredFlashcardsList)
-    activate ui
-    ui --> getStarCommand : void
-    deactivate ui
+getStarCommand -> ui : respond(showStarredFlashcardsList)
+activate ui
+ui --> getStarCommand : void
+deactivate ui
 end
 
 getStarCommand -> storage : (no file changes)

@@ -1,12 +1,15 @@
 @startuml
 title Unstar Flashcard Overall Flow
 
+' --- Make PNG large and sharp ---
+skinparam dpi 300
+
 actor User
-participant ":Parser" as parser
+participant "<<class>>\n Parser" as parser
 participant ":UnstarCommand" as unstarCommand
 participant ":FlashcardList" as flashcardList
 participant ":Flashcard" as flashcard
-participant ":Ui" as ui
+participant "<<class>>\n Ui" as ui
 participant ":Storage" as storage
 
 User -> parser : enter "unstar <index>"
@@ -28,28 +31,29 @@ flashcard --> unstarCommand : returns boolean
 deactivate flashcard
 
 alt Flashcard already unstarred
-    unstarCommand -> ui : respondError("already unstarred")
-    deactivate unstarCommand
+unstarCommand -> ui : respondError("already unstarred")
+deactivate unstarCommand
 else Flashcard is starred
-    unstarCommand -> flashcardList : removeStarredFlashcard(flashcard)
-    activate flashcardList
-    flashcardList --> unstarCommand : void
-    deactivate flashcardList
+unstarCommand -> flashcardList : removeStarredFlashcard(flashcard)
+activate flashcardList
+flashcardList --> unstarCommand : void
+deactivate flashcardList
 
-    unstarCommand -> flashcard : toggleStar()
-    activate flashcard
-    flashcard --> unstarCommand : void
-    deactivate flashcard
+unstarCommand -> flashcard : toggleStar()
+activate flashcard
+flashcard --> unstarCommand : void
+deactivate flashcard
 
-    unstarCommand -> ui : respond(showUnstarredFlashcard)
-    activate ui
-    ui --> unstarCommand : void
-    deactivate ui
+unstarCommand -> ui : respond(showUnstarredFlashcard)
+activate ui
+ui --> unstarCommand : void
+deactivate ui
 
-    unstarCommand -> storage : writeToFile(flashcards)
-    activate storage
-    storage --> unstarCommand : void
-    deactivate storage
+unstarCommand -> storage : writeToFile(flashcards)
+activate storage
+storage --> unstarCommand : void
+deactivate storage
+
 end
 
 ' --- Object cleanup phase ---
