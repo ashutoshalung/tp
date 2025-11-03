@@ -1,7 +1,8 @@
 package quizmos.command;
 
 import quizmos.common.FlashcardMessages;
-import quizmos.exception.QuizMosException;
+import quizmos.common.Messages;
+import quizmos.exception.QuizMosInputException;
 import quizmos.flashcard.Flashcard;
 import quizmos.flashcardlist.FlashcardList;
 import quizmos.storage.Storage;
@@ -11,12 +12,15 @@ public class RemoveFlashcardCommand extends Command {
     int index = -1; // default index is false
     private boolean isValid = true;
 
-    public RemoveFlashcardCommand(String arg) {
+    public RemoveFlashcardCommand(String arg) throws QuizMosInputException {
         try {
             int oneBasedIndex = Integer.parseInt(arg.trim());
             this.index = oneBasedIndex - 1; // convert to zero-based
-        } catch (NumberFormatException | NullPointerException e) {
-            this.isValid = false;
+            if (this.index < 0) {
+                throw new QuizMosInputException(FlashcardMessages.invalidIndexMessage);
+            }
+        } catch (Exception e) {
+            throw new QuizMosInputException(Messages.invalidCommandMessage);
         }
     }
 
@@ -25,7 +29,7 @@ public class RemoveFlashcardCommand extends Command {
         assert flashcards != null : "FlashcardList should not be null";
 
         if (!isValid || index < 0 || index >= flashcards.getSize()) {
-            throw new QuizMosException(FlashcardMessages.invalidIndexMessage);
+            throw new QuizMosInputException(FlashcardMessages.invalidIndexMessage);
         }
 
         assert storage != null : "Storage should not be null";

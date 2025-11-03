@@ -43,18 +43,18 @@ class ParserTest {
     }
 
     @Test
-    void parseCommand_addCommandMissingArgs_returnsAddFlashcardCommand() throws QuizMosInputException {
+    void parseCommand_addCommandMissingArgs_throwsQuizMosInputException() {
         // missing both q/ and a/
-        Command noArgs = Parser.parseCommand("add something random");
-        assertInstanceOf(AddFlashcardCommand.class, noArgs);
+        assertThrows(QuizMosInputException.class, () -> Parser.parseCommand("add something random"));
 
         // missing a/
-        Command missingAnswer = Parser.parseCommand("add q/What is Java?");
-        assertInstanceOf(AddFlashcardCommand.class, missingAnswer);
+        assertThrows(QuizMosInputException.class, () -> Parser.parseCommand("add q/What is Java?"));
 
         // missing q/
-        Command missingQuestion = Parser.parseCommand("add a/A programming language");
-        assertInstanceOf(AddFlashcardCommand.class, missingQuestion);
+        assertThrows(QuizMosInputException.class, () -> Parser.parseCommand("add a/A programming language"));
+
+        // missing both q/ and a/, only "add" command
+        assertThrows(QuizMosInputException.class, () -> Parser.parseCommand("add"));
     }
 
     @Test
@@ -69,12 +69,10 @@ class ParserTest {
         assertThrows(QuizMosInputException.class, () -> Parser.parseCommand("delete"));
 
         // not a number
-        Command notNumber = Parser.parseCommand("delete abc");
-        assertInstanceOf(RemoveFlashcardCommand.class, notNumber);
+        assertThrows(QuizMosInputException.class, () -> Parser.parseCommand("delete abc"));
 
         // negative number
-        Command negativeNumber = Parser.parseCommand("delete -3");
-        assertInstanceOf(RemoveFlashcardCommand.class, negativeNumber);
+        assertThrows(QuizMosInputException.class, () -> Parser.parseCommand("delete -3"));
 
         // extra spaces
         assertThrows(QuizMosInputException.class, () -> Parser.parseCommand("delete       "));
