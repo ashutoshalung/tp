@@ -1,0 +1,37 @@
+@startuml
+title GetStarCommand Sequence Diagram
+
+actor User
+participant Parser
+participant GetStarCommand
+participant FlashcardList
+participant Ui
+participant Storage
+
+User -> Parser : enter "getstar"
+Parser -> GetStarCommand : create GetStarCommand()
+
+activate GetStarCommand
+GetStarCommand -> FlashcardList : getStarredFlashcardsString()
+activate FlashcardList
+FlashcardList --> GetStarCommand : String starredFlashcardsList
+deactivate FlashcardList
+
+alt starredFlashcardsList is empty
+    GetStarCommand -> Ui : respond("No starred flashcards found.")
+    activate Ui
+    Ui --> GetStarCommand : void
+    deactivate Ui
+else starredFlashcardsList has entries
+    GetStarCommand -> Ui : respond(showStarredFlashcardsList)
+    activate Ui
+    Ui --> GetStarCommand : void
+    deactivate Ui
+end
+
+GetStarCommand -> Storage : (no file changes)
+note right: Read-only command, no persistence needed.
+
+destroy GetStarCommand
+
+@enduml
