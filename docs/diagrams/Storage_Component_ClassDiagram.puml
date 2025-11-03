@@ -1,0 +1,28 @@
+```plantuml
+@startuml
+skinparam classAttributeIconSize 0
+skinparam classStyle rectangle
+
+package "Storage" {
+    class Storage {
+      +Storage(String filePath)
+      +ArrayList<Flashcard> load() throws QuizMosFileException
+      +void writeToFile(FlashcardList flashcards) throws QuizMosInputException
+    }
+}
+
+class Flashcard {
+  +Flashcard(String question, String answer)
+  +void toggleStar()
+  +String toSaveFormat()
+}
+
+class FlashcardList {
+  +int getSize()
+  +ArrayList<Flashcard> getAll()
+}
+
+Storage --> Flashcard : uses
+Storage --> FlashcardList : uses
+@enduml
+```

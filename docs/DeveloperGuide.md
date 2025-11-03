@@ -69,8 +69,8 @@ The sections below give more details of each component
 - Interacts with `Flashcard` objects from the `Model` component to display data.
 
 **Classes:**
-- Ui
-- Messages
+- `Ui`: Provides methods to read user input, display messages, prompts, errors, and separators. Supports both normal and test modes for consistent UI behavior.
+- `Messages`: Stores common string messages and separators used across the UI for consistent formatting and display.
 
 ![UI Component Class Diagram](images/UIComponent_ClassDiagram.png "UI Component Class Diagram")
 
@@ -109,9 +109,7 @@ The sections below give more details of each component
 - Works with `Flashcard` and `FlashcardList` objects from the `Model` component.
 
 **Classes:**
-- Storage
-- Flashcard
-- FlashcardList
+- `Storage`: Manages persistence of flashcards; reads from and writes to the storage file, ensures file existence, handles exceptions, and interacts with `Flashcard` and `FlashcardList`.
 
 ![Storage Component Class Diagram](images/StorageComponent_ClassDiagram.png "Storage Component Class Diagram")
 ### Commons Component
@@ -120,8 +118,8 @@ The sections below give more details of each component
 - Contains shared classes used by multiple components (e.g., Messages, Exceptions).
 
 **Class:**
-- Exception
-- Messages
+- `Exception`
+- `Messages`
 
 ![Commons Component Class Diagram](images/CommonsComponent_ClassDiagram.png "Commons Component Class Diagram")
 

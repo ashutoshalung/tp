@@ -1,37 +1,38 @@
 @startuml
-title GetStarCommand Sequence Diagram
+title Overall Getstar Feature flow
 
 actor User
-participant Parser
-participant GetStarCommand
-participant FlashcardList
-participant Ui
-participant Storage
+participant ":Parser" as parser
+participant ":GetStarCommand" as getStarCommand
+participant ":FlashcardList" as flashcardList
+participant ":Ui" as ui
+participant ":Storage" as storage
 
-User -> Parser : enter "getstar"
-Parser -> GetStarCommand : create GetStarCommand()
+User -> parser : enter "getstar"
+parser -> getStarCommand : create GetStarCommand()
+activate getStarCommand
 
-activate GetStarCommand
-GetStarCommand -> FlashcardList : getStarredFlashcardsString()
-activate FlashcardList
-FlashcardList --> GetStarCommand : String starredFlashcardsList
-deactivate FlashcardList
+getStarCommand -> flashcardList : getStarredFlashcardsString()
+activate flashcardList
+flashcardList --> getStarCommand : String starredFlashcardsList
+deactivate flashcardList
 
 alt starredFlashcardsList is empty
-    GetStarCommand -> Ui : respond("No starred flashcards found.")
-    activate Ui
-    Ui --> GetStarCommand : void
-    deactivate Ui
+    getStarCommand -> ui : respond("No starred flashcards found.")
+    activate ui
+    ui --> getStarCommand : void
+    deactivate ui
 else starredFlashcardsList has entries
-    GetStarCommand -> Ui : respond(showStarredFlashcardsList)
-    activate Ui
-    Ui --> GetStarCommand : void
-    deactivate Ui
+    getStarCommand -> ui : respond(showStarredFlashcardsList)
+    activate ui
+    ui --> getStarCommand : void
+    deactivate ui
 end
 
-GetStarCommand -> Storage : (no file changes)
+getStarCommand -> storage : (no file changes)
 note right: Read-only command, no persistence needed.
 
-destroy GetStarCommand
+' --- Object cleanup phase ---
+destroy getStarCommand
 
 @enduml
