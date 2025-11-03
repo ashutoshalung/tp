@@ -94,7 +94,7 @@ public class Ui {
     }
 
     public static void showUnstarredFlashcard(Flashcard unstarredFlashcard) {
-        respond(Messages.starredFlashcardMessage + unstarredFlashcard.toString());
+        respond(Messages.unStarredFlashcardMessage + unstarredFlashcard.toString());
 
     }
 
