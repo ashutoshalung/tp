@@ -24,7 +24,7 @@ package "quizmos.ui" {
 }
 
 package "quizmos.command" {
-    abstract class Command
+    abstract class "{abstract}\nCommand" as Command
 }
 
 /' Relationships '/
