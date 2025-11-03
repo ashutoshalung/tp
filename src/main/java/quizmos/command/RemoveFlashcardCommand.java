@@ -1,7 +1,6 @@
 package quizmos.command;
 
 import quizmos.common.FlashcardMessages;
-import quizmos.common.Messages;
 import quizmos.exception.QuizMosInputException;
 import quizmos.flashcard.Flashcard;
 import quizmos.flashcardlist.FlashcardList;
