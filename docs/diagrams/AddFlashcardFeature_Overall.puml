@@ -5,47 +5,47 @@ title Overall Add Flashcard Flow
 skinparam sequenceReferenceBackgroundColor #7cb9e8
 
 participant ":QuizMos"
-participant ":Parser"
+participant "<<class>>\nParser"
 participant ":AddFlashcardCommand"
-participant ":Ui"
+participant "<<class>>\nUi"
 participant ":FlashcardList"
 participant ":Storage"
 
-":QuizMos" -> ":Parser": parseCommand(command)
-activate ":Parser"
+":QuizMos" -> "<<class>>\nParser": parseCommand(command)
+activate "<<class>>\nParser"
 
-":Parser" -> ":AddFlashcardCommand": <<create>> AddFlashcardCommand(parts)
+"<<class>>\nParser" -> ":AddFlashcardCommand": <<create>> AddFlashcardCommand(parts)
 activate ":AddFlashcardCommand"
 
-":AddFlashcardCommand" -> ":Ui": invalidCommandRespond() [if format invalid]
-activate ":Ui"
-":Ui" --> ":AddFlashcardCommand"
-deactivate ":Ui"
+":AddFlashcardCommand" -> "<<class>>\nUi": invalidCommandRespond() [if format invalid]
+activate "<<class>>\nUi"
+"<<class>>\nUi" --> ":AddFlashcardCommand"
+deactivate "<<class>>\nUi"
 
-":AddFlashcardCommand" --> ":Parser": return AddFlashcardCommand
+":AddFlashcardCommand" --> "<<class>>\nParser": return AddFlashcardCommand
 deactivate ":AddFlashcardCommand"
 
-":Parser" --> ":QuizMos": return AddFlashcardCommand
-deactivate ":Parser"
+"<<class>>\nParser" --> ":QuizMos": return AddFlashcardCommand
+deactivate "<<class>>\nParser"
 
 ":QuizMos" -> ":AddFlashcardCommand": execute(flashcards, storage)
 activate ":AddFlashcardCommand"
 
 alt Command invalid
-    ":AddFlashcardCommand" -> ":Ui": invalidCommandRespond()
-    activate ":Ui"
-    ":Ui" --> ":AddFlashcardCommand"
-    deactivate ":Ui"
+    ":AddFlashcardCommand" -> "<<class>>\nUi": invalidCommandRespond()
+    activate "<<class>>\nUi"
+    "<<class>>\nUi" --> ":AddFlashcardCommand"
+    deactivate "<<class>>\nUi"
 else Command valid
     ":AddFlashcardCommand" -> ":FlashcardList": addFlashcard(new Flashcard)
     activate ":FlashcardList"
     ":FlashcardList" --> ":AddFlashcardCommand": Flashcard added
     deactivate ":FlashcardList"
 
-    ":AddFlashcardCommand" -> ":Ui": showFlashcardAdded(flashcard)
-    activate ":Ui"
-    ":Ui" --> ":AddFlashcardCommand"
-    deactivate ":Ui"
+    ":AddFlashcardCommand" -> "<<class>>\nUi": showFlashcardAdded(flashcard)
+    activate "<<class>>\nUi"
+    "<<class>>\nUi" --> ":AddFlashcardCommand"
+    deactivate "<<class>>\nUi"
 
     ":AddFlashcardCommand" -> ":Storage": writeToFile(flashcards)
     activate ":Storage"

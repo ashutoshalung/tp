@@ -7,31 +7,32 @@ skinparam classBackgroundColor #FFF3E6
 skinparam packageStyle rectangle
 skinparam shadowing false
 
-package "quizmos" {
+package "main" {
     class QuizMos
 }
 
-package "quizmos.parser" {
+package "Logic" {
     class Parser
+    abstract class "{abstract}\nCommand" as Command
 }
 
-package "quizmos.storage" {
+package "Storage" {
     class Storage
 }
 
-package "quizmos.ui" {
+package "Ui" {
     class Ui
 }
 
-package "quizmos.command" {
-    abstract class Command
+package "Model" {
+    class FlashcardList
 }
 
 /' Relationships '/
 QuizMos --> FlashcardList : manages >
 QuizMos ..> Parser : parses command
 QuizMos ..> Command : executes command
-QuizMos --> Storage : persists data
-QuizMos ..> Ui : interacts with user
+QuizMos --> Storage.Storage : persists data
+QuizMos ..> Ui.Ui : interacts with user
 
 @enduml

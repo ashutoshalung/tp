@@ -5,8 +5,11 @@ import quizmos.flashcard.Flashcard;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class FlashcardList implements Iterable<Flashcard> {
+    private static final Logger logger = Logger.getLogger(FlashcardList.class.getName());
 
     private final ArrayList<Flashcard> flashcards;
     private ArrayList<Flashcard> starredFlashcards = new ArrayList<Flashcard>();
@@ -14,11 +17,13 @@ public class FlashcardList implements Iterable<Flashcard> {
 
     public FlashcardList() {
         this.flashcards = new ArrayList<Flashcard>();
+        logger.log(Level.INFO, "Initialized empty FlashcardList.");
         initialiseStarredFlashcards();
     }
 
     public FlashcardList(ArrayList<Flashcard> flashcards) {
         this.flashcards = flashcards;
+        logger.log(Level.INFO, "Initialized FlashcardList with {0} flashcards.", flashcards.size());
         initialiseStarredFlashcards();
     }
 
@@ -27,15 +32,19 @@ public class FlashcardList implements Iterable<Flashcard> {
     }
 
     public void addFlashcard(Flashcard flashcard) {
+        logger.log(Level.INFO, "Added flashcard: {0}", flashcard.toString());
         flashcards.add(flashcard);
     }
 
     public void removeFlashcard(int index) {
-        flashcards.remove(index);
+        Flashcard removed = flashcards.remove(index);
+        logger.log(Level.INFO, "Removed flashcard: {0}", removed.toString());
     }
 
     public Flashcard getFlashcard(int index) {
-        return flashcards.get(index);
+        Flashcard f = flashcards.get(index);
+        logger.log(Level.FINE, "Retrieved flashcard: {0}", f.toString());
+        return f;
     }
 
     public int getSize() {
@@ -52,6 +61,7 @@ public class FlashcardList implements Iterable<Flashcard> {
                 starredFlashcards.add(f);
             }
         }
+        logger.log(Level.INFO, "Initialized starred flashcards list with {0} entries.", starredFlashcards.size());
     }
 
     public String getStarredFlashcardsString() {
@@ -105,12 +115,12 @@ public class FlashcardList implements Iterable<Flashcard> {
 
     public void addStarredFlashcard(Flashcard starredFlashcard) {
         starredFlashcards.add(starredFlashcard);
+        logger.log(Level.INFO, "Added to starred list: {0}", starredFlashcard.toString());
     }
 
     public void removeStarredFlashcard(Flashcard unstarredFlashcard) {
         if (unstarredFlashcard.checkIsStarred()) {
             starredFlashcards.remove(unstarredFlashcard);
         }
-
     }
 }

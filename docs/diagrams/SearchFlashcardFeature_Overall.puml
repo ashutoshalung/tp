@@ -5,21 +5,21 @@ title Overall Search Flashcard Flow
 skinparam sequenceReferenceBackgroundColor #f7e37c
 
 participant ":QuizMos"
-participant ":Parser"
+participant "<<class>>\nParser"
 participant ":SearchFlashcardCommand"
-participant ":Ui"
+participant "<<class>>\nUi"
 participant ":FlashcardList"
 
-":QuizMos" -> ":Parser": parseCommand(command)
-activate ":Parser"
+":QuizMos" -> "<<class>>\nParser": parseCommand(command)
+activate "<<class>>\nParser"
 
-":Parser" -> ":SearchFlashcardCommand": <<create>> SearchFlashcardCommand(keyPhrase)
+"<<class>>\nParser" -> ":SearchFlashcardCommand": <<create>> SearchFlashcardCommand(keyPhrase)
 activate ":SearchFlashcardCommand"
-":SearchFlashcardCommand" --> ":Parser": return SearchFlashcardCommand
+":SearchFlashcardCommand" --> "<<class>>\nParser": return SearchFlashcardCommand
 deactivate ":SearchFlashcardCommand"
 
-":Parser" --> ":QuizMos": return SearchFlashcardCommand
-deactivate ":Parser"
+"<<class>>\nParser" --> ":QuizMos": return SearchFlashcardCommand
+deactivate "<<class>>\nParser"
 
 ":QuizMos" -> ":SearchFlashcardCommand": execute(flashcards, storage)
 activate ":SearchFlashcardCommand"
@@ -30,15 +30,15 @@ activate ":FlashcardList"
 deactivate ":FlashcardList"
 
 alt No matches
-    ":SearchFlashcardCommand" -> ":Ui": noMatchesRespond()
-    activate ":Ui"
-    ":Ui" --> ":SearchFlashcardCommand"
-    deactivate ":Ui"
+    ":SearchFlashcardCommand" -> "<<class>>\nUi": noMatchesRespond()
+    activate "<<class>>\nUi"
+    "<<class>>\nUi" --> ":SearchFlashcardCommand"
+    deactivate "<<class>>\nUi"
 else Matches found
-    ":SearchFlashcardCommand" -> ":Ui": respond(matches.toString())
-    activate ":Ui"
-    ":Ui" --> ":SearchFlashcardCommand"
-    deactivate ":Ui"
+    ":SearchFlashcardCommand" -> "<<class>>\nUi": respond(matches.toString())
+    activate "<<class>>\nUi"
+    "<<class>>\nUi" --> ":SearchFlashcardCommand"
+    deactivate "<<class>>\nUi"
 end
 
 ":SearchFlashcardCommand" --> ":QuizMos"

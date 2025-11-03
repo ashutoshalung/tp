@@ -1,6 +1,11 @@
 package quizmos.flashcard;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class Flashcard {
+    private static final Logger logger = Logger.getLogger(Flashcard.class.getName());
+
     private String question;
     private String answer;
     private boolean isStarred;
@@ -12,6 +17,7 @@ public class Flashcard {
         this.isStarred = false;
         this.starMarker = "";
 
+        logger.log(Level.INFO, "Created new flashcard with question: \"{0}\"", question);
     }
 
     public String getQuestion() {
@@ -44,6 +50,5 @@ public class Flashcard {
 
     public String toString() {
         return "Question: " + getQuestion() + " | " + "Answer: " + getAnswer() + " |" + starMarker;
-
     }
 }

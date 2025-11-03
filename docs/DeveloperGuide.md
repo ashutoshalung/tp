@@ -26,6 +26,7 @@
    - [Feature 6: Unstar Flashcard](#feature-6-unstar-flashcard)
    - [Feature 7: Get Starred Flashcards](#feature-7-getstar-flashcard)
 4. [Requirements](#requirements)
+   - [User Stories](#user-stories)
    - [Use Cases](#use-cases)
    - [Non-Functional Requirements (NFRs)](#non-functional-requirements-nfrs)
    - [Glossary](#glossary)
@@ -84,8 +85,8 @@ The sections below give more details of each component
 - Provides methods to add, delete, and search flashcards.
 
 **Classes:**
-- Flashcard
-- FlashcardList
+- **`Flashcard`** — Represents a single flashcard containing a question and answer pair, with support for marking it as starred.
+- **`FlashcardList`** — Manages a collection of flashcards, providing methods to add, remove, retrieve, and list flashcards, as well as filter starred ones.
 
 ![Model Component Class Diagram](images/ModelComponent_ClassDiagram.png "Model Component Class Diagram")
 
@@ -96,7 +97,7 @@ The sections below give more details of each component
 - Coordinates between UI, Logic, and Storage components.
 
 **Class:**
-- QuizMos
+- **`QuizMos`** — The main entry point of the application. Handles setup, command parsing, and orchestrates the overall program flow.
 
 ![Main Component Class Diagram](images/MainComponent_ClassDiagram.png "Main Component Class Diagram")
 
@@ -112,18 +113,23 @@ The sections below give more details of each component
 - `Storage`: Manages persistence of flashcards; reads from and writes to the storage file, ensures file existence, handles exceptions, and interacts with `Flashcard` and `FlashcardList`.
 
 ![Storage Component Class Diagram](images/StorageComponent_ClassDiagram.png "Storage Component Class Diagram")
+
 ### Commons Component
 
 **Responsibilities:**
 - Contains shared classes used by multiple components (e.g., Messages, Exceptions).
 
 **Class:**
-- `Exception`
-- `Messages`
+- **`QuizMosException`** — The base exception class for all application-specific errors.
+- **`QuizMosFileException`** — Thrown when file read/write operations fail.
+- **`QuizMosInputException`** — Thrown when user input is invalid or cannot be processed.
+- **`QuizMosLogicException`** — Thrown when logical errors occur during command execution.
+- **`Messages`** — Stores general UI and command-related messages.
+- **`FlashcardMessages`** — Provides user-facing messages for flashcard-related operations.
+- **`FlashcardListMessages`** — Contains messages related to the flashcard list state.
+- **`ReviewMessages`** — Provides messages and prompts used during the flashcard review sessions.
 
 ![Commons Component Class Diagram](images/CommonsComponent_ClassDiagram.png "Commons Component Class Diagram")
-
-
 
 ---
 
@@ -255,6 +261,25 @@ This section describes some noteworthy details on how certain features are imple
 
 ## Requirements
 
+### User Stories
+
+| Version | As a... | I want to... | So that I can... |
+| :--- | :--- | :--- | :--- |
+| v1.0 | new user | go through a series of instructions | refer to them when I forget how to use the application |
+| v1.0 | new user | see usage instructions | I know how to use the app |
+| v1.0 | user | view list of flashcards overall | I can see every flashcard created |
+| v1.0 | user | remove flashcards | I can keep my deck organized and make sure unnecessary cards are removed |
+| v1.0 | user | add a flashcard with a question and answer | I can revise the material later |
+| v1.0 | user | save my flashcards locally | I can reuse flashcards |
+| v1.0 | user | do review | I can review my knowledge |
+| v2.0 | user | find a to-do item by name | locate a to-do without having to go through the entire list |
+| v2.0 | user | star/flag flash cards which are important | I can review by categories |
+| v2.0 | new user | add the list of flashcards through a txt file | I start using the app more quickly |
+| v2.0 | user | add multiple choice type questions | I can test my knowledge in different ways |
+| v2.0 | user | add true/false type questions | I can test my knowledge in different ways |
+| v2.0 | user | search for a specific flashcard by keyword | I can quickly find and revise a concept |
+| v2.0 | user | mark my answers as correct or incorrect during quizzes | the app can track my progress |
+
 ### Use Cases
 
 ### Non-Functional Requirements (NFRs)
@@ -263,12 +288,14 @@ This section describes some noteworthy details on how certain features are imple
 - The application must prohibit starting MCQ review if the `FlashcardList` contains fewer than 4 flashcards.
 - All review mode prompts must perform immediate input validation and provide clear, specific error messages for incorrect choices.
 - The review session must guarantee a graceful exit upon receiving the `quit` command, regardless of the user's progress in the loop.
+
 ---
 
 ## Glossary
 - **FLIP mode:** A basic mode where the user views the question and manually chooses whether or not to reveal the answer.
 - **MCQ mode (Multi-choice questions):** A mode that presents the user with four answer choices (including the correct one), forcing them to select one number. Requires at least four flashcards in the list.
 - **TF mode:** A mode where a flashcard's question is paired with a randomly selected answer (which may or may not be correct). The user must decide if the resulting statement is true or false.
+
 ---
 
 ## Instructions for Manual Testing

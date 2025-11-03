@@ -113,7 +113,8 @@ ____________________________________________________________
 Try `list` to see a list of valid flashcards
 ____________________________________________________________
 ____________________________________________________________
-? ERROR: Invalid command! Try `help` for more information
+? ERROR: Invalid index! Use a correct integer flashcard index!
+Try `list` to see a list of valid flashcards
 ____________________________________________________________
 ____________________________________________________________
 ? ERROR: Invalid command! Try `help` for more information

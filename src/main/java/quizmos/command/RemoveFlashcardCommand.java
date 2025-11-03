@@ -1,7 +1,6 @@
 package quizmos.command;
 
 import quizmos.common.FlashcardMessages;
-import quizmos.common.Messages;
 import quizmos.exception.QuizMosInputException;
 import quizmos.flashcard.Flashcard;
 import quizmos.flashcardlist.FlashcardList;
@@ -22,7 +21,7 @@ public class RemoveFlashcardCommand extends Command {
         } catch (QuizMosInputException e) {
             throw e;
         } catch (Exception e) {
-            throw new QuizMosInputException(Messages.invalidCommandMessage);
+            throw new QuizMosInputException(FlashcardMessages.invalidIndexMessage);
         }
     }
 
