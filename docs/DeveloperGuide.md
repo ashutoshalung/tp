@@ -16,7 +16,6 @@
    - [Main Component](#main-component)
    - [Storage Component](#storage-component)
    - [Commons Component](#commons-component)
-   - [Overall Architecture Diagram](#overall-architecture-diagram)
 3. [Implementation](#implementation)
    - [Feature 1: Add Flashcard](#feature-1-add-flashcard)
    - [Feature 2: Delete Flashcard](#feature-2-delete-flashcard)
@@ -648,7 +647,6 @@ java -jar quizmos.jar
 - Typing an unknown command (e.g., `randomCommand`)
 - Missing prefixes (e.g., `add What is 2+2? 4`)
 - Commands with extra spaces (should still work properly)
-- Commands with uppercase/lowercase variations (case-insensitive)
 
 ---
 
