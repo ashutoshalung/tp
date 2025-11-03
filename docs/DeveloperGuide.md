@@ -26,6 +26,7 @@
    - [Feature 6: Unstar Flashcard](#feature-6-unstar-flashcard)
    - [Feature 7: Get Starred Flashcards](#feature-7-getstar-flashcard)
 4. [Requirements](#requirements)
+   - [User Stories](#user-stories)
    - [Use Cases](#use-cases)
    - [Non-Functional Requirements (NFRs)](#non-functional-requirements-nfrs)
    - [Glossary](#glossary)
@@ -259,6 +260,25 @@ This section describes some noteworthy details on how certain features are imple
 ---
 
 ## Requirements
+
+### User Stories
+
+| Version | As a... | I want to... | So that I can... |
+| :--- | :--- | :--- | :--- |
+| v1.0 | new user | go through a series of instructions | refer to them when I forget how to use the application |
+| v1.0 | new user | see usage instructions | I know how to use the app |
+| v1.0 | user | view list of flashcards overall | I can see every flashcard created |
+| v1.0 | user | remove flashcards | I can keep my deck organized and make sure unnecessary cards are removed |
+| v1.0 | user | add a flashcard with a question and answer | I can revise the material later |
+| v1.0 | user | save my flashcards locally | I can reuse flashcards |
+| v1.0 | user | do review | I can review my knowledge |
+| v2.0 | user | find a to-do item by name | locate a to-do without having to go through the entire list |
+| v2.0 | user | star/flag flash cards which are important | I can review by categories |
+| v2.0 | new user | add the list of flashcards through a txt file | I start using the app more quickly |
+| v2.0 | user | add multiple choice type questions | I can test my knowledge in different ways |
+| v2.0 | user | add true/false type questions | I can test my knowledge in different ways |
+| v2.0 | user | search for a specific flashcard by keyword | I can quickly find and revise a concept |
+| v2.0 | user | mark my answers as correct or incorrect during quizzes | the app can track my progress |
 
 ### Use Cases
 
