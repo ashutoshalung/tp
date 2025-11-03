@@ -5,8 +5,9 @@ title Model Component Class Diagram
 skinparam classAttributeIconSize 0
 skinparam classBackgroundColor #E6F3FF
 skinparam packageStyle rectangle
+skinparam shadowing false
 
-package "model.flashcard" {
+package "model" {
     class Flashcard {
         - question : String
         - answer : String
@@ -18,9 +19,7 @@ package "model.flashcard" {
         + toSaveFormat() : String
         + toString() : String
     }
-}
 
-package "model.flashcardlist" {
     class FlashcardList {
         - flashcards : ArrayList<Flashcard>
         --
@@ -33,8 +32,8 @@ package "model.flashcardlist" {
         + getStarredFlashcards() : ArrayList<Flashcard>
         + toString() : String
     }
-}
 
-FlashcardList "1" o-- "*" Flashcard : contains >
+/' Composition relationship '/
+FlashcardList "1" *-- "*" Flashcard : contains >
 
 @enduml

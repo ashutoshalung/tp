@@ -5,31 +5,31 @@ title Overall Remove Flashcard Flow
 skinparam sequenceReferenceBackgroundColor #ffcccb
 
 participant ":QuizMos"
-participant ":Parser"
+participant "<<class>>\nParser"
 participant ":RemoveFlashcardCommand"
-participant ":Ui"
+participant "<<class>>\nUi"
 participant ":FlashcardList"
 participant ":Storage"
 
-":QuizMos" -> ":Parser": parseCommand(command)
-activate ":Parser"
+":QuizMos" -> "<<class>>\nParser": parseCommand(command)
+activate "<<class>>\nParser"
 
-":Parser" -> ":RemoveFlashcardCommand": <<create>> RemoveFlashcardCommand(arg)
+"<<class>>\nParser" -> ":RemoveFlashcardCommand": <<create>> RemoveFlashcardCommand(arg)
 activate ":RemoveFlashcardCommand"
-":RemoveFlashcardCommand" --> ":Parser": return RemoveFlashcardCommand
+":RemoveFlashcardCommand" --> "<<class>>\nParser": return RemoveFlashcardCommand
 deactivate ":RemoveFlashcardCommand"
 
-":Parser" --> ":QuizMos": return RemoveFlashcardCommand
-deactivate ":Parser"
+"<<class>>\nParser" --> ":QuizMos": return RemoveFlashcardCommand
+deactivate "<<class>>\nParser"
 
 ":QuizMos" -> ":RemoveFlashcardCommand": execute(flashcards, storage)
 activate ":RemoveFlashcardCommand"
 
 alt Invalid index
-    ":RemoveFlashcardCommand" -> ":Ui": invalidIndexRespond()
-    activate ":Ui"
-    ":Ui" --> ":RemoveFlashcardCommand"
-    deactivate ":Ui"
+    ":RemoveFlashcardCommand" -> "<<class>>\nUi": invalidIndexRespond()
+    activate "<<class>>\nUi"
+    "<<class>>\nUi" --> ":RemoveFlashcardCommand"
+    deactivate "<<class>>\nUi"
 else Valid index
     ":RemoveFlashcardCommand" -> ":FlashcardList": getFlashcard(index)
     activate ":FlashcardList"
@@ -41,10 +41,10 @@ else Valid index
     ":FlashcardList" --> ":RemoveFlashcardCommand": Flashcard removed
     deactivate ":FlashcardList"
 
-    ":RemoveFlashcardCommand" -> ":Ui": showFlashcardRemoved(flashcard)
-    activate ":Ui"
-    ":Ui" --> ":RemoveFlashcardCommand"
-    deactivate ":Ui"
+    ":RemoveFlashcardCommand" -> "<<class>>\nUi": showFlashcardRemoved(flashcard)
+    activate "<<class>>\nUi"
+    "<<class>>\nUi" --> ":RemoveFlashcardCommand"
+    deactivate "<<class>>\nUi"
 
     ":RemoveFlashcardCommand" -> ":Storage": writeToFile(flashcards)
     activate ":Storage"

@@ -82,8 +82,8 @@ The sections below give more details of each component
 - Provides methods to add, delete, and search flashcards.
 
 **Classes:**
-- Flashcard
-- FlashcardList
+- **`Flashcard`** — Represents a single flashcard containing a question and answer pair, with support for marking it as starred.
+- **`FlashcardList`** — Manages a collection of flashcards, providing methods to add, remove, retrieve, and list flashcards, as well as filter starred ones.
 
 ![Model Component Class Diagram](images/ModelComponent_ClassDiagram.png "Model Component Class Diagram")
 
@@ -94,7 +94,7 @@ The sections below give more details of each component
 - Coordinates between UI, Logic, and Storage components.
 
 **Class:**
-- QuizMos
+- **`QuizMos`** — The main entry point of the application. Handles setup, command parsing, and orchestrates the overall program flow.
 
 ![Main Component Class Diagram](images/MainComponent_ClassDiagram.png "Main Component Class Diagram")
 
@@ -112,18 +112,23 @@ The sections below give more details of each component
 - FlashcardList
 
 ![Storage Component Class Diagram](images/StorageComponent_ClassDiagram.png "Storage Component Class Diagram")
+
 ### Commons Component
 
 **Responsibilities:**
 - Contains shared classes used by multiple components (e.g., Messages, Exceptions).
 
 **Class:**
-- Exception
-- Messages
+- **`QuizMosException`** — The base exception class for all application-specific errors.
+- **`QuizMosFileException`** — Thrown when file read/write operations fail.
+- **`QuizMosInputException`** — Thrown when user input is invalid or cannot be processed.
+- **`QuizMosLogicException`** — Thrown when logical errors occur during command execution.
+- **`Messages`** — Stores general UI and command-related messages.
+- **`FlashcardMessages`** — Provides user-facing messages for flashcard-related operations.
+- **`FlashcardListMessages`** — Contains messages related to the flashcard list state.
+- **`ReviewMessages`** — Provides messages and prompts used during the flashcard review sessions.
 
 ![Commons Component Class Diagram](images/CommonsComponent_ClassDiagram.png "Commons Component Class Diagram")
-
-
 
 ---
 
@@ -244,12 +249,14 @@ This section describes some noteworthy details on how certain features are imple
 - The application must prohibit starting MCQ review if the `FlashcardList` contains fewer than 4 flashcards.
 - All review mode prompts must perform immediate input validation and provide clear, specific error messages for incorrect choices.
 - The review session must guarantee a graceful exit upon receiving the `quit` command, regardless of the user's progress in the loop.
+
 ---
 
 ## Glossary
 - **FLIP mode:** A basic mode where the user views the question and manually chooses whether or not to reveal the answer.
 - **MCQ mode (Multi-choice questions):** A mode that presents the user with four answer choices (including the correct one), forcing them to select one number. Requires at least four flashcards in the list.
 - **TF mode:** A mode where a flashcard's question is paired with a randomly selected answer (which may or may not be correct). The user must decide if the resulting statement is true or false.
+
 ---
 
 ## Instructions for Manual Testing
