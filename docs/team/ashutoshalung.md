@@ -1,90 +1,139 @@
+# Ashutosh Alung – Project Portfolio Page
+
+---
+
 ## **Overview**
 
-Our product, **Quizmos**, is a flashcard-based quiz application that helps students study effectively through active recall. Users can create, edit, delete, and quiz themselves on flashcards through a simple and intuitive command-line interface.  
-*(Shared 1–2 sentences for all team members)*
+My contributions centered on **engineering the persistence and enhancement layer** of the QuizMos system — connecting user-facing commands with durable, maintainable, and extensible backend support.
 
-In addition to the core quiz functionality, I implemented the **Starring Flashcards feature** and the **Storage component**, and contributed extensively to the **JUnit test suite**. These contributions improved both the reliability and long-term usability of Quizmos.
+I implemented the complete **Starring System** (`star`, `unstar`, `getstar` commands) and **re-engineered the Storage component**, both of which are fundamental to the app’s ability to track user progress and preserve data integrity across sessions. These components form the **backbone of QuizMos’ reliability and user experience**.
+
+Beyond implementation, I led key **architectural refinements** to improve cohesion and reduce coupling between `Ui`, `Messages`, and `Storage`. I also authored detailed **sequence and class diagrams** that accurately mirror system behavior, introduced **logging, assertions, and custom exceptions**, and **ideated the v1 and v2 feature roadmap** for future scalability.
 
 ---
 
 ## **Summary of Contributions**
 
 ### **Code Contributed**
-- [Link to my code on the tP Code Dashboard](<https://nus-cs2113-ay2526s1.github.io/tp-dashboard/?search=&sort=groupTitle&sortWithin=title&timeframe=commit&mergegroup=&groupSelect=groupByRepos&breakdown=true&checkedFileTypes=docs~functional-code~test-code~other&since=2025-09-19T00%3A00%3A00&filteredFileName=&tabOpen=true&tabType=authorship&tabAuthor=ashutoshalung&tabRepo=AY2526S1-CS2113-T11-1%2Ftp%5Bmaster%5D&authorshipIsMergeGroup=false&authorshipFileTypes=docs~functional-code~test-code&authorshipIsBinaryFileTypeChecked=false&authorshipIsIgnoredFilesChecked=false>)
+
+* [View my code on tP Code Dashboard](https://nus-cs2113-ay2526s1.github.io/tp-dashboard/?search=ashutoshalung&breakdown=true&sort=groupTitle%20dsc&sortWithin=title&since=2025-09-19T00%3A00%3A00&timeframe=commit&mergegroup=&groupSelect=groupByRepos&checkedFileTypes=docs~functional-code~test-code~other&filteredFileName=)
 
 ---
 
-### **Enhancements Implemented**
+## **Enhancements Implemented**
 
-#### 🔹 Starring Flashcards Feature
-- Implemented the ability for users to **mark and unmark flashcards as starred** to highlight important ones for focused revision.
-- Added support for commands such as `star`, `unstar`, and `list starred`.
-- Integrated starred status persistence through the Storage component.
-- Updated UI messages to display clear feedback when a flashcard is starred or unstarred.
-- Added **JUnit tests** to verify correct command parsing, execution, and storage behavior.
+### **1. Core Starring System (`Star`, `Unstar`, `GetStar` Features)**
 
-#### 🔹 Storage Component
-- Designed and implemented the **Storage** system responsible for saving and loading flashcards from a local text file.
-- Added support for reading and writing the **starred status** of each flashcard.
-- Implemented robust **error handling** for missing or corrupted files, with automatic file creation and recovery logic.
-- Refactored serialization and deserialization logic for clarity and adherence to SRP (Single Responsibility Principle).
-- Wrote comprehensive **JUnit tests** for Storage, covering boundary cases (e.g., empty files, malformed lines, missing attributes).
+* Engineered the **complete starring subsystem**, introducing persistent “starred” states across the flashcard lifecycle.
+* Developed three core commands:
+    * **`StarCommand`** – Flags flashcards for priority review.
+    * **`UnstarCommand`** – Removes the flag while maintaining index integrity.
+    * **`GetStarCommand`** – Retrieves and displays all starred flashcards with formatted output.
+* Refactored `FlashcardList` to efficiently handle and store large numbers of starred flashcards without performance degradation.
+* Integrated with the `Storage` component for **persistent saving** of starred status using a consistent serialization format.
+* Crafted intuitive `Ui` feedback and improved message consistency through `Messages` refactoring.
+* Ensured robustness through **assertions, logging, and custom exception handling**, making the starring system reliable and extensible.
 
-#### 🔹 JUnit Test Suite
-- Significantly expanded test coverage across multiple components, including:
-    - `Storage` – verifying correct persistence and loading of flashcards.
-    - `Parser` – validating correct command parsing and error messages.
-    - `Command` – ensuring consistent behavior for `star`, `unstar`, and `list starred`.
-- Created structured test data and setup/teardown logic for isolated test execution.
-- Improved reliability of the CI pipeline by ensuring all new test cases passed consistently.
+**Impact:**  
+Transformed QuizMos from a static flashcard app into a **personalized learning platform** capable of tracking user focus and progress — a foundational step toward long-term usability and scalability.
 
 ---
 
-### **Contributions to the User Guide (UG)**
-- Authored the **“Starring Flashcards”** section with examples for `star`, `unstar`, and `list starred` commands.
-- Added documentation on **data persistence**, explaining how and where flashcards are stored.
-- Updated the **Command Summary Table** with all new commands and parameters.
-- Edited multiple sections for consistency and formatting improvements.
+### **2. Storage Component Architecture and Reliability Layer**
+
+* Re-engineered the `Storage` class to ensure **stable read/write operations** and compatibility with evolving data models.
+* Implemented **logging and assertions** to trace file operations, detect data corruption, and maintain fault tolerance.
+* Designed for resilience — gracefully handling malformed input files and I/O errors using custom `QuizMosFileException` and `QuizMosInputException` classes.
+* Enhanced serialization/deserialization logic to support new metadata (like starred status) while preserving backward compatibility.
+* Validated through comprehensive **JUnit testing** to ensure correctness under edge cases and large data loads.
+
+**Impact:**  
+Built the **data persistence backbone** of QuizMos — ensuring that all future features, from starred flashcards to user progress tracking, function dependably and predictably.
 
 ---
 
-### **Contributions to the Developer Guide (DG)**
-- Authored the **“Storage Component”** section describing its structure, read/write logic, and integration with the rest of the app.
-- Wrote the **“Starring Feature Implementation”** section detailing the command flow and persistence design.
-- Added UML diagrams:
-    - **Sequence Diagram** for `StarCommand` execution.
-    - **Class Diagram** update showing the new `isStarred` attribute in `Flashcard`.
-    - **Activity Diagram** for flashcard saving/loading on startup and shutdown.
-- Wrote **Design Considerations** discussing text-based vs JSON-based storage alternatives.
+### **3. Exception Framework, Logging, and Assertions**
+
+* Developed the **QuizMos exception hierarchy** to deliver consistent and meaningful error reporting.
+* Integrated **structured logging** across key operations to improve traceability and debugging.
+* Introduced **assertions** at critical checkpoints to enforce data integrity and prevent silent failures.
+* Ensured predictable exception propagation through the command–storage–UI pipeline.
+
+**Impact:**  
+Elevated QuizMos’ **engineering maturity** by introducing production-level safety mechanisms that strengthened system reliability and maintainability.
 
 ---
 
-### **Contributions to Team-Based Tasks**
-- Helped maintain the **GitHub issue tracker** by creating, tagging, and closing issues.
-- Assisted with **CI setup and testing pipeline** to include new test cases.
-- Supported teammates in resolving file I/O and parser-related bugs.
-- Participated in team discussions on architecture and milestone planning.
+### **4. Architectural Refinement and Codebase Cohesion**
+
+* Refactored the `Messages` and `Ui` classes to improve cohesion and clarity — ensuring `Messages` only stores static text while `Ui` focuses on display logic.
+* Reduced coupling between `Ui`, `Storage`, and `Command` classes by enforcing single-responsibility principles.
+* Enhanced `FlashcardList` to efficiently handle starred flashcards and integrate cleanly with persistent storage.
+* Unified design conventions and Javadoc standards across the codebase.
 
 ---
 
-### **Review / Mentoring Contributions**
-- Reviewed teammates’ pull requests focusing on code quality, test structure, and logic correctness.
-    - [Example PR Review #1](<insert link>)
-    - [Example PR Review #2](<insert link>)
-- Provided debugging help for teammates struggling with file parsing or JUnit test setup.
-- Shared tips on improving test readability and using parameterized tests effectively.
+### **5. Feature Ideation (v1 and v2 Roadmap)**
+
+* **Version 1 Features:**
+    * Dedicated “Starred Flashcards” view.
+    * Sorting and filtering for starred flashcards.
+* **Version 2 Features:**
+    * Auto-starring based on usage frequency.
+    * Integration with spaced repetition algorithms.
+    * Visual indicators for flashcard importance and progress.
 
 ---
 
-### **Contributions Beyond the Project Team**
-- Reported bugs in other teams’ Quiz applications related to incorrect file persistence.
-- Answered forum queries on **PlantUML**, **JUnit testing**, and **GitHub Actions** CI setup.
-- Shared example snippets demonstrating safe file handling and error recovery techniques.
+## **Contributions to the Developer Guide (DG)**
+
+* Authored **sequence diagrams** for:
+    * `StarCommand`
+    * `UnstarCommand`
+    * `GetStarCommand`
+* Created and refined **class diagrams** for:
+    * `Storage` component
+    * `Ui` and `FlashcardList` integration
+* Reorganized DG structure to mirror real code architecture and emphasize component interaction.
+* Wrote detailed documentation on:
+    * Storage read/write logic and exception handling.
+    * `Messages` and `Ui` refactoring rationale.
+    * System-wide logging and assertion usage.
+* Drafted **Version 1 and 2 user stories** to guide long-term evolution of QuizMos.
+
+**Impact:**  
+Transformed the DG into a **technical blueprint** accurately reflecting real system behavior — improving maintainability and onboarding for future contributors.
 
 ---
 
-### **Evidence of Technical Leadership**
-- Took ownership of the **Storage subsystem** design and ensured seamless integration across components.
-- Designed the **persistence architecture** to handle the starred attribute efficiently.
-- Led test design discussions to ensure consistent and maintainable unit tests.
-- Guided teammates on debugging strategies and best practices for TDD (Test-Driven Development).
+## **Contributions to the User Guide (UG)**
+
+* Authored and formatted sections for:
+    * `star INDEX`
+    * `unstar INDEX`
+    * `getstar`
+* Added real command examples, expected outputs, and error explanations.
+* Enhanced UG layout for readability, consistency, and logical flow.
+* Clarified data persistence behavior and how starred flashcards are saved and retrieved.
+
+---
+
+## **Team and Leadership Contributions**
+
+* Reviewed and merged PRs across `Storage`, `Ui`, and `FlashcardList` to maintain architecture consistency.
+* Debugged complex integration issues involving command–storage synchronization.
+* Helped teammates adopt consistent **logging, exception handling**, and **testing** standards.
+* Standardized diagram and documentation style across the team’s DG.
+* Led brainstorming and roadmap sessions for v1/v2 feature expansion.
+
+---
+
+## **Overall Impact**
+
+I built and reinforced the **foundational persistence and personalization layers** of QuizMos — transforming it from a simple flashcard system into a dynamic, stateful learning platform.
+
+By designing the **starring system**, **re-engineering the Storage component**, and implementing **robust logging and exception frameworks**, I ensured that QuizMos operates with long-term **reliability, maintainability, and scalability** in mind.
+
+My architectural refinements, documentation leadership, and forward-looking feature ideation strengthened the system’s technical depth and positioned QuizMos for continued evolution and innovation.
+
+---

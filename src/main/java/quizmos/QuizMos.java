@@ -23,9 +23,9 @@ public class QuizMos {
 
 
     public QuizMos() {
-        this.flashcards = new FlashcardList();
         try {
             setupLogging();
+            this.flashcards = new FlashcardList();
             this.storage = new Storage("data/QuizMos.txt");
         } catch (Exception e) {
             Ui.respondError(e.getMessage());

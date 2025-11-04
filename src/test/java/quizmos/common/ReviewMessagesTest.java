@@ -15,6 +15,16 @@ class ReviewMessagesTest {
     }
 
     @Test
+    void showStatementTF_normalString_normalOutput() {
+        assertEquals("Statement: normal", ReviewMessages.showStatementTF("normal"));
+    }
+
+    @Test
+    void showStatementTF_space_normalOutput() {
+        assertEquals("Statement:  ", ReviewMessages.showStatementTF(" "));
+    }
+
+    @Test
     void endReview_nQuestion_printOutN() {
         int n = 200;
         assertEquals("Review session ended!\nTotal reviewed: " + n, ReviewMessages.endReview(n));
