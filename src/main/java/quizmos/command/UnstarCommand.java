@@ -52,7 +52,7 @@ public class UnstarCommand extends Command {
         logger.log(Level.INFO, "Executing UnstarCommand with index: " + index);
 
         // --- Validate index range ---
-        if (index > flashcards.getSize() - 1) {
+        if (index > flashcards.getSize() - 1 || index + 1 <=0) {
             logger.log(Level.WARNING, "Index out of range: " + index);
             throw new QuizMosInputException("Index is out of range!");
         }
@@ -70,7 +70,8 @@ public class UnstarCommand extends Command {
         // --- Toggle star and update lists ---
         flashcards.removeStarredFlashcard(flashcardToBeUnstarred);
         flashcardToBeUnstarred.toggleStar();
-        Ui.respond(FlashcardMessages.showUnstarredFlashcard(flashcardToBeUnstarred));
+        String outputMessage = FlashcardMessages.showUnstarredFlashcard(flashcardToBeUnstarred);
+        Ui.respond(outputMessage);
         logger.log(Level.INFO, "Unstarred flashcard: " + flashcardToBeUnstarred.toString());
 
         // --- Save to storage ---

@@ -69,17 +69,18 @@ public class FlashcardList implements Iterable<Flashcard> {
             return FlashcardListMessages.EMPTY_STARRED_LIST;
         }
         StringBuilder sb = new StringBuilder();
-        int total = flashcards.size();
         int count = 1;
         for (Flashcard f : flashcards) {
             if (f.checkIsStarred()) {
-                String item = count + ". " + f.toString();
-                if (count != total) {
-                    item += "\n";
-                }
+                String item = count + ". " + f + "\n";
                 sb.append(item);
-                count++;
+
             }
+            count++;
+        }
+        // remove trailing newline
+        if (sb.length() > 0) {
+            sb.setLength(sb.length() - 1);
         }
         return sb.toString();
 

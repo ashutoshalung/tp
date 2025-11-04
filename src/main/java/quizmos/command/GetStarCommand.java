@@ -11,8 +11,7 @@ import java.util.logging.Logger;
 
 /**
  * Command to retrieve and display all starred flashcards.
- * This command reads the list of starred flashcards from the provided
- * FlashcardList and displays them to the user via the Ui class.
+ * This command reads the list of starred flashcards from the provided FlashcardList and displays them to the user.
  * It does not modify the FlashcardList or Storage; it is a read-only command.
  * Logging is performed to track execution and display of starred flashcards.
  */
@@ -41,7 +40,8 @@ public class GetStarCommand extends Command {
         assert starredFlashcardsList != null : "getStarredFlashcardsString should not return null";
 
         // --- Display to user ---
-        Ui.respond(FlashcardListMessages.showStarredFlashcardsList(starredFlashcardsList));
+        String outputMessage = FlashcardListMessages.showStarredFlashcardsList(starredFlashcardsList);
+        Ui.respond(outputMessage);
         logger.log(Level.INFO, "Displayed starred flashcards to user: " + starredFlashcardsList);
     }
 }

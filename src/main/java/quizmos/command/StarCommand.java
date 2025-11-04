@@ -52,7 +52,7 @@ public class StarCommand extends Command {
         logger.log(Level.INFO, "Executing StarCommand with index: " + index);
 
         // --- Validate index range ---
-        if (index > flashcards.getSize() - 1) {
+        if (index > flashcards.getSize() - 1 || index + 1 <=0) {
             logger.log(Level.WARNING, "Index out of range: " + index);
             throw new QuizMosInputException("Index is out of range!");
         }
@@ -70,7 +70,8 @@ public class StarCommand extends Command {
         // --- Star and persist ---
         flashcardToBeStarred.toggleStar();
         flashcards.addStarredFlashcard(flashcardToBeStarred);
-        Ui.respond(FlashcardMessages.showStarredFlashcard(flashcardToBeStarred));
+        String outputMessage = FlashcardMessages.showStarredFlashcard(flashcardToBeStarred);
+        Ui.respond(outputMessage);
         logger.log(Level.INFO, "Starred flashcard: " + flashcardToBeStarred.toString());
 
         // --- Save changes ---
