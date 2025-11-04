@@ -9,22 +9,22 @@ skinparam shadowing false
 
 package "storage" {
 class Storage {
-+Storage(filePath : String)
-+load() : ArrayList<Flashcard> throws QuizMosFileException
-+writeToFile(flashcards : FlashcardList) : void throws QuizMosInputException
++Storage(String filePath)
++ArrayList<Flashcard> load() throws QuizMosFileException
++void writeToFile(FlashcardList flashcards) throws QuizMosInputException
 }
 }
 
 package "model" {
 class Flashcard {
-+Flashcard(question : String, answer : String)
-+toggleStar() : void
-+toSaveFormat() : String
++Flashcard(String question, String answer)
++void toggleStar()
++String toSaveFormat()
 }
 
 class FlashcardList {
-+getSize() : int
-+getAll() : ArrayList<Flashcard>
+  +int getSize()
+  +ArrayList<Flashcard> getAll()
 }
 
 }

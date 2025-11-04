@@ -1,54 +1,72 @@
 @startuml
 title Overall Star Flashcard Flow
 
+' --- High resolution for clear PNG output ---
 skinparam dpi 300
-skinparam sequenceReferenceBackgroundColor #7cb9e8
 
-participant "<<class>>\n QuizMos" as quizmos
-participant "<<class>>\n Parser" as parser
-participant "c:StarCommand" as starCommand
-participant "flashcards:FlashcardList" as flashcardList
-participant "flashcardToBeStarred:Flashcard" as flashcard
+actor User
 participant "<<class>>\n Ui" as ui
-participant "storage:Storage" as storage
+participant "<<class>>\n Parser" as parser
+participant ":StarCommand" as starCommand
+participant ":FlashcardList" as flashcardList
+participant ":Flashcard" as flashcard
+participant ":Storage" as storage
 
-quizmos -> parser : parseCommand(command : String)
+User -> ui : Inputs "star <index>"
+activate ui
+
+ui -> parser : parseCommand("star <index>")
 activate parser
-
-parser -> starCommand : <<create>> StarCommand(index : String)
+parser -> starCommand : new StarCommand(index)
 activate starCommand
-
-starCommand --> parser : return StarCommand
-deactivate starCommand
-
-parser --> quizmos : return StarCommand
+parser --> ui : returns StarCommand instance
 deactivate parser
 
-quizmos -> starCommand : execute(flashcards : FlashcardList, storage : Storage)
+ui -> starCommand : execute(flashcards, storage)
 activate starCommand
 
-starCommand -> flashcardList : getFlashcard(index : int)
+starCommand -> flashcardList : getFlashcard(index)
 activate flashcardList
-flashcardList --> starCommand : flashcardToBeStarred : Flashcard
+flashcardList --> starCommand : returns Flashcard instance
 deactivate flashcardList
 
-starCommand -> flashcard : checkIsStarred()
+starCommand -> flashcard : isStarred()
 activate flashcard
-flashcard --> starCommand : isStarred : boolean
+flashcard --> starCommand : returns boolean
 deactivate flashcard
 
-alt flashcard already starred
-starCommand -> :QuizMosInputException : new QuizMosInputException("This flashcard is already starred!")
-else flashcard already starred
+alt Flashcard not starred
 starCommand -> flashcard : toggleStar()
-starCommand -> flashcardList : addStarredFlashcard(flashcardToBeStarred : Flashcard)
-starCommand -> ui : showStarredFlashcard(flashcardToBeStarred : Flashcard)
-starCommand -> storage : writeToFile(flashcards : FlashcardList)
+activate flashcard
+flashcard --> starCommand : void
+deactivate flashcard
 
+starCommand -> flashcardList : addStarredFlashcard(flashcard)
+activate flashcardList
+flashcardList --> starCommand : void
+deactivate flashcardList
+
+starCommand -> storage : writeToFile(flashcards)
+activate storage
+storage --> starCommand : void
+deactivate storage
+
+starCommand -> ui : showStarredFlashcard(flashcard)
+activate ui
+ui --> starCommand : void
+deactivate ui
+
+else Flashcard already starred
+starCommand -> ui : showFlashcardAlreadyStarred()
+activate ui
+ui --> starCommand : void
+deactivate ui
 end
-starCommand --> quizmos
-deactivate starCommand
-destroy starCommand
 
+deactivate starCommand
+deactivate ui
+
+' --- Object cleanup phase ---
+destroy starCommand
 
 @enduml
