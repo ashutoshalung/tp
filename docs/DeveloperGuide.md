@@ -16,7 +16,6 @@
    - [Main Component](#main-component)
    - [Storage Component](#storage-component)
    - [Commons Component](#commons-component)
-   - [Overall Architecture Diagram](#overall-architecture-diagram)
 3. [Implementation](#implementation)
    - [Feature 1: Add Flashcard](#feature-1-add-flashcard)
    - [Feature 2: Delete Flashcard](#feature-2-delete-flashcard)
@@ -24,7 +23,7 @@
    - [Feature 4: Review Flashcards](#feature-4-review-flashcards)
    - [Feature 5: Star Flashcard](#feature-5-star-flashcard)
    - [Feature 6: Unstar Flashcard](#feature-6-unstar-flashcard)
-   - [Feature 7: Get Starred Flashcards](#feature-7-getstar-flashcard)
+   - [Feature 7: Get Starred Flashcards](#feature-7-get-starred-flashcards)
 4. [Requirements](#requirements)
    - [User Stories](#user-stories)
    - [Use Cases](#use-cases)
@@ -275,6 +274,7 @@ This section describes some noteworthy details on how certain features are imple
 - Logs key execution steps (validation, unstarring, saving) for debugging and traceability.
 
 ![OverallUnstarFlashcardFlow](images/UnstarFlashcardFeature_Overall.png "Unstar Flashcard Feature Overall Flow")
+
 ### Feature 7: Get Starred Flashcards
 **Command:** `getstar`
 
