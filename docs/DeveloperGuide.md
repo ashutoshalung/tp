@@ -31,6 +31,18 @@
    - [Non-Functional Requirements (NFRs)](#non-functional-requirements-nfrs)
    - [Glossary](#glossary)
 5. [Instructions for Manual Testing](#instructions-for-manual-testing)
+   - [Launching the Application](#launching-the-application)
+   - [Add Command](#add-command)
+   - [List Command](#list-command)
+   - [Delete Command](#delete-command)
+   - [Search Command](#search-command)
+   - [Review Command](#review-command)
+   - [Star Command](#star-command)
+   - [Unstar Command](#unstar-command)
+   - [GetStar Command](#getstar-command)
+   - [Help Command](#help-command)
+   - [Exit Command](#exit-command)
+   - [General Edge Cases](#general-edge-cases)
 
 ---
 
@@ -521,6 +533,119 @@ This section describes some noteworthy details on how certain features are imple
 ---
 
 ## Instructions for Manual Testing
+
+### Launching the Application
+
+**Prerequisites**
+- Java 17 or higher installed.
+- `quizmos.jar` is placed in a working directory.
+
+**Steps**
+1. Download the file `quizmos.jar`.
+2. Open the terminal.
+3. Navigate (`cd`) to the directory containing `quizmos.jar`.
+4. Run:
+```bash 
+java -jar quizmos.jar
+``` 
+
+### Below are basic manual test cases for each feature, including correct usage and common edge cases.
+
+### **Add Command**
+
+**Correct Cases**
+- `add q/What is 2+2? a/4`
+- `add q/Capital of France a/Paris`
+
+**Edge Cases**
+- `add q/OnlyQuestion` (missing answer)
+- `add a/OnlyAnswer` (missing question)
+- `add q/ a/` (empty fields)
+
+### **List Command**
+
+**Correct Case**
+- `list`
+
+**Edge Cases**
+- Run `list` when no flashcards exist (should show “No flashcards found”)
+
+
+### **Delete Command**
+
+**Correct Case**
+- `delete 1`
+
+**Edge Cases**
+- `delete 0`
+- `delete 9999` (index out of range)
+- `delete abc` (invalid input)
+
+### **Search Command**
+
+**Correct Cases**
+- `search 4`
+- `search France`
+
+**Edge Cases**
+- `search` (no keyword)
+- `search   ` (empty keyword)
+- `search xyz` (no matches)
+
+### **Review Command**
+
+**Correct Cases**
+- `review m/FLIP`
+- `review m/TF`
+- `review m/MCQ`
+
+**Edge Cases**
+- `review` (missing mode)
+- `review m/INVALID` (invalid mode)
+- `review m/MCQ` when fewer than 4 flashcards exist
+
+### **Star Command**
+
+**Correct Case**
+- `star 1`
+
+**Edge Cases**
+- `star 0`
+- `star 9999`
+- `star abc`
+
+### **Unstar Command**
+
+**Correct Case**
+- `unstar 1`
+
+**Edge Cases**
+- `unstar 0`
+- `unstar 9999`
+- `unstar abc`
+
+### **GetStar Command**
+
+**Correct Cases**
+- `getstar` (when starred flashcards exist)
+
+**Edge Cases**
+- `getstar` (no starred flashcards)
+
+### **Help Command**
+
+**Correct Case**
+- `help`
+
+### **Exit Command**
+
+**Correct Case**
+- `exit`
+
+### **General Edge Cases**
+- Typing an unknown command (e.g., `randomCommand`)
+- Missing prefixes (e.g., `add What is 2+2? 4`)
+- Commands with extra spaces (should still work properly)
 
 ---
 

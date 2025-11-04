@@ -11,8 +11,8 @@
 ## Table of Contents
 
 1. [Introduction](#introduction)
-2. [Quick Start](#quick-start-)
-3. [Features](#features-)
+2. [Quick Start](#quick-start)
+3. [Features](#features)
 4. [Usage](#usage)
     - [View help: `help`](#view-help-help)
     - [List all flashcards: `list`](#list-all-flashcards-list)
@@ -42,7 +42,7 @@ QuizMos automatically saves your flashcards to a file, ensuring your collection 
 
 ---
 
-## Quick Start 
+## Quick Start
 
 1. Ensure you have Java `17` or above installed in your Computer.<br>
    **Mac users:** Ensure you have the precise JDK version prescribed [here](https://se-education.org/guides/tutorials/javaInstallationMac.html).
@@ -70,7 +70,7 @@ QuizMos automatically saves your flashcards to a file, ensuring your collection 
 
 ---
 
-## Features 
+## Features
 
 Quizmos supports:
 - Creating basic flashcards with text-based questions and answers.
