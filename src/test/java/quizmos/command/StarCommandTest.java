@@ -8,25 +8,37 @@ import quizmos.flashcard.Flashcard;
 import quizmos.flashcardlist.FlashcardList;
 import quizmos.storage.Storage;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 
 
 
 class StarCommandTest {
 
     private FlashcardList list;
-    private Storage storage;
+    private StorageStub storage;
+
+    // By using a stub, logging calls inside Storage do nothing, so no new unnecessary log files are created.
+    static class StorageStub extends Storage {
+        boolean Iswritten = false;
+
+        StorageStub() throws QuizMosFileException {
+            super("dummy.txt");
+        }
+
+        @Override
+        public void writeToFile(FlashcardList l) {
+            Iswritten = true;
+        }
+    }
 
     @BeforeEach
     void setUp() throws QuizMosFileException {
         list = new FlashcardList();
-        storage = new Storage("dummy.txt") {
-            boolean written = false;
-            @Override
-            public void writeToFile(FlashcardList l) { written = true; }
-        };
+        storage = new StorageStub();
     }
 
     @Test
@@ -38,15 +50,18 @@ class StarCommandTest {
 
         assertTrue(f.checkIsStarred());
         assertTrue(list.getStarredFlashcards().contains(f));
+        assertTrue(storage.Iswritten, "Storage should be marked as written");
     }
 
     @Test
     void execute_indexOutOfRange_shouldThrowException() {
         list.addFlashcard(new Flashcard("Q", "A"));
+
         StarCommand command = new StarCommand("5"); // invalid index
         QuizMosInputException e = assertThrows(QuizMosInputException.class,
                 () -> command.execute(list, storage));
         assertEquals("Index is out of range!", e.getMessage());
+        assertFalse(storage.Iswritten, "Storage should not be written for invalid index");
     }
 
     @Test
@@ -60,6 +75,7 @@ class StarCommandTest {
         QuizMosInputException e = assertThrows(QuizMosInputException.class,
                 () -> command.execute(list, storage));
         assertEquals("This flashcard is already starred!", e.getMessage());
+        assertFalse(storage.Iswritten, "Storage should not be written if already starred");
     }
 
     @Test
@@ -74,4 +90,5 @@ class StarCommandTest {
         StarCommand command = new StarCommand("1");
         assertThrows(AssertionError.class, () -> command.execute(list, null));
     }
+
 }

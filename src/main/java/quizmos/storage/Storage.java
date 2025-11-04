@@ -6,7 +6,6 @@ import quizmos.flashcardlist.FlashcardList;
 
 import java.io.File;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -119,7 +118,7 @@ public class Storage {
                 fw.write(flashcard.toSaveFormat() + System.lineSeparator());
             }
             logger.log(Level.INFO, "Successfully wrote {0} flashcards to file", flashcards.getSize());
-        } catch (IOException e) {
+        } catch (Exception e) {
             logger.log(Level.SEVERE, "Error writing flashcards: {0}", e.getMessage());
             throw new QuizMosInputException("Error saving flashcards: " + e.getMessage());
         }

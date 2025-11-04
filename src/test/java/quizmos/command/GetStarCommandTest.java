@@ -8,32 +8,44 @@ import quizmos.flashcardlist.FlashcardList;
 import quizmos.storage.Storage;
 import quizmos.common.FlashcardListMessages;
 
+
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class GetStarCommandTest {
 
     private FlashcardList list;
-    private Storage storage;
+    private StorageStub storage;
     private GetStarCommand command;
+
+    // Minimal Storage stub to avoid log/file writes
+    static class StorageStub extends Storage {
+        StorageStub() throws QuizMosFileException {
+            super("dummy.txt");
+        }
+
+        @Override
+        public void writeToFile(FlashcardList l) {
+            // no-op
+        }
+    }
 
     @BeforeEach
     void setUp() throws QuizMosFileException {
         command = new GetStarCommand();
+
         list = new FlashcardList() {
             @Override
             public String getStarredFlashcardsString() {
                 return "1. Question: Q1 | Answer: A1 (Starred)";
             }
         };
-        storage = new Storage("dummy.txt") {
-            @Override public void writeToFile(FlashcardList l) {}
-        };
+
+        storage = new StorageStub();
     }
 
     @Test
     void execute_validInput_shouldDisplayStarredFlashcards() throws QuizMosInputException {
-        // The command will use the overridden getStarredFlashcardsString() method
         command.execute(list, storage);
         String output = FlashcardListMessages.showStarredFlashcardsList(list.getStarredFlashcardsString());
         assertTrue(output.contains("Q1"), "Output should include the starred flashcard");
@@ -62,4 +74,5 @@ class GetStarCommandTest {
         AssertionError e = assertThrows(AssertionError.class, () -> command.execute(list, storage));
         assertTrue(e.getMessage().contains("getStarredFlashcardsString should not return null"));
     }
+
 }
